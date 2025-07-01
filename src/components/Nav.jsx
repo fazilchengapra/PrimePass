@@ -1,13 +1,31 @@
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Button, DropdownMenu, TextField } from "@radix-ui/themes";
-import { Link } from "react-router-dom";
+import { Button, Select, TextField } from "@radix-ui/themes";
+import { useEffect, useState } from "react";
+import { getCities } from "../api/citiesList";
 
 const Nav = () => {
+  const [state, setState] = useState();
+
+  useEffect(() => {
+    const citiesList = async () => {
+      try {
+        const res = await getCities();
+        
+        setState(res.data.data);
+      } catch (error) {
+        console.log("Error fetching cities:", error);
+      }
+    };
+    citiesList();
+  }, []);
+
+  console.log(state);
+
   return (
-    <div className="flex justify-between items-center p-4 bg-gray-200 w-full h-auto">
-      <div className="flex-row gap-4 grid grid-cols-6 items-center">
+    <div className="flex justify-between items-center p-2 bg-[#F3F4F6] w-full h-auto">
+      <div className="flex-row gap-2 lg:gap-4 lg:grid lg:grid-cols-6 items-center">
         <div className="text-lg font-bold w-auto p-2 col-span-1">PrimePass</div>
-        <div className="h-10 w-full col-span-5 mt-2">
+        <div className="h-10 w-full col-span-5 mt-2 hidden lg:block">
           <TextField.Root placeholder="Search the docs…">
             <TextField.Slot>
               <MagnifyingGlassIcon className="h-6" />
@@ -16,45 +34,26 @@ const Nav = () => {
         </div>
       </div>
 
-      <div className="flex flex-row gap-2 items-center">
-        <div>
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger>
-              <Button color="#e5e7eb" variant="soft">
-                Options
-                <DropdownMenu.TriggerIcon />
-              </Button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content>
-              <DropdownMenu.Item shortcut="⌘ E">Edit</DropdownMenu.Item>
-              <DropdownMenu.Item shortcut="⌘ D">Duplicate</DropdownMenu.Item>
-              <DropdownMenu.Separator />
-              <DropdownMenu.Item shortcut="⌘ N">Archive</DropdownMenu.Item>
-
-              <DropdownMenu.Sub>
-                <DropdownMenu.SubTrigger>More</DropdownMenu.SubTrigger>
-                <DropdownMenu.SubContent>
-                  <DropdownMenu.Item>Move to project…</DropdownMenu.Item>
-                  <DropdownMenu.Item>Move to folder…</DropdownMenu.Item>
-
-                  <DropdownMenu.Separator />
-                  <DropdownMenu.Item>Advanced options…</DropdownMenu.Item>
-                </DropdownMenu.SubContent>
-              </DropdownMenu.Sub>
-
-              <DropdownMenu.Separator />
-              <DropdownMenu.Item>Share</DropdownMenu.Item>
-              <DropdownMenu.Item>Add to favorites</DropdownMenu.Item>
-              <DropdownMenu.Separator />
-              <DropdownMenu.Item shortcut="⌘ ⌫" color="red">
-                Delete
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
+      <div className="flex flex-row gap-4 lg:gap-8 items-center">
+        <div className="hidden lg:block">
+          <Select.Root defaultValue="select">
+            <Select.Trigger />
+            <Select.Content className="h-72 overflow-y-auto">
+              <Select.Group>
+                <Select.Label>Select State</Select.Label>
+                <Select.Item value="select">--Select--</Select.Item>
+                {state?.states?.map((e) => (
+                  <Select.Item key={e.name} value={e.name}>
+                    {e.name}
+                  </Select.Item>
+                ))}
+              </Select.Group>
+            </Select.Content>
+          </Select.Root>
         </div>
 
-        <Button variant="classic">Sign In</Button>
-        <HamburgerMenuIcon className="size-6"/>
+        <Button className="bg-black">Sign In</Button>
+        <HamburgerMenuIcon className="size-6 block lg:hidden"/>
       </div>
     </div>
   );
