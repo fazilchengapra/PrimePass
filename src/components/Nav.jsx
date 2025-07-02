@@ -22,7 +22,7 @@ const Nav = () => {
   console.log(state);
 
   return (
-    <div className="flex justify-between items-center p-2 bg-[#F3F4F6] w-full h-auto">
+    <div className="flex justify-between items-center p-2 bg-white border-b w-full h-auto">
       <div className="flex-row gap-2 lg:gap-4 lg:grid lg:grid-cols-6 items-center">
         <div className="text-lg font-bold w-auto p-2 col-span-1">PrimePass</div>
         <div className="h-10 w-full col-span-5 mt-2 hidden lg:block">
