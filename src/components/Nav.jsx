@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { getCities } from "../api/citiesList";
 
 const Nav = () => {
+
   const [state, setState] = useState();
 
   useEffect(() => {
     const citiesList = async () => {
       try {
         const res = await getCities();
-        
         setState(res.data.data);
       } catch (error) {
         console.log("Error fetching cities:", error);
@@ -18,8 +18,7 @@ const Nav = () => {
     };
     citiesList();
   }, []);
-
-  console.log(state);
+  
 
   return (
     <div className="flex justify-between items-center p-2 bg-white border-b w-full h-auto">
@@ -53,7 +52,7 @@ const Nav = () => {
         </div>
 
         <Button className="bg-black">Sign In</Button>
-        <HamburgerMenuIcon className="size-6 block lg:hidden"/>
+        <HamburgerMenuIcon className="size-6 block lg:hidden" />
       </div>
     </div>
   );
