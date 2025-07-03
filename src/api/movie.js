@@ -9,7 +9,7 @@ export const getPopularMovies = async () => {
     );
     return response.data;
   } catch (error) {
-    console.error("❌ Error fetching popular movies:", error.response?.data || error.message);
+    console.error("Error fetching popular movies:", error.response?.data || error.message);
     throw error;
   }
 };
@@ -21,6 +21,17 @@ export const upcomingMovies = async () => {
     )
     return res.data;
   }catch (error) {
-    console.error("❌ Error fetching upcoming movies:", error.response?.data || error.message);
+    console.error("Error fetching upcoming movies:", error.response?.data || error.message);
+  }
+}
+
+export const getMovieDetails = async (id) => {
+  try {
+    const res =await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB}&language=en-US`
+    )
+    return res.data;
+  } catch (error) {
+    console.log("Error fetching movie details:", error.response)
   }
 }

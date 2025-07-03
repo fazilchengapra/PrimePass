@@ -30,9 +30,9 @@ const NewRelease = () => {
       {/* 🔄 Scrollable container on small devices */}
       <div className="flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-6 lg:gap-10 no-scrollbar">
         {movie.map((m) => (
-          <div key={m.id} className="">
+          <div key={m.id} className="group">
             <Card key={m.id} card={m} />
-            <div className="mt-2 lg:mr-10">
+            <div className="mt-2 lg:mr-10 w-fit lg:w-44">
               <Button className="w-44" color="indigo" variant="soft">
                 Book Now
               </Button>

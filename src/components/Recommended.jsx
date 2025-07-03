@@ -1,8 +1,8 @@
 import { Box, Inset, Text } from "@radix-ui/themes";
 import  { useEffect, useState } from "react";
 import { getPopularMovies } from "../api/movie";
-import { MdOutlineArrowOutward } from "react-icons/md";
 import Card from "./Card";
+import { Link } from "react-router-dom";
 
 const Recommended = () => {
   // Example rating per movie card, use state to manage it per movie
@@ -29,10 +29,10 @@ const Recommended = () => {
       <div className="text-xl font-bold text-start pt-5">
         Available on OTT
       </div>
-      <div className="grid  grid-cols-2 gap-4 lg:gap-0 lg:grid-cols-6 mt-3">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-6 lg:gap-10 mt-3">
         {popularMovies.map((movie) => (
           <div className="w-full">
-            <Card key={movie.id} card={movie}/>
+            <Link to={'movie/'+movie.id}><Card key={movie.id} card={movie}/></Link>
             <div className="flex flex-col gap-2 mt-3 w-5/6 lg:block text-start cursor-pointer">
               <Text size="2" className="text-start font-bold lg:font-semibold">
                 {movie.original_title}
@@ -46,7 +46,7 @@ const Recommended = () => {
               </Text>
 
               {/* ⭐ Star Rating Section */}
-              <div className=" gap-1 mt-1 hidden lg:block">
+              <div className=" gap-1 mt-1 hidden lg:block mb-0 lg:mb-3">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <span
