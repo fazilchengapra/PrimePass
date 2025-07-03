@@ -1,18 +1,30 @@
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import "./App.css";
-import Banner from "./components/Banner";
 import Nav from "./components/Nav";
-import Recommended from "./components/Recommended";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <div className="App w-full h-full bg-[#E5E7EB] fixed">
       <Nav />
       <div className="overflow-y-auto h-full">
-        <Banner />
-        <Recommended />
+        <Outlet />
       </div>
     </div>
   );
 }
+
+export const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      }
+    ],
+  },
+]);
 
 export default App;

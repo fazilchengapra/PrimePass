@@ -1,8 +1,7 @@
 import axios from "axios";
+const apiKey = process.env.REACT_APP_TMDB;
 
 export const getPopularMovies = async () => {
-  const apiKey = process.env.REACT_APP_TMDB;
-  console.log("Using TMDB API Key:", apiKey); // ✅ Check if it's printing correctly
 
   try {
     const response = await axios.get(
@@ -14,3 +13,14 @@ export const getPopularMovies = async () => {
     throw error;
   }
 };
+
+export const upcomingMovies = async () => {
+  try {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_TMDB}&language=en-US&page=1&region=IN`
+    )
+    return res.data;
+  }catch (error) {
+    console.error("❌ Error fetching upcoming movies:", error.response?.data || error.message);
+  }
+}
