@@ -1,4 +1,4 @@
-import { Box, Inset, Text } from "@radix-ui/themes";
+import {  Text } from "@radix-ui/themes";
 import  { useEffect, useState } from "react";
 import { getPopularMovies } from "../api/movie";
 import Card from "./Card";

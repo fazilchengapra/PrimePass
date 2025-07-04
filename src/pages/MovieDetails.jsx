@@ -5,17 +5,20 @@ import { useParams } from "react-router-dom";
 import { getMovieDetails, getMovieTrailer } from "../api/movie";
 import YouTube from "react-youtube";
 import { IoMdClose } from "react-icons/io";
+import { formatDuration } from "../utils/formatters";
 
 const MovieDetails = () => {
   const movieId = useParams().id;
   const [movieDetails, setMovieDetails] = useState(null);
   const [trailer, setTrailer] = useState(null);
+  const [duration, setDuration] = useState();
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
         const data = await getMovieDetails(movieId);
         setMovieDetails(data);
+        setDuration(formatDuration(data.runtime))
       } catch (error) {
         console.log("Error fetching movie details:", error);
       }
@@ -33,6 +36,9 @@ const MovieDetails = () => {
     fetchMovieTrailer(movieId);
     fetchMovieDetails();
   }, [movieId]);
+
+  console.log(movieDetails);
+  
   return (
     <div className="w-2/3 m-auto mt-5 rounded-md bg-white shadow-sm h-full">
       <div className="w-full p-4">
@@ -99,7 +105,7 @@ const MovieDetails = () => {
                   {movieDetails?.original_language}
                 </span>
                 <Separator orientation="vertical" />
-                <span>2 hr 39 min</span>
+                <span>{duration?.hours} hr {duration?.minutes} min</span>
               </div>
             </div>
 
