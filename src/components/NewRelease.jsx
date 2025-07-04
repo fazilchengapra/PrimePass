@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { upcomingMovies } from "../api/movie";
 import Card from "./Card";
 import { Button } from "@radix-ui/themes";
+import { Link } from "react-router-dom";
 
 const NewRelease = () => {
   const [movie, setMovie] = useState([]);
@@ -31,7 +32,7 @@ const NewRelease = () => {
       <div className="flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-6 lg:gap-10 no-scrollbar">
         {movie.map((m) => (
           <div key={m.id} className="group">
-            <Card key={m.id} card={m} />
+            <Link to={'movie/'+m.id}><Card key={m.id} card={m} /></Link>
             <div className="mt-2 lg:mr-10 w-fit lg:w-44">
               <Button className="w-44" color="indigo" variant="soft">
                 Book Now

@@ -44,9 +44,9 @@ const MovieHeader = ({movieId}) => {
                 {movieDetails?.original_language}
               </span>
               <Separator orientation="vertical" />
-              <span>
+              {duration && <span>
                 {duration?.hours} hr {duration?.minutes} min
-              </span>
+              </span>}
             </div>
           </div>
 
