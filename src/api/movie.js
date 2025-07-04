@@ -35,3 +35,19 @@ export const getMovieDetails = async (id) => {
     console.log("Error fetching movie details:", error.response)
   }
 }
+
+export const getMovieTrailer = async (id) => {
+  try {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.REACT_APP_TMDB}&language=en-US`
+    )
+     const trailer = res.data.results.find(
+      (vid) => vid.type === "Trailer" && vid.site === "YouTube"
+    );
+    console.log("Trailer:", trailer);
+    return trailer
+  } catch (error) {
+    console.log("Error fetching movie trailer:", error.response)
+  }
+
+}
