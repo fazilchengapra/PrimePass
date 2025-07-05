@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { getCasts, getMovieVideos } from "../api/movie";
 import TrailerDialog from "./TrailerDialog";
+import { FaTheaterMasks } from "react-icons/fa";
+import { LiaLanguageSolid } from "react-icons/lia";
+
 
 const MovieInfo = ({ movieId, movieDetails }) => {
   console.log(movieDetails);
@@ -103,9 +106,35 @@ const MovieInfo = ({ movieId, movieDetails }) => {
             </Tabs.Content>
 
             <Tabs.Content value="topic" className="pt-3">
-              <Text size="2">
-                Edit your profile or update contact information.
+              <h5 className="font-semibold mb-5">Overview</h5>
+              <Text size="2" className="text-sm">
+                {movieDetails?.overview}
               </Text>
+
+              <div className="flex flex-col gap-4 mt-10">
+                <div className="flex flex-col gap-5">
+                  <div className="flex flex-row gap-2 items-center">
+                    <FaTheaterMasks size="25" />
+                    {movieDetails?.genres.map((genre, index) => (
+                      <span className="text-sm text-black" key={genre.id}>
+                        {genre.name}
+                        {index < movieDetails.genres.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-row gap-2">
+                    <LiaLanguageSolid  size="25" />
+                    {movieDetails?.spoken_languages.map((language, index) => (
+                      <span className="text-sm text-black" key={language.id}>
+                        {language.name}
+                        {index < movieDetails.spoken_languages.length - 1 &&
+                          ", "}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </Tabs.Content>
           </div>
         </Tabs.Root>
