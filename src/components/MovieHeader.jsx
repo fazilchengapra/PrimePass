@@ -1,12 +1,14 @@
-import { Box, Button, Inset, Separator } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
-import { getMovieDetails } from "../api/movie";
+import { getMovieDetails, getMovieTrailer } from "../api/movie";
 import { formatDuration } from "../utils/formatters";
 import TrailerDialog from "./TrailerDialog";
+import { Box, Inset, Separator } from "@radix-ui/themes";
+import MovieInfo from "./MovieInfo";
 
-const MovieHeader = ({movieId}) => {
+const MovieHeader = ({ movieId }) => {
   const [movieDetails, setMovieDetails] = useState(null);
   const [duration, setDuration] = useState();
+  const [trailer, setTrailer] = useState(null);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -19,6 +21,17 @@ const MovieHeader = ({movieId}) => {
       }
     };
 
+    const fetchMovieTrailer = async () => {
+          try {
+            const data = await getMovieTrailer(movieId);
+            setTrailer(data);
+          } catch (error) {
+            console.log("Error fetching movie trailer:", error);
+          }
+        };
+
+        fetchMovieTrailer();
+
     fetchMovieDetails();
   }, [movieId]);
   return (
@@ -27,7 +40,7 @@ const MovieHeader = ({movieId}) => {
         <div className="h-full">
           <Box className="mb-3 group relative w-fit">
             <Inset clip="padding-box" side="top" pb="current">
-              <TrailerDialog movieDetails={movieDetails} movieId={movieId}/>
+              <TrailerDialog movieDetails={movieDetails} trailer={[trailer]} poster={movieDetails?.poster_path}/>
             </Inset>
           </Box>
         </div>
@@ -38,22 +51,20 @@ const MovieHeader = ({movieId}) => {
               {movieDetails?.title}
             </h1>
             <div className="flex flex-row gap-2 text-xs text-gray-500">
-              <span>UA13+</span>
-              <Separator orientation="vertical" />
               <span className="uppercase">
                 {movieDetails?.original_language}
               </span>
               <Separator orientation="vertical" />
-              {duration && <span>
-                {duration?.hours} hr {duration?.minutes} min
-              </span>}
+              {duration && (
+                <span>
+                  {duration?.hours} hr {duration?.minutes} min
+                </span>
+              )}
             </div>
           </div>
 
-          <div>
-            <Button radius="large" color="gray" variant="outline" highContrast>
-              View Details
-            </Button>
+          <div className="">
+            <MovieInfo movieId={movieId} movieDetails={movieDetails}/>
           </div>
         </div>
       </div>
