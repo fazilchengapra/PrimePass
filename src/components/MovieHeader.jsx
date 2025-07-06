@@ -36,8 +36,8 @@ const MovieHeader = ({ movieId }) => {
   }, [movieId]);
   return (
     <div>
-      <div className="flex flex-row gap-5 h-fit">
-        <div className="h-full">
+      <div className="lg:flex flex-row gap-5 h-fit">
+        <div className="h-full w-36 m-auto lg:w-44 lg:m-0">
           <Box className="mb-3 group relative w-fit">
             <Inset clip="padding-box" side="top" pb="current">
               <TrailerDialog movieDetails={movieDetails} trailer={[trailer]} poster={movieDetails?.poster_path}/>
@@ -45,12 +45,12 @@ const MovieHeader = ({ movieId }) => {
           </Box>
         </div>
 
-        <div className="flex flex-col gap-4 w-full my-auto text-start">
+        <div className="flex flex-col gap-4 w-full my-auto text-center lg:text-start">
           <div className="flex flex-col gap-2">
             <h1 className="text-xl font-bold text-gray-800">
               {movieDetails?.title}
             </h1>
-            <div className="flex flex-row gap-2 text-xs text-gray-500">
+            <div className="justify-center lg:justify-start flex flex-row gap-2 text-xs text-gray-500">
               <span className="uppercase">
                 {movieDetails?.original_language}
               </span>

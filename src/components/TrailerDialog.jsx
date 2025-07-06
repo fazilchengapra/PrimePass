@@ -13,22 +13,22 @@ const TrailerDialog = ({ movieDetails, trailer, poster }) => {
               <Dialog.Trigger asChild>
                 <div className="cursor-pointer">
                   <img
-                    className="rounded-2xl h-44 w-40"
+                    className="rounded-2xl lg:h-44 w-36 h-auto lg:w-40 "
                     src={`https://image.tmdb.org/t/p/w185/${poster}`}
                     alt={movieDetails?.title}
                     style={{ backgroundColor: "var(--gray-5)" }}
                   />
                   {/* Show play icon */}
-                  <div className="absolute top-14 left-10">
+                  <div className="absolute top-20 lg:top-14 left-12 ">
                     <div className="bg-gray-500 bg-opacity-60 p-4 rounded-full">
-                      <FaPlay size={16} className="text-white" />
+                      <FaPlay  className="text-white size-4" />
                     </div>
                   </div>
                 </div>
               </Dialog.Trigger>
             ) : (
               <img
-                className="rounded-2xl h-44 w-40 opacity"
+                className="rounded-2xl lg:h-44 w-36 h-auto lg:w-40 opacity"
                 src={`https://image.tmdb.org/t/p/w185/${movieDetails?.poster_path}`}
                 alt={movieDetails?.title}
                 style={{ backgroundColor: "var(--gray-5)" }}

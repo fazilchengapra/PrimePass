@@ -7,7 +7,7 @@ const MovieDetails = () => {
   const movieId = useParams().id;
 
   return (
-    <div className="w-2/3 m-auto mt-5 rounded-md bg-white shadow-sm h-full">
+    <div className="w-[90%] lg:w-2/3 lg:m-auto mt-5 m-auto rounded-md bg-white shadow-sm h-full">
       <div className="w-full p-4">
         <MovieHeader movieId={movieId}/>
         <Separator my="3" size="4" />
