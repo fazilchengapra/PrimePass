@@ -20,8 +20,6 @@ const Recommended = () => {
     };
     popularMoviesList();
   }, []);
-
-  console.log("Popular Movies:", popularMovies);
   
 
   return (
@@ -31,7 +29,7 @@ const Recommended = () => {
       </div>
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-6 lg:gap-10 mt-3">
         {popularMovies.map((movie) => (
-          <div className="w-full">
+          <div className="w-full" key={movie.id}>
             <Link to={'movie/'+movie.id}><Card key={movie.id} card={movie}/></Link>
             <div className="flex flex-col gap-2 mt-3 w-5/6 lg:block text-start cursor-pointer">
               <Text size="2" className="text-start font-bold lg:font-semibold">

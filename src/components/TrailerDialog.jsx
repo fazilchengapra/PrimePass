@@ -6,8 +6,8 @@ import YouTube from "react-youtube";
 const TrailerDialog = ({ movieDetails, trailer, poster }) => {
   return (
     <div className="flex flex-row gap-5 flex-wrap">
-      {trailer.map((t) => (
-        <Dialog.Root>
+      {trailer.map((t, index) => (
+        <Dialog.Root key={index}>
           <div className="relative w-fit">
             {trailer[0]?.key ? (
               <Dialog.Trigger asChild>

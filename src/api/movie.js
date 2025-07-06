@@ -49,7 +49,6 @@ export const getMovieTrailer = async (id) => {
     const trailer = res.data.results.find(
       (vid) => vid.type === "Trailer" && vid.site === "YouTube"
     );
-    console.log("Trailer:", trailer);
     return trailer;
   } catch (error) {
     console.log("Error fetching movie trailer:", error.response);
