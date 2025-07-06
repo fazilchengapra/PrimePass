@@ -4,33 +4,39 @@ import { formatDuration } from "../utils/formatters";
 import TrailerDialog from "./TrailerDialog";
 import { Box, Inset, Separator } from "@radix-ui/themes";
 import MovieInfo from "./MovieInfo";
+import MovieCardSkelton from "./Skeletons/MovieCardSkelton";
 
 const MovieHeader = ({ movieId }) => {
   const [movieDetails, setMovieDetails] = useState(null);
   const [duration, setDuration] = useState();
   const [trailer, setTrailer] = useState(null);
+  const [loading, setLoading] = useState();
 
   useEffect(() => {
+    setLoading(true);
     const fetchMovieDetails = async () => {
       try {
         const data = await getMovieDetails(movieId);
         setMovieDetails(data);
         setDuration(formatDuration(data.runtime));
       } catch (error) {
+        setLoading(false);
         console.log("Error fetching movie details:", error);
       }
     };
 
     const fetchMovieTrailer = async () => {
-          try {
-            const data = await getMovieTrailer(movieId);
-            setTrailer(data);
-          } catch (error) {
-            console.log("Error fetching movie trailer:", error);
-          }
-        };
+      try {
+        const data = await getMovieTrailer(movieId);
+        setTrailer(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log("Error fetching movie trailer:", error);
+      }
+    };
 
-        fetchMovieTrailer();
+    fetchMovieTrailer();
 
     fetchMovieDetails();
   }, [movieId]);
@@ -40,7 +46,15 @@ const MovieHeader = ({ movieId }) => {
         <div className="h-full w-36 m-auto lg:w-44 lg:m-0">
           <Box className="mb-3 group relative w-fit">
             <Inset clip="padding-box" side="top" pb="current">
-              <TrailerDialog movieDetails={movieDetails} trailer={[trailer]} poster={movieDetails?.poster_path}/>
+              {loading ? (
+                <MovieCardSkelton />
+              ) : (
+                <TrailerDialog
+                  movieDetails={movieDetails}
+                  trailer={[trailer]}
+                  poster={movieDetails?.poster_path}
+                />
+              )}
             </Inset>
           </Box>
         </div>
@@ -64,7 +78,7 @@ const MovieHeader = ({ movieId }) => {
           </div>
 
           <div className="">
-            <MovieInfo movieId={movieId} movieDetails={movieDetails}/>
+            <MovieInfo movieId={movieId} movieDetails={movieDetails} />
           </div>
         </div>
       </div>

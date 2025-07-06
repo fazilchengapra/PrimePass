@@ -3,20 +3,25 @@ import { upcomingMovies } from "../api/movie";
 import Card from "./Card";
 import { Button } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
+import MovieCardSkelton from "./Skeletons/MovieCardSkelton";
 
 const NewRelease = () => {
   const [movie, setMovie] = useState([]);
+  const [loading, setLoading] = useState();
 
   useEffect(() => {
+    setLoading(true);
     const fetchNewRelease = async () => {
       try {
         const data = await upcomingMovies();
-        setMovie(data.results.slice(0, 12));
+        setMovie(data.slice(0, 12));
+        setLoading(false);
       } catch (error) {
         console.error(
           "❌ Error fetching new release movies:",
           error.response?.data || error.message
         );
+        setLoading(false);
       }
     };
     fetchNewRelease();
@@ -30,16 +35,20 @@ const NewRelease = () => {
 
       {/* 🔄 Scrollable container on small devices */}
       <div className="flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-6 lg:gap-10 no-scrollbar">
-        {movie.map((m) => (
-          <div key={m.id} className="group">
-            <Link to={'movie/'+m.id}><Card key={m.id} card={m} /></Link>
-            <div className="mt-2 lg:mr-10 w-fit lg:w-44">
-              <Button className="w-44" color="indigo" variant="soft">
-                Book Now
-              </Button>
-            </div>
-          </div>
-        ))}
+        {loading
+          ? [...Array(12)].map((_, index) => <MovieCardSkelton key={index} />)
+          : movie.map((m) => (
+              <div key={m.id} className="group">
+                <Link to={"movie/" + m.id}>
+                  <Card key={m.id} card={m} />
+                </Link>
+                <div className="mt-2 lg:mr-10 w-fit lg:w-44">
+                  <Button className="w-44" color="indigo" variant="soft">
+                    Book Now
+                  </Button>
+                </div>
+              </div>
+            ))}
       </div>
     </div>
   );

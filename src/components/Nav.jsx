@@ -2,6 +2,7 @@ import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Button, Select, TextField } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { getCities } from "../api/citiesList";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
 
@@ -23,7 +24,7 @@ const Nav = () => {
   return (
     <div className="flex justify-between items-center p-2 bg-white border-b w-full h-auto">
       <div className="flex-row gap-2 lg:gap-4 lg:grid lg:grid-cols-6 items-center">
-        <div className="text-lg font-bold w-auto p-2 col-span-1">PrimePass</div>
+        <Link to={'/'}><div className="text-lg font-bold w-auto p-2 col-span-1">PrimePass</div></Link>
         <div className="h-10 w-full col-span-5 mt-2 hidden lg:block">
           <TextField.Root placeholder="Search the docs…">
             <TextField.Slot>
