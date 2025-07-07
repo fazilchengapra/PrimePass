@@ -29,7 +29,7 @@ const Recommended = () => {
   return (
     <div className="mt-4 px-10 mx-5 rounded-md h-fit shadow-md bg-white">
       <div className="text-xl font-bold text-start pt-5">Available on OTT</div>
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-6 lg:gap-10 mt-3">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-6 lg:gap-10 mt-3 pb-5 lg:pb-0">
         {loading
           ? [...Array(6)].map((_, index) => <MovieCardSkelton key={index} />)
           : popularMovies.map((movie) => (

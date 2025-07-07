@@ -53,7 +53,7 @@ const Nav = () => {
         </div>
 
         <Button className="bg-black">Sign In</Button>
-        <HamburgerMenuIcon className="size-6 block lg:hidden" />
+        <HamburgerMenuIcon className="size-6 mx-4 block lg:hidden" />
       </div>
     </div>
   );
