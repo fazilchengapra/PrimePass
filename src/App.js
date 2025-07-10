@@ -6,9 +6,14 @@ import MovieDetails from "./pages/MovieDetails";
 
 function App() {
   return (
-    <div className="App w-full h-full bg-[#E5E7EB] fixed">
-      <Nav />
-      <div className="overflow-y-auto h-full">
+    <div className="h-full w-full !bg-[#E5E7EB] relative pb-1">
+      {/* Sticky Nav */}
+      <div className="sticky top-0 z-50 bg-white shadow">
+        <Nav />
+      </div>
+
+      {/* Page Content */}
+      <div className="pt-4">
         <Outlet />
       </div>
     </div>

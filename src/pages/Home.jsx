@@ -4,7 +4,7 @@ import NewRelease from "../components/NewRelease";
 
 const Home = () => {
   return (
-    <div>
+    <div >
       <Banner />
       <Recommended />
       <NewRelease />

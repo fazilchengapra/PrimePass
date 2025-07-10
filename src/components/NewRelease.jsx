@@ -28,7 +28,7 @@ const NewRelease = () => {
   }, []);
 
   return (
-    <div className="mt-4 px-4 md:px-10 mx-5 rounded-md h-fit shadow-md bg-white mb-20">
+    <div className="mt-4 px-4 md:px-10 mx-5 rounded-md h-fit shadow-md bg-white">
       <div className="text-xl font-bold text-start pt-5 pb-3">
         Upcoming Movies
       </div>
