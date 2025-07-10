@@ -19,7 +19,7 @@ const options = [
 
       <div className="grid grid-cols-4 gap-3 w-fit">
         {options.map((option, index) => (
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row gap-2 items-center" key={option.value}>
             <button
               key={option.value}
               onClick={() => setSelected(option.value)}

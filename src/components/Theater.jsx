@@ -1,6 +1,4 @@
-import { Avatar, Button, Separator } from "@radix-ui/themes";
-import { Toggle } from "radix-ui";
-import React from "react";
+import { Avatar, Button} from "@radix-ui/themes";
 import { showtimes } from "../data/showtimes";
 
 const Theater = () => {
