@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import MovieHeader from "../components/MovieHeader";
 import { Separator } from "@radix-ui/themes";
 import ShowDates from "../components/ShowDates";
+import TheaterFilter from "../components/TheaterFilter";
 
 const MovieDetails = () => {
   const movieId = useParams().id;
@@ -13,6 +14,8 @@ const MovieDetails = () => {
         <MovieHeader movieId={movieId} />
         <Separator my="3" size="4" />
         <ShowDates />
+        <TheaterFilter />
+        <Separator my="4" size="4" />
       </div>
     </div>
   );
