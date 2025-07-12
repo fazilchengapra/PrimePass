@@ -7,14 +7,14 @@ import SeatSelector from "./pages/SeatSelector";
 
 function App() {
   return (
-    <div className="min-h-screen w-full !bg-[#E5E7EB] relative pb-1">
+    <div className="w-full !bg-[#E5E7EB] relative pb-1 h-screen">
       {/* Sticky Nav */}
       <div className="sticky top-0 z-50 bg-white shadow">
         <Nav />
       </div>
 
       {/* Page Content */}
-      <div className="pt-4">
+      <div>
         <Outlet />
       </div>
     </div>
