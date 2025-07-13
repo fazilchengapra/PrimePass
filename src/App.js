@@ -35,7 +35,7 @@ export const appRouter = createBrowserRouter([
         element: <MovieDetails />,
       },
       {
-        path: "/movie/:id/theater",
+        path: "/movie/:id/theater/:id",
         element: <SeatSelector />,
       },
     ],

@@ -1,5 +1,6 @@
-import { Avatar, Button} from "@radix-ui/themes";
+import { Avatar, Button } from "@radix-ui/themes";
 import { showtimes } from "../data/showtimes";
+import { Link } from "react-router-dom";
 
 const Theater = () => {
   return (
@@ -24,15 +25,17 @@ const Theater = () => {
           </div>
           <div className="flex flex-row flex-wrap gap-2">
             {theater.shows.map((time, showIdx) => (
-              <Button
-                key={showIdx}
-                color="gray"
-                variant="surface"
-                highContrast
-                className="py-6 px-4 lg:px-10 rounded-md"
-              >
-                {time}
-              </Button>
+              <Link to={`theater/${theater.id}`}>
+                <Button
+                  key={showIdx}
+                  color="gray"
+                  variant="surface"
+                  highContrast
+                  className="py-6 px-4 lg:px-10 rounded-md"
+                >
+                  {time}
+                </Button>
+              </Link>
             ))}
           </div>
         </div>
