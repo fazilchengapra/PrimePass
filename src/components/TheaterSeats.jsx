@@ -71,9 +71,58 @@ const TheaterSeats = () => {
           </div>
         </div>
       </div>
-      <div className={`flex justify-end mr-5 mt-2 ${selected.length > 0 ? 'block' : 'hidden'}`}>
-        <Button className="py-5 px-10 rounded-lg text-lg bg-blue-500">Proceed</Button>
-      </div>
+
+      {selected.length > 0 ? (
+        <div className={`flex flex-row justify-between mr-5 mt-2 items-center`}>
+          <div className="flex flex-row gap-2 text-gray-500">
+            <span className="font-bold">{selected.length}</span>
+            <span>Seat Selected</span>
+          </div>
+          <div>
+            <Button className="py-5 px-10 rounded-lg text-lg bg-blue-500">
+              Proceed
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="w-full flex flex-row gap-5 justify-center mt-2">
+          <div className="flex flex-row items-center gap-2">
+            <Button
+              disabled={true}
+              color="gray"
+              variant="surface"
+              className={`px-2 py-2 rounded-lg
+          `}
+            >
+              01
+            </Button>
+            <span className="text-xs">Taken</span>
+          </div>
+
+          <div className="flex flex-row items-center gap-2">
+            <Button
+              disabled={true}
+              color="gray"
+              variant="surface"
+              className={`px-2 py-2 rounded-lg bg-blue-500 text-white w-fit`}
+            >
+              01
+            </Button>
+            <span className="text-xs">Selected</span>
+          </div>
+
+          <div className="flex flex-row items-center gap-2">
+            <Button
+              color="gray"
+              variant="surface"
+              className={`px-2 py-2 rounded-lg w-fit`}
+            >
+              01
+            </Button>
+            <span className="text-xs">Available</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
