@@ -15,7 +15,7 @@ const SeatSelector = () => {
 
   useEffect(() => {
     setShowtime(time)
-  }, [])
+  }, [time])
 
   return (
     <div className="w-[90%] lg:w-2/3 m-auto min-h-[600px] rounded-md bg-white mt-6">
