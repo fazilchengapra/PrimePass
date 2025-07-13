@@ -1,34 +1,43 @@
 import { Button, Separator } from "@radix-ui/themes";
 import TheaterSeats from "../components/TheaterSeats";
+import { showtimes } from "../data/showtimes";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const SeatSelector = () => {
+  const [showtime, setShowtime] = useState()
+  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const time = searchParams.get("time");
+
+  const showTimes = showtimes.find((show) => show.id.toString() === id);
+  console.log(showTimes);
+
+  useEffect(() => {
+    setShowtime(time)
+  }, [])
+
   return (
     <div className="w-[90%] lg:w-2/3 m-auto min-h-[600px] rounded-md bg-white mt-6">
       <div className="mx-4">
         <div className="flex flex-row gap-3 items-center py-2">
-          <div className="flex flex-col text-sm">
+          <div className="flex flex-col text-sm min-w-fit">
             <span>Sat</span>
             <span className="font-semibold">12 Jul</span>
           </div>
-          <div>
-            <Button
-              color="gray"
-              variant="surface"
-              highContrast
-              className="py-6 px-4 lg:px-10 rounded-md"
-            >
-              6:30 PM
-            </Button>
-          </div>
-          <div>
-            <Button
-              color="gray"
-              variant="surface"
-              highContrast
-              className="py-6 px-4 lg:px-10 rounded-md"
-            >
-              9:00 PM
-            </Button>
+          <div className="flex flex-row gap-2 overflow-x-auto w-full">
+            {showTimes.shows.map((e, index) => (
+              <Button
+                key={index}
+                color="gray"
+                variant="surface"
+                highContrast
+                className={`py-6 px-4 lg:px-10 rounded-md ${e === showtime && 'bg-gray-200'}`}
+                onClick={() => setShowtime(e)}
+              >
+                {e}
+              </Button>
+            ))}
           </div>
         </div>
         <Separator size="4" />
