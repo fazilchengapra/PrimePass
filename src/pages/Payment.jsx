@@ -1,6 +1,7 @@
-import { Button, Separator } from "@radix-ui/themes";
+import { AlertDialog, Button, Flex, Separator } from "@radix-ui/themes";
 import { FaCircleArrowRight } from "react-icons/fa6";
-
+import PaymentMethods from "../components/PaymentMethods";
+import { IoIosClose } from "react-icons/io";
 
 const Payment = () => {
   return (
@@ -11,7 +12,7 @@ const Payment = () => {
             <div className="w-2/12 h-fit">
               <img
                 alt="poster"
-                class="w-full h-auto object-cover rounded-md"
+                className="w-full h-auto object-cover rounded-md"
                 src="https://image.tmdb.org/t/p/w185//ombsmhYUqR4qqOLOxAyr5V8hbyv.jpg"
               />
             </div>
@@ -58,9 +59,30 @@ const Payment = () => {
             </div>
 
             <div className="mt-4 flex justify-end">
-              <Button variant="solid" className="py-5">
-                Proceed to Pay <FaCircleArrowRight />
-              </Button>
+              <AlertDialog.Root>
+                <AlertDialog.Trigger>
+                  <Button variant="solid" className="py-5">
+                    Proceed to Pay <FaCircleArrowRight />
+                  </Button>
+                </AlertDialog.Trigger>
+                <AlertDialog.Content maxWidth="450px">
+                  <Flex justify="between" className="items-center">
+                    <AlertDialog.Title className="text-sm mt-5">
+                      Select Payment Method
+                    </AlertDialog.Title>
+                    <AlertDialog.Cancel className="cursor-pointer">
+                      <div className="p-2 bg-gray-100 rounded-full">
+                        <IoIosClose size="25" />
+                      </div>
+                    </AlertDialog.Cancel>
+                  </Flex>
+
+                  <AlertDialog.Description size="2" className="hidden">
+                    Chose your payment Method
+                  </AlertDialog.Description>
+                  <PaymentMethods />
+                </AlertDialog.Content>
+              </AlertDialog.Root>
             </div>
           </div>
         </div>
