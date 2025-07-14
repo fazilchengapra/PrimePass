@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import MovieDetails from "./pages/MovieDetails";
 import SeatSelector from "./pages/SeatSelector";
+import Payment from "./pages/Payment";
 
 function App() {
   return (
@@ -37,6 +38,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "/movie/:id/theater/:id/show",
         element: <SeatSelector />,
+      },
+      {
+        path: "/movie/:id/theater/:id/show/payment",
+        element: <Payment />,
       },
     ],
   },
