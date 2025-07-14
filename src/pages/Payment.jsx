@@ -80,6 +80,8 @@ const Payment = () => {
                   <AlertDialog.Description size="2" className="hidden">
                     Chose your payment Method
                   </AlertDialog.Description>
+
+                  {/* payment methods */}
                   <PaymentMethods />
                 </AlertDialog.Content>
               </AlertDialog.Root>
