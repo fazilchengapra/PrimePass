@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import UpiMethod from "./UpiMethod";
 import { AnimatePresence, motion } from "framer-motion";
+import CardMethod from "./CardMethod";
 
 const paymentMethods = [
   { name: "UPI", content: <UpiMethod /> },
-  { name: "Credit/Debit Card", content: <div>Card Form Here</div> },
+  { name: "Credit/Debit Card", content: <CardMethod /> },
   { name: "Wallet", content: <div>Wallet Options</div> },
   { name: "Netbanking", content: <div>Netbanking Options</div> },
 ];
@@ -23,12 +24,17 @@ const PaymentMethods = () => {
         {paymentMethods.map((payMethod) => {
           const isOpen = payMethod.name === method;
           return (
-            <div key={payMethod.name} className="flex flex-col border rounded-lg p-3 transition-all duration-300">
+            <div
+              key={payMethod.name}
+              className="flex flex-col border rounded-lg p-3 transition-all duration-300"
+            >
               <div
                 className="flex flex-row justify-between items-center cursor-pointer"
                 onClick={() => handleClick(payMethod.name)}
               >
-                <h3 className="text-base lg:text-lg font-bold">{payMethod.name}</h3>
+                <h3 className="text-base lg:text-lg font-bold">
+                  {payMethod.name}
+                </h3>
                 <motion.div
                   animate={{ rotate: isOpen ? 180 : 0 }}
                   transition={{ duration: 0.3 }}
