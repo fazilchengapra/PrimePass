@@ -89,7 +89,7 @@ const UpiMethod = () => {
           <div className="flex flex-row w-full gap-1">
             <TextField.Root
               placeholder="Enter your UPI ID"
-              className="w-full"
+              className="w-full placeholder:capitalize lowercase"
             />
             <div className="w-fit">
               <DropdownMenu.Root>
