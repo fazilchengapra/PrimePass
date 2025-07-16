@@ -3,12 +3,12 @@ import { IoIosArrowDown } from "react-icons/io";
 import UpiMethod from "./UpiMethod";
 import { AnimatePresence, motion } from "framer-motion";
 import CardMethod from "./CardMethod";
+import NetBankingMethod from "./NetBankingMethod";
 
 const paymentMethods = [
   { name: "UPI", content: <UpiMethod /> },
   { name: "Credit/Debit Card", content: <CardMethod /> },
-  { name: "Wallet", content: <div>Wallet Options</div> },
-  { name: "Netbanking", content: <div>Netbanking Options</div> },
+  { name: "Netbanking", content: <NetBankingMethod /> },
 ];
 
 const PaymentMethods = () => {
