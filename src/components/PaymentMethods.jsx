@@ -11,7 +11,7 @@ const paymentMethods = [
   { name: "Netbanking", content: <NetBankingMethod /> },
 ];
 
-const PaymentMethods = () => {
+const PaymentMethods = ({ amount }) => {
   const [method, setMethod] = useState(null);
 
   const handleClick = (name) => {

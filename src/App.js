@@ -32,15 +32,15 @@ export const appRouter = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/movie/:id",
+        path: "/movie/:movieId",
         element: <MovieDetails />,
       },
       {
-        path: "/movie/:id/theater/:id/show",
+        path: "/movie/:movieId/theater/:id/show",
         element: <SeatSelector />,
       },
       {
-        path: "/movie/:id/theater/:id/show/payment",
+        path: "/movie/:movieId/theater/:id/show/payment",
         element: <Payment />,
       },
     ],

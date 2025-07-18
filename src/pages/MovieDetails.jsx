@@ -7,7 +7,7 @@ import TheaterFilter from "../components/TheaterFilter";
 import Theater from "../components/Theater";
 
 const MovieDetails = () => {
-  const movieId = useParams().id;
+  const movieId = useParams().movieId;
 
   return (
     <div className="w-[90%] lg:w-2/3 mx-auto mt-1 rounded-md bg-white shadow-sm">

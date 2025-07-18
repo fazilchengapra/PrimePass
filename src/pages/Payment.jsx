@@ -2,8 +2,14 @@ import { AlertDialog, Button, Flex, Separator } from "@radix-ui/themes";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import PaymentMethods from "../components/PaymentMethods";
 import { IoIosClose } from "react-icons/io";
+import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Payment = () => {
+  const [searchParams] = useSearchParams();
+  const time = searchParams.get("time");
+  const count = searchParams.get("count")
+  const movie = useSelector((state) => state.movie.selectedMovie);
   return (
     <div className="w-full h-full pt-20">
       <div className="bg-white m-auto w-[90%] lg:w-1/3 h-fit rounded-lg">
@@ -13,12 +19,12 @@ const Payment = () => {
               <img
                 alt="poster"
                 className="w-full h-auto object-cover rounded-md"
-                src="https://image.tmdb.org/t/p/w185//ombsmhYUqR4qqOLOxAyr5V8hbyv.jpg"
+                src={'https://image.tmdb.org/t/p/w185/'+movie?.poster_path}
               />
             </div>
             <div className="flex flex-col gap-3">
               <div className="text-lg font-bold lg:font-semibold">
-                <h3>Superman</h3>
+                <h3>{movie?.title}</h3>
               </div>
               <div className="text-sm font-semibold">
                 <h5>PVR Ambience Mall, Gurugram</h5>
@@ -28,14 +34,14 @@ const Payment = () => {
           <Separator my="3" size="4" />
           <div className="flex flex-col gap-2 font-semibold lg:font-medium text-sm">
             <div>
-              <span>Number of Seats 1</span>
+              <span>Number of Seats <span className="font-bold ml-2">{count}</span></span>
             </div>
             <div>
               <span>Child: 0</span>
             </div>
             <div className="flex flex-row justify-between">
               <span>Show Date: 2 jan 2025 </span>{" "}
-              <span>Show Time: 12:00PM </span>
+              <span>Show Time: <span className="ml-2 font-bold">{time}</span> </span>
             </div>
           </div>
 
@@ -55,7 +61,7 @@ const Payment = () => {
             </div>
             <div className="flex flex-row justify-between font-bold lg:font-semibold mt-3">
               <span>Total:</span>
-              <span>129.8</span>
+              <span>{Math.trunc(110 * count * 1.18)}</span>
             </div>
 
             <div className="mt-4 flex justify-end">
@@ -82,7 +88,7 @@ const Payment = () => {
                   </AlertDialog.Description>
 
                   {/* payment methods */}
-                  <PaymentMethods />
+                  <PaymentMethods amount={Math.trunc(110 * count * 1.18)}/>
                 </AlertDialog.Content>
               </AlertDialog.Root>
             </div>

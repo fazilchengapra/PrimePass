@@ -1,5 +1,5 @@
 import { Button } from "@radix-ui/themes";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Banks = [
   {

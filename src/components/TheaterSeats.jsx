@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { mockSeatLayout } from "../data/seatLayout";
 import { Button } from "@radix-ui/themes";
+import { Link } from "react-router-dom";
 
-const TheaterSeats = () => {
+const TheaterSeats = ({ time, movieId, showtime }) => {
   const [selected, setSelected] = useState([]);
 
   const select = (row, number) => {
@@ -79,9 +80,13 @@ const TheaterSeats = () => {
             <span>Seat Selected</span>
           </div>
           <div>
-            <Button className="py-5 px-10 rounded-lg text-lg bg-blue-500">
-              Proceed
-            </Button>
+            <Link
+              to={`/movie/${movieId}/theater/1/show/payment?time=${showtime}&count=${selected.length}`}
+            >
+              <Button className="py-5 px-10 rounded-lg text-lg bg-blue-500">
+                Proceed
+              </Button>
+            </Link>
           </div>
         </div>
       ) : (

@@ -6,11 +6,12 @@ import { useEffect, useState } from "react";
 
 const SeatSelector = () => {
   const [showtime, setShowtime] = useState()
-  const { id } = useParams();
+  const { id: theaterId, movieId } = useParams();
   const [searchParams] = useSearchParams();
   const time = searchParams.get("time");
 
-  const showTimes = showtimes.find((show) => show.id.toString() === id);
+
+  const showTimes = showtimes.find((show) => show.id.toString() === theaterId);
   console.log(showTimes);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const SeatSelector = () => {
             <h4>PLATINUM: ₹110</h4>
           </div>
           <div className="">
-            <TheaterSeats />
+            <TheaterSeats time={time} movieId={movieId} showtime={showtime}/>
           </div>
         </div>
       </div>

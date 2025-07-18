@@ -5,8 +5,11 @@ import TrailerDialog from "./TrailerDialog";
 import { Box, Inset, Separator } from "@radix-ui/themes";
 import MovieInfo from "./MovieInfo";
 import MovieCardSkelton from "./Skeletons/MovieCardSkelton";
+import { useDispatch } from "react-redux";
+import { setMovie } from "../app/movieSlice";
 
 const MovieHeader = ({ movieId }) => {
+  const dispatch = useDispatch();
   const [movieDetails, setMovieDetails] = useState(null);
   const [duration, setDuration] = useState();
   const [trailer, setTrailer] = useState(null);
@@ -40,6 +43,10 @@ const MovieHeader = ({ movieId }) => {
 
     fetchMovieDetails();
   }, [movieId]);
+
+  useEffect(() => {
+    dispatch(setMovie(movieDetails));
+  }, [movieDetails, dispatch]);
   return (
     <div>
       <div className="lg:flex flex-row gap-5 h-fit">

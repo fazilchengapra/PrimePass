@@ -9,6 +9,7 @@ const cardsIMG = [
 ];
 
 const CardMethod = () => {
+  
   return (
     <div className="w-full h-fit">
       <div className="w-full flex flex-col gap-3">
@@ -65,7 +66,7 @@ const CardMethod = () => {
         {/* Button */}
         <div className="w-full">
           <Button color="green" className="py-4 w-full text-sm font-bold">
-            <FaLock/> 
+            <FaLock />
             Pay ₹128.9
           </Button>
         </div>
