@@ -1,5 +1,6 @@
 import { FaLock } from "react-icons/fa";
 import { Button } from "@radix-ui/themes";
+import { useSearchParams } from "react-router-dom";
 
 const cardsIMG = [
   { name: "Visa", url: "/asset/Visa.svg" },
@@ -9,6 +10,9 @@ const cardsIMG = [
 ];
 
 const CardMethod = () => {
+  const [searchParams] = useSearchParams();
+  const count = searchParams.get("count")
+  
   
   return (
     <div className="w-full h-fit">
@@ -27,7 +31,7 @@ const CardMethod = () => {
             <h4>Payment Amount</h4>
           </div>
           <div className="text-lg font-bold lg:font-semibold">
-            <h3>₹128.9</h3>
+            <h3>{(110 * count * 1.18).toFixed(2)}</h3>
           </div>
         </div>
 
@@ -67,7 +71,7 @@ const CardMethod = () => {
         <div className="w-full">
           <Button color="green" className="py-4 w-full text-sm font-bold">
             <FaLock />
-            Pay ₹128.9
+            {(110 * count * 1.18).toFixed(2)}
           </Button>
         </div>
       </div>

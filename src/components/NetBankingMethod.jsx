@@ -1,5 +1,6 @@
 import { Button } from "@radix-ui/themes";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Banks = [
   {
@@ -31,6 +32,9 @@ const Banks = [
 ];
 
 const NetBankingMethod = () => {
+  const [searchParams] = useSearchParams();
+  const count = searchParams.get("count")
+
     const [bank, setBank] =useState(null)
   return (
     <div className="w-full">
@@ -56,7 +60,7 @@ const NetBankingMethod = () => {
         <div>
           <Button color="green" disabled={bank === null} className="w-full font-bold py-6 flex flex-row gap-2 items-center">
             <span>Pay</span>
-            <span>₹128</span>
+            <span>{(110 * count * 1.18).toFixed(2)}</span>
           </Button>
         </div>
       </div>

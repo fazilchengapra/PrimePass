@@ -21,7 +21,6 @@ export const upcomingMovies = async () => {
     const res = await axios.get(
       `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_TMDB}&language=en-US&page=1&region=IN`
     );
-    console.log(res.data.results.filter(data => data?.poster_path));
     
     return res.data.results.filter(data => data?.poster_path)
   } catch (error) {

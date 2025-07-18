@@ -3,20 +3,22 @@ import TheaterSeats from "../components/TheaterSeats";
 import { showtimes } from "../data/showtimes";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setTheater } from "../app/theaterSlice";
 
 const SeatSelector = () => {
-  const [showtime, setShowtime] = useState()
+  const [showtime, setShowtime] = useState();
   const { id: theaterId, movieId } = useParams();
   const [searchParams] = useSearchParams();
   const time = searchParams.get("time");
-
+  const dispatch = useDispatch();
 
   const showTimes = showtimes.find((show) => show.id.toString() === theaterId);
-  console.log(showTimes);
 
   useEffect(() => {
-    setShowtime(time)
-  }, [time])
+    setShowtime(time);
+    dispatch(setTheater(showTimes));
+  }, [time,dispatch, showTimes]);
 
   return (
     <div className="w-[90%] lg:w-2/3 m-auto min-h-[600px] rounded-md bg-white mt-6">
@@ -33,7 +35,9 @@ const SeatSelector = () => {
                 color="gray"
                 variant="surface"
                 highContrast
-                className={`py-6 px-4 lg:px-10 rounded-md ${e === showtime && 'bg-gray-200'}`}
+                className={`py-6 px-4 lg:px-10 rounded-md ${
+                  e === showtime && "bg-gray-200"
+                }`}
                 onClick={() => setShowtime(e)}
               >
                 {e}
@@ -47,7 +51,7 @@ const SeatSelector = () => {
             <h4>PLATINUM: ₹110</h4>
           </div>
           <div className="">
-            <TheaterSeats time={time} movieId={movieId} showtime={showtime}/>
+            <TheaterSeats time={time} movieId={movieId} showtime={showtime} />
           </div>
         </div>
       </div>

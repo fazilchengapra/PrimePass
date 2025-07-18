@@ -10,6 +10,8 @@ const Payment = () => {
   const time = searchParams.get("time");
   const count = searchParams.get("count")
   const movie = useSelector((state) => state.movie.selectedMovie);
+  const theater = useSelector((state) => state?.theater?.theater);
+  
   return (
     <div className="w-full h-full pt-20">
       <div className="bg-white m-auto w-[90%] lg:w-1/3 h-fit rounded-lg">
@@ -27,7 +29,7 @@ const Payment = () => {
                 <h3>{movie?.title}</h3>
               </div>
               <div className="text-sm font-semibold">
-                <h5>PVR Ambience Mall, Gurugram</h5>
+                <h5>{theater?.theater}</h5>
               </div>
             </div>
           </div>
@@ -61,7 +63,7 @@ const Payment = () => {
             </div>
             <div className="flex flex-row justify-between font-bold lg:font-semibold mt-3">
               <span>Total:</span>
-              <span>{Math.trunc(110 * count * 1.18)}</span>
+              <span>{(110 * count * 1.18).toFixed(2)}</span>
             </div>
 
             <div className="mt-4 flex justify-end">
@@ -88,7 +90,7 @@ const Payment = () => {
                   </AlertDialog.Description>
 
                   {/* payment methods */}
-                  <PaymentMethods amount={Math.trunc(110 * count * 1.18)}/>
+                  <PaymentMethods />
                 </AlertDialog.Content>
               </AlertDialog.Root>
             </div>

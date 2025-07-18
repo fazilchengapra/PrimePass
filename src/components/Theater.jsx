@@ -25,7 +25,7 @@ const Theater = () => {
           </div>
           <div className="flex flex-row flex-wrap gap-2">
             {theater.shows.map((time, showIdx) => (
-              <Link to={`theater/${theater.id}/show?time=${time}`}>
+              <Link to={`theater/${theater.id}/show?time=${time}`} key={showIdx}>
                 <Button
                   key={showIdx}
                   color="gray"

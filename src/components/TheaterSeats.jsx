@@ -11,8 +11,6 @@ const TheaterSeats = ({ time, movieId, showtime }) => {
       (item) => item.row === row && item.id === number
     );
 
-    console.log(alreadySelected);
-
     if (alreadySelected) {
       setSelected(
         selected.filter((item) => !(item.row === row && item.id === number))
