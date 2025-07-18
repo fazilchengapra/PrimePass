@@ -8,7 +8,7 @@ export const getNowPlayingMovies = async () => {
       `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
     );
     const data = await res.json();
-    return data.results.slice(0, 5);
+    return data.results.slice(0, 6);
   } catch (error) {
     console.log(error);
   }
@@ -22,7 +22,7 @@ export const fetchMovies = async (query) => {
     const data = await res.json();
     return data.results
       .filter((m) => m.poster_path) // only include movies that have poster_path
-      .slice(0, 5);
+      .slice(0, 6);
   } catch (error) {
     console.log("search movie api error:");
   }

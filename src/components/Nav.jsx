@@ -28,16 +28,16 @@ const Nav = () => {
             PrimePass
           </div>
         </Link>
-        <div className="h-10 w-full col-span-5 mt-2 hidden lg:block">
+        <div className="h-10 w-auto col-span-5 mt-2 hidden lg:block">
           <SearchDialog
             trigger={
-              <TextField.Root placeholder="Search the docs…" className="w-full">
+              <TextField.Root>
                 <TextField.Slot>
-                  <MagnifyingGlassIcon className="h-6" />
+                  <MagnifyingGlassIcon height="16" width="16" />
                 </TextField.Slot>
               </TextField.Root>
             }
-            contentClass="w-1/2"
+            contentClass="w-full"
           />
         </div>
       </div>

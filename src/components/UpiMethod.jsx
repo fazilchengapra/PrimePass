@@ -60,7 +60,7 @@ const UpiMethod = () => {
                 <div className="flex flex-row justify-between items-center w-full text-start">
                   <img
                     alt={option.name}
-                    class={`object-fill ${option.class}`}
+                    className={`object-fill ${option.class}`}
                     src={option.image}
                   />
                   <IoIosArrowDown />
