@@ -3,9 +3,9 @@ import { Button, Select, TextField } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { getCities } from "../api/citiesList";
 import { Link } from "react-router-dom";
+import SearchDialog from "./SearchDialog";
 
 const Nav = () => {
-
   const [state, setState] = useState();
 
   useEffect(() => {
@@ -19,18 +19,26 @@ const Nav = () => {
     };
     citiesList();
   }, []);
-  
 
   return (
     <div className="flex justify-between items-center p-2 bg-white border-b w-full h-auto">
       <div className="flex-row gap-2 lg:gap-4 lg:grid lg:grid-cols-6 items-center">
-        <Link to={'/'}><div className="text-lg font-bold w-auto p-2 col-span-1">PrimePass</div></Link>
+        <Link to={"/"}>
+          <div className="text-lg font-bold w-auto p-2 lg:col-span-1">
+            PrimePass
+          </div>
+        </Link>
         <div className="h-10 w-full col-span-5 mt-2 hidden lg:block">
-          <TextField.Root placeholder="Search the docs…">
-            <TextField.Slot>
-              <MagnifyingGlassIcon className="h-6" />
-            </TextField.Slot>
-          </TextField.Root>
+          <SearchDialog
+            trigger={
+              <TextField.Root placeholder="Search the docs…" className="w-full">
+                <TextField.Slot>
+                  <MagnifyingGlassIcon className="h-6" />
+                </TextField.Slot>
+              </TextField.Root>
+            }
+            contentClass="w-1/2"
+          />
         </div>
       </div>
 
@@ -53,7 +61,14 @@ const Nav = () => {
         </div>
 
         <Button className="bg-black">Sign In</Button>
-        <HamburgerMenuIcon className="size-6 mx-4 block lg:hidden" />
+
+        <SearchDialog
+          trigger={
+            <HamburgerMenuIcon className="size-6 mx-4 block lg:hidden" />
+          }
+          contentClass="w-3/4"
+          dialogClass="top-[5rem]"
+        />
       </div>
     </div>
   );

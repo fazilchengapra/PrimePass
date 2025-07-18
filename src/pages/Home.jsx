@@ -4,7 +4,7 @@ import NewRelease from "../components/NewRelease";
 
 const Home = () => {
   return (
-    <div className="h-full">
+    <div className="h-full select-none">
       <Banner />
       <Recommended />
       <NewRelease />

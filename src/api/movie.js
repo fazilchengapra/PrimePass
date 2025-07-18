@@ -1,5 +1,32 @@
 import axios from "axios";
+const API_KEY = process.env.REACT_APP_TMDB;
 const apiKey = process.env.REACT_APP_TMDB;
+
+export const getNowPlayingMovies = async () => {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+    );
+    const data = await res.json();
+    return data.results.slice(0, 5);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchMovies = async (query) => {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`
+    );
+    const data = await res.json();
+    return data.results
+      .filter((m) => m.poster_path) // only include movies that have poster_path
+      .slice(0, 5);
+  } catch (error) {
+    console.log("search movie api error:");
+  }
+};
 
 export const getPopularMovies = async () => {
   try {
@@ -21,8 +48,8 @@ export const upcomingMovies = async () => {
     const res = await axios.get(
       `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_TMDB}&language=en-US&page=1&region=IN`
     );
-    
-    return res.data.results.filter(data => data?.poster_path)
+
+    return res.data.results.filter((data) => data?.poster_path);
   } catch (error) {
     console.error(
       "Error fetching upcoming movies:",
