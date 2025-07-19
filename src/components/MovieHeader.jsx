@@ -47,7 +47,7 @@ const MovieHeader = ({ movieId }) => {
     fetchMovieTrailer();
 
     fetchMovieDetails();
-  }, [movieId]);
+  }, [movieId, tool]);
 
   useEffect(() => {
     dispatch(setMovie(movieDetails));

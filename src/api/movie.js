@@ -13,7 +13,7 @@ export const getProviders = async (movieId) => {
       flatrate: providers.flatrate || [],
       rent: providers.rent || [],
       buy: providers.buy || [],
-      link: providers.link
+      link: providers.link,
     };
   } catch (error) {
     console.log("Providers Error: " + error);

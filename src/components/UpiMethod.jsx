@@ -1,6 +1,7 @@
 import { Button, DropdownMenu, TextField } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { toast } from "react-toastify";
 
 const paymentOptions = [
   {
@@ -37,6 +38,15 @@ const UpiMethod = () => {
   const [options, setOptions] = useState([]);
   const [handle, setHandle] = useState(option?.upiHandles[0]);
   const [handles, setHandles] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const payment = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      toast.error("Payment Failed");
+    }, 2000);
+  };
 
   useEffect(() => {
     setOptions(paymentOptions.filter((app) => app.name !== option.name));
@@ -118,7 +128,13 @@ const UpiMethod = () => {
 
         {/* verify button */}
         <div className="w-full">
-          <Button className="w-full" color="green" variant="solid">
+          <Button
+            className="w-full"
+            color="green"
+            variant="solid"
+            onClick={payment}
+            loading={loading}
+          >
             Verify & Pay
           </Button>
         </div>

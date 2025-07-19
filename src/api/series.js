@@ -19,7 +19,7 @@ export const getAiringTVSeries = async () => {
       `https://api.themoviedb.org/3/tv/on_the_air?api_key=${API_KEY}`
     );
     const data = await res.json();
-    return data.results.filter((series) => series.poster_path); // Array of currently airing TV shows
+    return data.results.filter((series) => series.poster_path).slice(0, 6); // Array of currently airing TV shows
   } catch (error) {
     console.error("Error fetching airing series:", error);
   }

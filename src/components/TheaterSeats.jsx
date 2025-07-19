@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { mockSeatLayout } from "../data/seatLayout";
 import { Button } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const TheaterSeats = ({ time, movieId, showtime }) => {
   const [selected, setSelected] = useState([]);
@@ -16,9 +17,12 @@ const TheaterSeats = ({ time, movieId, showtime }) => {
         selected.filter((item) => !(item.row === row && item.id === number))
       );
     } else {
-      setSelected([...selected, { row, id: number }]);
+      if (selected.length < 10)
+        setSelected([...selected, { row, id: number }]);
+      else toast.error("Can't Select 10 more Seats!");
     }
   };
+
   return (
     <div>
       <div className="mt-1 overflow-x-auto max-h-[400px] ">

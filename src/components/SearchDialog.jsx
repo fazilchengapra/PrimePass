@@ -17,7 +17,7 @@ const SearchDialog = ({
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    if (!query || query.trim() === "") {
+    if (!query || query?.trim() === "") {
       setSearchMovies([]);
       return;
     }

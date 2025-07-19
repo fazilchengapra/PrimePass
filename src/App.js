@@ -6,6 +6,7 @@ import MovieDetails from "./pages/MovieDetails";
 import SeatSelector from "./pages/SeatSelector";
 import Payment from "./pages/Payment";
 import ScrollToTop from "./components/ScrollToTop";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -19,6 +20,17 @@ function App() {
       <div>
         <ScrollToTop />
         <Outlet />
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </div>
   );
