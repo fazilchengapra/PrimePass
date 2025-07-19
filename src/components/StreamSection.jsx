@@ -17,7 +17,7 @@ const StreamSection = ({ data, title, link }) => {
                 <img
                   src={`https://image.tmdb.org/t/p/original${provider?.logo_path}`}
                   className="object-contain w-full h-full rounded-md"
-                  alt="Name"
+                  alt={provider?.provider_name}
                 />
               </div>
 
