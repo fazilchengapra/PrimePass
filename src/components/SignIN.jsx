@@ -4,6 +4,7 @@ import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import { FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const input = [
   { name: "email", label: "Email", placeholder: "Enter your Email" },
@@ -69,6 +70,10 @@ const SignIN = () => {
         <div className="w-full mt-3">
           <Button className="w-full">Sign In</Button>
         </div>
+       <div className="flex flex-row gap-1 text-xs text-center w-full justify-center mt-1">
+        <span>Don't have an account?</span>
+        <Link to={'#'}><span className="text-black font-bold">Sign Up</span></Link>
+       </div>
       </div>
     </div>
   );

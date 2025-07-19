@@ -2,6 +2,24 @@ import axios from "axios";
 const API_KEY = process.env.REACT_APP_TMDB;
 const apiKey = process.env.REACT_APP_TMDB;
 
+export const getProviders = async (movieId) => {
+  try {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${API_KEY}`
+    );
+    const providers = res.data.results.IN;
+    if (!providers) return null;
+    return {
+      flatrate: providers.flatrate || [],
+      rent: providers.rent || [],
+      buy: providers.buy || [],
+      link: providers.link
+    };
+  } catch (error) {
+    console.log("Providers Error: " + error);
+  }
+};
+
 export const getNowPlayingMovies = async () => {
   try {
     const res = await fetch(

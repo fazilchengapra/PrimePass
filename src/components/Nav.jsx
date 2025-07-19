@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { getCities } from "../api/citiesList";
 import { Link } from "react-router-dom";
 import SearchDialog from "./SearchDialog";
-import { IoMdClose } from "react-icons/io";
 import SignIN from "./SignIN";
 
 const Nav = () => {
