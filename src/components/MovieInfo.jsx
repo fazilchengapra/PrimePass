@@ -1,9 +1,8 @@
-import {Button, Dialog, Tabs} from "@radix-ui/themes";
+import { Button, Dialog, Tabs } from "@radix-ui/themes";
 import { IoMdClose } from "react-icons/io";
 import TabsContent from "./TabsContent";
 
 const MovieInfo = ({ movieId, movieDetails }) => {
-
   return (
     <Dialog.Root>
       <Dialog.Trigger>
@@ -35,7 +34,9 @@ const MovieInfo = ({ movieId, movieDetails }) => {
           </div>
 
           {/* Scrollable Content */}
-          <TabsContent movieId={movieId} movieDetails={movieDetails}/>
+          <div className="h-fit scrollbar-hide">
+            <TabsContent movieId={movieId} movieDetails={movieDetails} />
+          </div>
         </Tabs.Root>
       </Dialog.Content>
     </Dialog.Root>

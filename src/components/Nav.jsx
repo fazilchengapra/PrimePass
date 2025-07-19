@@ -1,9 +1,11 @@
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Button, Select, TextField } from "@radix-ui/themes";
+import { AlertDialog, Button, Select, TextField } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { getCities } from "../api/citiesList";
 import { Link } from "react-router-dom";
 import SearchDialog from "./SearchDialog";
+import { IoMdClose } from "react-icons/io";
+import SignIN from "./SignIN";
 
 const Nav = () => {
   const [state, setState] = useState();
@@ -21,7 +23,7 @@ const Nav = () => {
   }, []);
 
   return (
-    <div className="flex justify-between items-center p-2 bg-white border-b w-full h-auto">
+    <div className="flex justify-between items-center p-2 bg-white border-b !w-full h-auto">
       <div className="flex-row gap-2 lg:gap-4 lg:grid lg:grid-cols-6 items-center">
         <Link to={"/"}>
           <div className="text-lg font-bold w-auto p-2 lg:col-span-1">
@@ -31,11 +33,13 @@ const Nav = () => {
         <div className="h-10 w-auto col-span-5 mt-2 hidden lg:block">
           <SearchDialog
             trigger={
-              <TextField.Root>
-                <TextField.Slot>
-                  <MagnifyingGlassIcon height="16" width="16" />
-                </TextField.Slot>
-              </TextField.Root>
+              <div>
+                <TextField.Root placeholder="Search Movies...">
+                  <TextField.Slot>
+                    <MagnifyingGlassIcon height="16" width="16" />
+                  </TextField.Slot>
+                </TextField.Root>
+              </div>
             }
             contentClass="w-1/2"
           />
@@ -60,7 +64,14 @@ const Nav = () => {
           </Select.Root>
         </div>
 
-        <Button className="bg-black">Sign In</Button>
+        <AlertDialog.Root>
+          <AlertDialog.Trigger>
+            <Button className="bg-black">Sign In</Button>
+          </AlertDialog.Trigger>
+          <AlertDialog.Content>
+            <SignIN />
+          </AlertDialog.Content>
+        </AlertDialog.Root>
 
         <SearchDialog
           trigger={

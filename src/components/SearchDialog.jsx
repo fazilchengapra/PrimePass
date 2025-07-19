@@ -1,4 +1,3 @@
-// components/SearchDialog.jsx
 import { Dialog } from "radix-ui";
 import { Flex, TextField } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
@@ -37,7 +36,7 @@ const SearchDialog = ({
       <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
 
       <Dialog.Content
-        className={`bg-white p-6 rounded-lg shadow-xl fixed lg:top-1/6 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ${contentClass} ${dialogClass}`}
+        className={`bg-white p-6 rounded-lg shadow-xl fixed lg:top-[16rem] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ${contentClass} ${dialogClass}`}
       >
         <Dialog.Title className="hidden">Search Movies</Dialog.Title>
         <Dialog.Description className="hidden">
