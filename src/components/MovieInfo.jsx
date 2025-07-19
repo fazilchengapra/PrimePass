@@ -12,7 +12,7 @@ const MovieInfo = ({ movieId, movieDetails }) => {
         </Button>
       </Dialog.Trigger>
 
-      <Dialog.Content className="max-w-1/2 max-h-[80vh] overflow-hidden p-0">
+      <Dialog.Content className="max-w-1/2 max-h-[80vh] p-0">
         <Tabs.Root defaultValue="video">
           {/* Sticky Header */}
           <div className="sticky top-0 z-10 bg-white px-6 pt-6 pb-3">
