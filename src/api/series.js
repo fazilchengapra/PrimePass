@@ -12,3 +12,16 @@ export const getSeriesByQuery = async (query) => {
     console.log("query series fetch error");
   }
 };
+
+export const getAiringTVSeries = async () => {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/tv/on_the_air?api_key=${API_KEY}`
+    );
+    const data = await res.json();
+    return data.results; // Array of currently airing TV shows
+  } catch (error) {
+    console.error("Error fetching airing series:", error);
+  }
+};
+

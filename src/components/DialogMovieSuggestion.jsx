@@ -3,16 +3,18 @@ import { getNowPlayingMovies } from "../api/movie";
 import { Link } from "react-router-dom";
 import { Dialog } from "@radix-ui/themes";
 import EmptyState from "./ui/EmptyState";
+import { getAiringTVSeries } from "../api/series";
 
 const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
   const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    const getMovies = async () => {
-      const res = await getNowPlayingMovies();
-      setMovies(res);
-    };
-    getMovies();
-  }, []);
+ useEffect(() => {
+  const getShow = async () => {
+    const res = filter === 'series' ? await getAiringTVSeries() : await getNowPlayingMovies();
+    setMovies(res);
+  };
+  getShow();
+}, [filter]); // Include `filter` as a dependency if it changes
+
 
   return (
     <div className="mt-5">
@@ -24,7 +26,7 @@ const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
         </div>
       ) : (
         <div className="text-sm font-bold">
-          <span>Suggested Movies</span>
+          <span className="capitalize">Suggested {filter ? filter : 'Movies'}</span>
         </div>
       )}
 

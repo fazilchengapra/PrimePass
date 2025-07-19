@@ -3,26 +3,30 @@ import { DropdownMenu } from "@radix-ui/themes";
 import { CgOptions } from "react-icons/cg";
 import { MdLiveTv } from "react-icons/md";
 import { IoIosClose } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const tools = [
   { name: "series", icon: <MdLiveTv size={15} />, dis: "web series" },
 ];
 
-const SearchTools = ({filter, setFilter}) => {
+const SearchTools = ({ filter, setFilter }) => {
   const [tool, setTool] = useState([]); // keep array
 
   const addTool = (item) => {
     if (!tool.some((t) => t.name === item.name)) {
       setTool([...tool, item]);
-      setFilter(item.name)
+      setFilter(item.name);
     }
   };
 
   const removeTool = (name) => {
     setTool(tool.filter((t) => t.name !== name));
-    setFilter("")
+    setFilter("");
   };
+
+  useEffect(() => {
+    setFilter(null);
+  }, [setFilter]);
 
   return (
     <div className="flex flex-row gap-4 items-center overflow-x-auto pb-2">
