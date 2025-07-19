@@ -4,17 +4,31 @@ import { Link } from "react-router-dom";
 import { Dialog } from "@radix-ui/themes";
 import EmptyState from "./ui/EmptyState";
 import { getAiringTVSeries } from "../api/series";
+import { OrbitProgress } from "react-loading-indicators";
 
 const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
   const [movies, setMovies] = useState([]);
- useEffect(() => {
-  const getShow = async () => {
-    const res = filter === 'series' ? await getAiringTVSeries() : await getNowPlayingMovies();
-    setMovies(res);
-  };
-  getShow();
-}, [filter]); // Include `filter` as a dependency if it changes
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    const getShow = async () => {
+      const res =
+        filter === "series"
+          ? await getAiringTVSeries()
+          : await getNowPlayingMovies();
+      setMovies(res);
+      setLoading(false);
+    };
+    getShow();
+  }, [filter]); // Include `filter` as a dependency if it changes
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center w-full h-56 text-gray-600">
+        <OrbitProgress variant="spokes" color="#4b5563" size="small" />
+      </div>
+    );
+  }
 
   return (
     <div className="mt-5">
@@ -26,7 +40,9 @@ const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
         </div>
       ) : (
         <div className="text-sm font-bold">
-          <span className="capitalize">Suggested {filter ? filter : 'Movies'}</span>
+          <span className="capitalize">
+            Suggested {filter ? filter : "Movies"}
+          </span>
         </div>
       )}
 
