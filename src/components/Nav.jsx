@@ -37,7 +37,7 @@ const Nav = () => {
                 </TextField.Slot>
               </TextField.Root>
             }
-            contentClass="w-full"
+            contentClass="w-1/2"
           />
         </div>
       </div>
@@ -67,7 +67,7 @@ const Nav = () => {
             <HamburgerMenuIcon className="size-6 mx-4 block lg:hidden" />
           }
           contentClass="w-3/4"
-          dialogClass="top-[5rem]"
+          dialogClass="top-[18rem]"
         />
       </div>
     </div>
