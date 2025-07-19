@@ -5,8 +5,9 @@ import TrailerDialog from "./TrailerDialog";
 import { Box, Inset, Separator } from "@radix-ui/themes";
 import MovieInfo from "./MovieInfo";
 import MovieCardSkelton from "./Skeletons/MovieCardSkelton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMovie } from "../app/movieSlice";
+import { getTVSeriesById } from "../api/series";
 
 const MovieHeader = ({ movieId }) => {
   const dispatch = useDispatch();
@@ -14,12 +15,16 @@ const MovieHeader = ({ movieId }) => {
   const [duration, setDuration] = useState();
   const [trailer, setTrailer] = useState(null);
   const [loading, setLoading] = useState();
+  const tool = useSelector(state => state?.tool?.tool)
+
+  console.log(tool);
+  
 
   useEffect(() => {
     setLoading(true);
     const fetchMovieDetails = async () => {
       try {
-        const data = await getMovieDetails(movieId);
+        const data = tool === 'series' ? await getTVSeriesById(movieId) : await getMovieDetails(movieId);
         setMovieDetails(data);
         setDuration(formatDuration(data.runtime));
       } catch (error) {
@@ -69,7 +74,7 @@ const MovieHeader = ({ movieId }) => {
         <div className="flex flex-col gap-4 w-full my-auto text-center lg:text-start">
           <div className="flex flex-col gap-2">
             <h1 className="text-xl font-bold text-gray-800">
-              {movieDetails?.title}
+              {movieDetails?.title || movieDetails?.name}
             </h1>
             <div className="justify-center lg:justify-start flex flex-row gap-2 text-xs text-gray-500">
               <span className="uppercase">
@@ -81,6 +86,7 @@ const MovieHeader = ({ movieId }) => {
                   {duration?.hours} hr {duration?.minutes} min
                 </span>
               )}
+              {movieDetails?.number_of_seasons && <span>{movieDetails?.number_of_seasons+' Seasons'}</span>}
             </div>
           </div>
 

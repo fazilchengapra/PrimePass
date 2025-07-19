@@ -42,7 +42,7 @@ const SearchDialog = ({
       <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
 
       <Dialog.Content
-        className={`bg-white p-6 rounded-lg shadow-xl fixed lg:top-[16rem] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ${contentClass} ${dialogClass}`}
+        className={`bg-white p-6 rounded-lg shadow-xl fixed lg:top-[18rem] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ${contentClass} ${dialogClass}`}
       >
         <Dialog.Title className="hidden">Search Movies</Dialog.Title>
         <Dialog.Description className="hidden">
@@ -51,7 +51,7 @@ const SearchDialog = ({
 
         <Flex direction="column" gap="3" className="mb-2">
           <TextField.Root
-          placeholder={filter ? 'Search '+filter : 'Search movies'}
+            placeholder={filter ? "Search " + filter : "Search movies"}
             className="w-full"
             onChange={(e) => setQuery(e?.target?.value)}
             value={query}
