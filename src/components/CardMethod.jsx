@@ -20,7 +20,7 @@ const CardMethod = () => {
         <div className="grid grid-cols-4 gap-1">
           {cardsIMG.map((card) => (
             <div key={card.name}>
-              <img src={card.url} alt="Visa" className="h-12 object-cover" />
+              <img src={card.url} alt={card.name} className="h-12 object-cover" />
             </div>
           ))}
         </div>

@@ -4,6 +4,8 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import DialogMovieSuggestion from "./DialogMovieSuggestion";
 import { useEffect, useState } from "react";
 import { fetchMovies } from "../api/movie";
+import SearchTools from "./SearchTools";
+import { getSeriesByQuery } from "../api/series";
 
 const SearchDialog = ({
   trigger,
@@ -12,6 +14,7 @@ const SearchDialog = ({
 }) => {
   const [query, setQuery] = useState("");
   const [searchMovies, setSearchMovies] = useState([]);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     if (!query || query.trim() === "") {
@@ -20,12 +23,15 @@ const SearchDialog = ({
     }
 
     const fetchMoviesByQuery = async () => {
-      const res = await fetchMovies(query);
+      const res =
+        filter === "series"
+          ? await getSeriesByQuery(query)
+          : await fetchMovies(query);
       setSearchMovies(res);
     };
 
     fetchMoviesByQuery();
-  }, [query]);
+  }, [query, filter]);
 
   return (
     <Dialog.Root>
@@ -45,8 +51,9 @@ const SearchDialog = ({
 
         <Flex direction="column" gap="3" className="mb-2">
           <TextField.Root
+          placeholder={filter ? 'Search '+filter : 'Search movies'}
             className="w-full"
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => setQuery(e?.target?.value)}
             value={query}
           >
             <TextField.Slot>
@@ -55,9 +62,15 @@ const SearchDialog = ({
           </TextField.Root>
         </Flex>
 
+        {/* Tools */}
+        <SearchTools filter={filter} setFilter={setFilter} />
         <div className="overflow-y-auto h-96">
           <div className="text-start">
-            <DialogMovieSuggestion query={query} moviesData={searchMovies} />
+            <DialogMovieSuggestion
+              query={query}
+              moviesData={searchMovies}
+              filter={filter}
+            />
           </div>
         </div>
       </Dialog.Content>

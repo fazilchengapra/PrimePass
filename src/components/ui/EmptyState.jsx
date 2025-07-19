@@ -11,7 +11,7 @@ const EmptyState = ({ status, message }) => {
             alt={status}
           />
           <div className="text-blue-800 font-bold text-center">
-            <span className="text-sm">{message}</span>
+            <span className="text-sm capitalize">{message}</span>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Dialog } from "@radix-ui/themes";
 import EmptyState from "./ui/EmptyState";
 
-const DialogMovieSuggestion = ({ query, moviesData }) => {
+const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     const getMovies = async () => {
@@ -30,7 +30,10 @@ const DialogMovieSuggestion = ({ query, moviesData }) => {
 
       <div className="w-full mt-10">
         {query && moviesData.length <= 0 && (
-          <EmptyState status={404} message={"Movie Not Found!"} />
+          <EmptyState
+            status={404}
+            message={filter ? filter + " Not Found!" : "Movie Not Found!"}
+          />
         )}
       </div>
       <div className="mt-3 grid lg:grid-cols-2 lg:gap-4 gap-2">
@@ -50,10 +53,12 @@ const DialogMovieSuggestion = ({ query, moviesData }) => {
                 </div>
                 <div className="flex flex-col gap-2">
                   <div className="font-bold text-sm">
-                    <span>{movie?.title}</span>
+                    <span>{movie?.title || movie?.name}</span>
                   </div>
                   <div className="text-xs font-bold text-gray-500">
-                    <span>Movie</span>
+                    <span className="capitalize">
+                      {filter ? filter : "movie"}
+                    </span>
                   </div>
                 </div>
               </div>
