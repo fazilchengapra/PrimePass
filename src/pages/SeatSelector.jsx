@@ -28,7 +28,7 @@ const SeatSelector = () => {
             <span>Sat</span>
             <span className="font-semibold">12 Jul</span>
           </div>
-          <div className="flex flex-row gap-2 overflow-x-auto w-full">
+          <div className="flex flex-row gap-2 overflow-x-auto w-full suggestion-list">
             {showTimes.shows.map((e, index) => (
               <Button
                 key={index}

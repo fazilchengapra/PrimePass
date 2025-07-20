@@ -34,7 +34,7 @@ const NewRelease = () => {
       </div>
 
       {/* 🔄 Scrollable container on small devices */}
-      <div className="flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-6 lg:gap-10 scrollbar-hide">
+      <div className="flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-6 lg:gap-10 suggestion-list">
         {loading
           ? [...Array(12)].map((_, index) => <MovieCardSkelton key={index} />)
           : movie.map((m) => (

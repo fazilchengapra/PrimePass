@@ -20,7 +20,7 @@ const TheaterFilter = () => {
   ];
 
   return (
-    <div className="flex lg:flex-wrap flex-nowrap w-full scrollbar-hide gap-2 mt-5 overflow-x-auto scrollbar-hide">
+    <div className="flex lg:flex-wrap flex-nowrap w-full suggestion-list gap-2 mt-5 overflow-x-auto">
       {filterOptions.map(({ key, label }) => (
         <Toggle.Root
           key={key}
