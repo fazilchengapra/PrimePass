@@ -33,9 +33,9 @@ const TabsContent = ({ movieId, movieDetails }) => {
   }, [movieId]);
 
   return (
-    <div className="overflow-y-auto h-[60vh] px-6 pb-6 scrollbar-hide">
+    <div className="overflow-y-auto h-[60vh] px-6 pb-6 suggestion-list">
       <Tabs.Content value="video" className="pt-3 w-full">
-        {videos.length > 0 ? (
+        {videos?.length > 0 ? (
           <TrailerDialog
             movieDetails={movieDetails}
             trailer={videos}
@@ -63,12 +63,12 @@ const TabsContent = ({ movieId, movieDetails }) => {
                     <Avatar
                       size="5"
                       radius="full"
-                      src={`https://image.tmdb.org/t/p/w500/${d.profile_path}`}
-                      alt={d.name}
+                      src={`https://image.tmdb.org/t/p/w500/${d?.profile_path}`}
+                      alt={d?.name}
                       fallback="A"
                     />
                     <div>
-                      <p className="font-medium text-sm">{d.name}</p>
+                      <p className="font-medium text-sm">{d?.name}</p>
                     </div>
                   </div>
                 ))}
@@ -94,7 +94,7 @@ const TabsContent = ({ movieId, movieDetails }) => {
                 {movieDetails?.genres.map((genre, index) => (
                   <span className="text-sm text-black" key={genre.id}>
                     {genre?.name}
-                    {index < movieDetails.genres.length - 1 && ", "}
+                    {index < movieDetails?.genres?.length - 1 && ", "}
                   </span>
                 ))}
               </div>
@@ -103,13 +103,13 @@ const TabsContent = ({ movieId, movieDetails }) => {
             {movieDetails?.spoken_languages.length > 0 && (
               <div className="flex flex-row gap-2 items-center">
                 <LiaLanguageSolid size="25" />
-                {movieDetails?.spoken_languages.map((language, index) => (
+                {movieDetails?.spoken_languages?.map((language, index) => (
                   <span
                     className="text-sm text-black"
                     key={language?.id | index}
                   >
                     {language?.english_name}
-                    {index < movieDetails.spoken_languages.length - 1 && ", "}
+                    {index < movieDetails?.spoken_languages?.length - 1 && ", "}
                   </span>
                 ))}
               </div>

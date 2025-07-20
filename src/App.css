@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+.suggestion-list::-webkit-scrollbar {
+  display: none;
+}
+.suggestion-list {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
