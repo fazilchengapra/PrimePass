@@ -9,8 +9,14 @@ const languages = [
   { code: "es", name: "Spanish" },
 ];
 
-const LanguageFilter = () => {
-    const [selectedLang, setSelectedLang] = useState(null)
+const LanguageFilter = ({ filterOptions, setFilterOptions }) => {
+  const [selectedLang, setSelectedLang] = useState(() => {
+    const match = languages.find(
+      (lang) => lang.code === filterOptions?.with_original_language
+    );
+    return match ? match.name : null;
+  });
+
   return (
     <div className="w-full px-2 h-fit">
       <div className="flex flex-col gap-4">
@@ -20,14 +26,20 @@ const LanguageFilter = () => {
         <div className="grid grid-cols-2 gap-2">
           {languages.map((language) => (
             <Button
-            onClick={() => setSelectedLang(language.name)}
-              color={selectedLang === language.name ? 'blue' : 'gray'}
-              variant={selectedLang === language.name ? 'soft' : 'outline'}
+              onClick={() => {
+                setSelectedLang(language.name);
+                setFilterOptions((prev) => ({
+                  ...prev,
+                  with_original_language: language.code,
+                }));
+              }}
+              color={selectedLang === language.name ? "blue" : "gray"}
+              variant={selectedLang === language.name ? "soft" : "outline"}
               className="py-1 rounded-md flex flex-row justify-between px-2 gap-2 text-sm"
               highContrast
             >
               {language.name}
-              {selectedLang === language.name && <MdDone/>}
+              {selectedLang === language.name && <MdDone />}
             </Button>
           ))}
         </div>

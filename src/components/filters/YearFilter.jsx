@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 
-const YearFilter = () => {
+const YearFilter = ({ filterOptions, setFilterOptions }) => {
   const currentYear = new Date().getFullYear();
-  const [selectedYear, setSelectedYear] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(filterOptions?.year || null);
   const [page, setPage] = useState(0); // Each page shows 6 years
 
   const yearsPerPage = 6;
@@ -63,7 +63,10 @@ const YearFilter = () => {
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 hover:bg-blue-100"
               }`}
-            onClick={() => setSelectedYear(year)}
+            onClick={() => {
+              setSelectedYear(year);
+              setFilterOptions((prev) => ({ ...prev, year }));
+            }}
           >
             {year}
           </div>

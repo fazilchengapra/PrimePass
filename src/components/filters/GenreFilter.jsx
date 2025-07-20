@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControlLabel, Checkbox, Typography } from "@mui/material";
 
 const popularGenres = [
@@ -12,19 +12,28 @@ const popularGenres = [
   { id: 10749, name: "Romance" },
 ];
 
-const GenreFilter = () => {
+const GenreFilter = ({ filterOptions, setFilterOptions }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
 
   const handleToggle = (id) => {
-    setSelectedGenres((prev) =>
-      prev.includes(id)
-        ? prev.filter((genreId) => genreId !== id)
-        : [...prev, id]
-    );
+    const updatedGenres = selectedGenres.includes(id)
+      ? selectedGenres.filter((genreId) => genreId !== id)
+      : [...selectedGenres, id];
+
+    setSelectedGenres(updatedGenres);
+
+    setFilterOptions((prev) => ({
+      ...prev,
+      with_genres: updatedGenres,
+    }));
   };
 
-  console.log(selectedGenres);
-  
+  // Optional: Sync with external filterOptions changes
+  useEffect(() => {
+    if (filterOptions?.with_genres) {
+      setSelectedGenres(filterOptions.with_genres);
+    }
+  }, [filterOptions?.with_genres]);
 
   // Split genres into rows of 2
   const genreRows = [];
@@ -34,7 +43,7 @@ const GenreFilter = () => {
 
   return (
     <div className="p-4">
-      <Typography variant="p" align="center" className="text-center font-bold" gutterBottom>
+      <Typography variant="body1" align="center" className="font-bold mb-2">
         Select Genre
       </Typography>
       <div className="flex flex-col gap-2">
@@ -52,7 +61,7 @@ const GenreFilter = () => {
                 label={genre.name}
                 sx={{
                   "& .MuiFormControlLabel-label": {
-                    fontSize: "0.875rem", // or 12px
+                    fontSize: "0.875rem",
                   },
                 }}
               />

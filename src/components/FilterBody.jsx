@@ -1,10 +1,11 @@
-import { IconButton } from "@radix-ui/themes";
+import { Button, IconButton } from "@radix-ui/themes";
 import { Dialog } from "radix-ui";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import YearFilter from "./filters/YearFilter";
 import LanguageFilter from "./filters/LanguageFilter";
 import GenreFilter from "./filters/GenreFilter";
+import { BookmarkIcon } from "@radix-ui/react-icons";
 
 const filters = [
   { name: "Year", movie: "year", tv: "first_air_date_year" },
@@ -21,8 +22,10 @@ const FilterBody = () => {
   const [filterOptions, setFilterOptions] = useState({
     year: null,
     with_original_language: null,
-    with_genres: null,
+    with_genres: [],
   });
+
+  console.log(filterOptions);
 
   return (
     <div className="w-full flex lg:flex-none flex-col gap-5">
@@ -62,9 +65,42 @@ const FilterBody = () => {
               ))}
             </div>
             <div className="col-span-4 w-full flex items-center">
-              {filterSelector === "Year" && <YearFilter />}
-              {filterSelector === "Language" && <LanguageFilter />}
-              {filterSelector === "Genre" && <GenreFilter />}
+              {filterSelector === "Year" && (
+                <YearFilter
+                filterOptions={filterOptions}
+                  setFilterOptions={setFilterOptions}
+                />
+              )}
+              {filterSelector === "Language" && (
+                <LanguageFilter
+                filterOptions={filterOptions}
+                  setFilterOptions={setFilterOptions}
+                />
+              )}
+              {filterSelector === "Genre" && (
+                <GenreFilter
+                  filterOptions={filterOptions}
+                  setFilterOptions={setFilterOptions}
+                />
+              )}
+            </div>
+          </div>
+          {/* Save and Clear All Button */}
+          <div className="grid grid-cols-3 mt-5 gap-3">
+            <div className="col-span-1">
+              <Button
+                color="gray"
+                variant="outline"
+                className="w-full py-1 rounded-full"
+                highContrast
+              >
+                Clear Filter
+              </Button>
+            </div>
+            <div className="col-span-2">
+              <Button className="rounded-md w-full py-1" color="indigo">
+                View
+              </Button>
             </div>
           </div>
         </div>
