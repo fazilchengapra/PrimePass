@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { fetchMovies } from "../api/movie";
 import SearchTools from "./SearchTools";
 import { getSeriesByQuery } from "../api/series";
+import FilterOptions from "./FilterOptions";
 
 const SearchDialog = ({
   trigger,
@@ -62,9 +63,18 @@ const SearchDialog = ({
           </TextField.Root>
         </Flex>
 
-        {/* Tools */}
-        <SearchTools filter={filter} setFilter={setFilter} />
-        <div className="overflow-y-auto h-96">
+        {/* Searching Features */}
+        <div className="flex flex-row justify-between items-center">
+
+          {/* Tools filtering */}
+          <SearchTools filter={filter} setFilter={setFilter} />
+
+          {/* Filter by Multiple options */}
+          <FilterOptions />
+          
+        </div>
+
+        <div className="overflow-y-auto h-96 suggestion-list">
           <div className="text-start">
             <DialogMovieSuggestion
               query={query}

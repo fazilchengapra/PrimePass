@@ -7,4 +7,11 @@
 
 body {
   margin: 0;
+  overscroll-behavior: none;
 }
+
+/* This targets the Radix UI Themes Tabs.Trigger underline */
+.rt-TabsTrigger[data-state='active'] {
+  box-shadow: none !important;
+}
+
