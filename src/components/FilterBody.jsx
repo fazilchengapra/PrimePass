@@ -3,6 +3,8 @@ import { Dialog } from "radix-ui";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import YearFilter from "./filters/YearFilter";
+import LanguageFilter from "./filters/LanguageFilter";
+import GenreFilter from "./filters/GenreFilter";
 
 const filters = [
   { name: "Year", movie: "year", tv: "first_air_date_year" },
@@ -16,6 +18,12 @@ const filters = [
 
 const FilterBody = () => {
   const [filterSelector, setFilterSelector] = useState("Year");
+  const [filterOptions, setFilterOptions] = useState({
+    year: null,
+    with_original_language: null,
+    with_genres: null,
+  });
+
   return (
     <div className="w-full flex lg:flex-none flex-col gap-5">
       <div className=" lg:hidden w-fit m-auto p-3 rounded-full hover:bg-gray-100">
@@ -53,8 +61,10 @@ const FilterBody = () => {
                 </div>
               ))}
             </div>
-            <div className="col-span-4 w-full m-auto justify-center">
+            <div className="col-span-4 w-full flex items-center">
               {filterSelector === "Year" && <YearFilter />}
+              {filterSelector === "Language" && <LanguageFilter />}
+              {filterSelector === "Genre" && <GenreFilter />}
             </div>
           </div>
         </div>

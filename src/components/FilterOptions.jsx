@@ -8,7 +8,6 @@ import FilterBody from "./FilterBody";
 
 const FilterOptions = () => {
   const [open, setOpen] = useState(false);
-  console.log(open);
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
