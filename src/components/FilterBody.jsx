@@ -16,7 +16,12 @@ const filters = [
   { name: "Genre", movie: "with_genres", tv: "with_genres" },
 ];
 
-const FilterBody = ({filterOptions, setFilterOptions}) => {
+const FilterBody = ({ filterOptions, setFilterOptions }) => {
+  const [childFilterOption, setChildFilterOption] = useState({
+    year: null,
+    with_original_language: null,
+    with_genres: [],
+  });
   const [filterSelector, setFilterSelector] = useState("Year");
 
   return (
@@ -43,7 +48,7 @@ const FilterBody = ({filterOptions, setFilterOptions}) => {
             <div className="col-span-2 flex flex-col gap-3 p-1 border-r-2 border-gray-400">
               {filters.map((filter) => (
                 <div
-                key={filter.name}
+                  key={filter.name}
                   className={`w-full p-3 rounded-lg border-none shadow-none ${
                     filter.name === filterSelector
                       ? "bg-blue-500 text-white"
@@ -60,41 +65,47 @@ const FilterBody = ({filterOptions, setFilterOptions}) => {
             <div className="col-span-4 w-full flex items-center">
               {filterSelector === "Year" && (
                 <YearFilter
-                filterOptions={filterOptions}
-                  setFilterOptions={setFilterOptions}
+                  filterOptions={childFilterOption}
+                  setFilterOptions={setChildFilterOption}
                 />
               )}
               {filterSelector === "Language" && (
                 <LanguageFilter
-                filterOptions={filterOptions}
-                  setFilterOptions={setFilterOptions}
+                  filterOptions={childFilterOption}
+                  setFilterOptions={setChildFilterOption}
                 />
               )}
               {filterSelector === "Genre" && (
                 <GenreFilter
-                  filterOptions={filterOptions}
-                  setFilterOptions={setFilterOptions}
+                  filterOptions={childFilterOption}
+                  setFilterOptions={setChildFilterOption}
                 />
               )}
             </div>
           </div>
           {/* Save and Clear All Button */}
           <div className="grid grid-cols-3 mt-5 gap-3">
-            <div className="col-span-1">
+            <Dialog.Close>
+              <div className="col-span-1">
+                <Button
+                  color="gray"
+                  variant="outline"
+                  className="w-full py-1 rounded-full"
+                  highContrast
+                >
+                  Clear Filter
+                </Button>
+              </div>
+            </Dialog.Close>
+            <Dialog.Close className="col-span-2">
               <Button
-                color="gray"
-                variant="outline"
-                className="w-full py-1 rounded-full"
-                highContrast
+                className="rounded-md w-full py-1"
+                color="indigo"
+                onClick={() => setFilterOptions(childFilterOption)}
               >
-                Clear Filter
-              </Button>
-            </div>
-            <div className="col-span-2">
-              <Button className="rounded-md w-full py-1" color="indigo">
                 View
               </Button>
-            </div>
+            </Dialog.Close>
           </div>
         </div>
       </div>
