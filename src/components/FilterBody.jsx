@@ -1,10 +1,11 @@
 import { Button, IconButton } from "@radix-ui/themes";
 import { Dialog } from "radix-ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import YearFilter from "./filters/YearFilter";
 import LanguageFilter from "./filters/LanguageFilter";
 import GenreFilter from "./filters/GenreFilter";
+import { hasAnyFilterValue } from "../utils/filterHelpers";
 
 const filters = [
   { name: "Year", movie: "year", tv: "first_air_date_year" },
@@ -23,6 +24,14 @@ const FilterBody = ({ filterOptions, setFilterOptions }) => {
     with_genres: [],
   });
   const [filterSelector, setFilterSelector] = useState("Year");
+
+  // checking any filter option is active and assigning bool to state
+  const [isActive, SetIsActive] = useState(false);
+
+  // checking each childFilterOption of change and assign
+  useEffect(() => {
+    SetIsActive(hasAnyFilterValue(childFilterOption));
+  }, [childFilterOption]);
 
   return (
     <div className="w-full flex lg:flex-none flex-col gap-5">
@@ -88,27 +97,32 @@ const FilterBody = ({ filterOptions, setFilterOptions }) => {
           </div>
           {/* Save and Clear All Button */}
           <div className="grid grid-cols-3 mt-5 gap-3">
-            <Dialog.Close>
-              <div className="col-span-1">
-                <Button
-                  onClick={() =>
-                    setFilterOptions({
-                      year: null,
-                      with_original_language: null,
-                      with_genres: [],
-                    })
-                  }
-                  color="gray"
-                  variant="outline"
-                  className="w-full py-1 rounded-full"
-                  highContrast
-                >
-                  Clear Filter
-                </Button>
-              </div>
-            </Dialog.Close>
+            <div className="col-span-1">
+              <Button
+                onClick={() => {
+                  setFilterOptions({
+                    year: null,
+                    with_original_language: null,
+                    with_genres: [],
+                  });
+                  setChildFilterOption({
+                    year: null,
+                    with_original_language: null,
+                    with_genres: [],
+                  });
+                }}
+                color="gray"
+                variant="outline"
+                className="w-full py-1 rounded-full"
+                highContrast
+              >
+                Clear Filter
+              </Button>
+            </div>
+
             <Dialog.Close className="col-span-2">
               <Button
+                disabled={!isActive}
                 className="rounded-md w-full py-1"
                 color="indigo"
                 onClick={() => setFilterOptions(childFilterOption)}

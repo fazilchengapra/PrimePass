@@ -33,13 +33,13 @@ const LanguageFilter = ({ filterOptions, setFilterOptions, parentFilterOptions }
                   with_original_language: language.code,
                 }));
               }}
-              color={selectedLang === language.name ? "blue" : "gray"}
-              variant={selectedLang === language.name ? "soft" : "outline"}
+              color={filterOptions?.with_original_language === language.code ? "blue" : "gray"}
+              variant={filterOptions?.with_original_language === language.code ? "soft" : "outline"}
               className="py-1 rounded-md flex flex-row justify-between px-2 gap-2 text-sm"
               highContrast
             >
               {language.name}
-              {selectedLang === language.name && <MdDone />}
+              {filterOptions?.with_original_language === language.code && <MdDone />}
             </Button>
           ))}
         </div>

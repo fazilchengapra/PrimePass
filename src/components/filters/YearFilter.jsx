@@ -59,7 +59,7 @@ const YearFilter = ({ filterOptions, setFilterOptions, parentFilterOptions }) =>
             key={year}
             className={`px-3 py-2 text-center rounded cursor-pointer text-sm
               ${
-                selectedYear === year
+                filterOptions?.year === year
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 hover:bg-blue-100"
               }`}

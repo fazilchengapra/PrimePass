@@ -54,7 +54,7 @@ const GenreFilter = ({ filterOptions, setFilterOptions, parentFilterOptions }) =
                 key={genre.id}
                 control={
                   <Checkbox
-                    checked={selectedGenres.includes(genre.id)}
+                    checked={filterOptions?.with_genres?.includes(genre.id)}
                     onChange={() => handleToggle(genre.id)}
                   />
                 }
