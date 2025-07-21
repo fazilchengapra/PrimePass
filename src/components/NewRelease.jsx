@@ -38,11 +38,11 @@ const NewRelease = () => {
         {loading
           ? [...Array(12)].map((_, index) => <MovieCardSkelton key={index} />)
           : movie.map((m) => (
-              <div key={m.id} className="group">
+              <div key={m.id} className="h-full group flex flex-col justify-end">
                 <Link to={"movie/" + m.id}>
                   <Card key={m.id} card={m} />
                 </Link>
-                <div className="mt-2 lg:mr-10 w-fit lg:w-44">
+                <div className=" lg:mr-10 w-fit lg:w-44">
                   <Button className="w-44" color="indigo" variant="soft">
                     Book Now
                   </Button>

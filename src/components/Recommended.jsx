@@ -42,7 +42,7 @@ const Recommended = () => {
                     size="2"
                     className="text-start font-bold lg:font-semibold"
                   >
-                    {movie.original_title}
+                    {movie.title}
                   </Text>
                   <Text
                     size="1"

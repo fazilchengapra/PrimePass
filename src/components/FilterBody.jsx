@@ -65,18 +65,21 @@ const FilterBody = ({ filterOptions, setFilterOptions }) => {
             <div className="col-span-4 w-full flex items-center">
               {filterSelector === "Year" && (
                 <YearFilter
+                  parentFilterOptions={filterOptions}
                   filterOptions={childFilterOption}
                   setFilterOptions={setChildFilterOption}
                 />
               )}
               {filterSelector === "Language" && (
                 <LanguageFilter
+                  parentFilterOptions={filterOptions}
                   filterOptions={childFilterOption}
                   setFilterOptions={setChildFilterOption}
                 />
               )}
               {filterSelector === "Genre" && (
                 <GenreFilter
+                  parentFilterOptions={filterOptions}
                   filterOptions={childFilterOption}
                   setFilterOptions={setChildFilterOption}
                 />
@@ -88,6 +91,13 @@ const FilterBody = ({ filterOptions, setFilterOptions }) => {
             <Dialog.Close>
               <div className="col-span-1">
                 <Button
+                  onClick={() =>
+                    setFilterOptions({
+                      year: null,
+                      with_original_language: null,
+                      with_genres: [],
+                    })
+                  }
                   color="gray"
                   variant="outline"
                   className="w-full py-1 rounded-full"

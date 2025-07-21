@@ -12,7 +12,7 @@ const popularGenres = [
   { id: 10749, name: "Romance" },
 ];
 
-const GenreFilter = ({ filterOptions, setFilterOptions }) => {
+const GenreFilter = ({ filterOptions, setFilterOptions, parentFilterOptions }) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
 
   const handleToggle = (id) => {
@@ -30,10 +30,10 @@ const GenreFilter = ({ filterOptions, setFilterOptions }) => {
 
   // Optional: Sync with external filterOptions changes
   useEffect(() => {
-    if (filterOptions?.with_genres) {
-      setSelectedGenres(filterOptions.with_genres);
+    if (parentFilterOptions?.with_genres) {
+      setSelectedGenres(parentFilterOptions?.with_genres);
     }
-  }, [filterOptions?.with_genres]);
+  }, [parentFilterOptions?.with_genres]);
 
   // Split genres into rows of 2
   const genreRows = [];

@@ -9,10 +9,10 @@ const languages = [
   { code: "es", name: "Spanish" },
 ];
 
-const LanguageFilter = ({ filterOptions, setFilterOptions }) => {
+const LanguageFilter = ({ filterOptions, setFilterOptions, parentFilterOptions }) => {
   const [selectedLang, setSelectedLang] = useState(() => {
     const match = languages.find(
-      (lang) => lang.code === filterOptions?.with_original_language
+      (lang) => lang.code === parentFilterOptions?.with_original_language
     );
     return match ? match.name : null;
   });

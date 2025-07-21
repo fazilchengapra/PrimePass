@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 
-const YearFilter = ({ filterOptions, setFilterOptions }) => {
+const YearFilter = ({ filterOptions, setFilterOptions, parentFilterOptions }) => {
   const currentYear = new Date().getFullYear();
-  const [selectedYear, setSelectedYear] = useState(filterOptions?.year || null);
+  const [selectedYear, setSelectedYear] = useState(parentFilterOptions?.year || null);
   const [page, setPage] = useState(0); // Each page shows 6 years
 
   const yearsPerPage = 6;
