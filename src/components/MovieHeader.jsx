@@ -16,10 +16,7 @@ const MovieHeader = ({ movieId }) => {
   const [trailer, setTrailer] = useState(null);
   const [loading, setLoading] = useState();
   const tool = useSelector(state => state?.tool?.tool)
-
-  console.log(tool);
   
-
   useEffect(() => {
     setLoading(true);
     const fetchMovieDetails = async () => {

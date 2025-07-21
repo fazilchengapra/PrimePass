@@ -6,6 +6,7 @@ import YearFilter from "./filters/YearFilter";
 import LanguageFilter from "./filters/LanguageFilter";
 import GenreFilter from "./filters/GenreFilter";
 import { hasAnyFilterValue } from "../utils/filterHelpers";
+import { toast } from "react-toastify";
 
 const filters = [
   { name: "Year", movie: "year", tv: "first_air_date_year" },
@@ -17,7 +18,7 @@ const filters = [
   { name: "Genre", movie: "with_genres", tv: "with_genres" },
 ];
 
-const FilterBody = ({ filterOptions, setFilterOptions }) => {
+const FilterBody = ({ filterOptions, setFilterOptions, query }) => {
   const [childFilterOption, setChildFilterOption] = useState({
     year: null,
     with_original_language: null,
@@ -98,34 +99,43 @@ const FilterBody = ({ filterOptions, setFilterOptions }) => {
           {/* Save and Clear All Button */}
           <div className="grid grid-cols-3 mt-5 gap-3">
             <div className="col-span-1">
-              <Button
-                onClick={() => {
-                  setFilterOptions({
-                    year: null,
-                    with_original_language: null,
-                    with_genres: [],
-                  });
-                  setChildFilterOption({
-                    year: null,
-                    with_original_language: null,
-                    with_genres: [],
-                  });
-                }}
-                color="gray"
-                variant="outline"
-                className="w-full py-1 rounded-full"
-                highContrast
-              >
-                Clear Filter
-              </Button>
+              <Dialog.Close asChild>
+                <Button
+                  onClick={() => {
+                    setFilterOptions({
+                      year: null,
+                      with_original_language: null,
+                      with_genres: [],
+                    });
+                    setChildFilterOption({
+                      year: null,
+                      with_original_language: null,
+                      with_genres: [],
+                    });
+                    toast.success("Cleared Filters!");
+                  }}
+                  color="gray"
+                  variant="outline"
+                  className="w-full py-1 rounded-full"
+                  highContrast
+                >
+                  Clear Filter
+                </Button>
+              </Dialog.Close>
             </div>
 
-            <Dialog.Close className="col-span-2">
+            <Dialog.Close className="col-span-2" asChild>
               <Button
                 disabled={!isActive}
                 className="rounded-md w-full py-1"
                 color="indigo"
-                onClick={() => setFilterOptions(childFilterOption)}
+                onClick={() => {
+                  if (query) {
+                    toast.error("Cannot Filter With Search!");
+                  } else {
+                    setFilterOptions(childFilterOption);
+                  }
+                }}
               >
                 View
               </Button>

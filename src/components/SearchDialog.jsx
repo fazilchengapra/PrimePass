@@ -9,6 +9,7 @@ import { getSeriesByQuery } from "../api/series";
 import FilterOptions from "./FilterOptions";
 import { fetchFilteredMovies } from "../api/discover";
 import { hasAnyFilterValue } from "../utils/filterHelpers";
+import { toast } from "react-toastify";
 
 const SearchDialog = ({
   trigger,
@@ -25,6 +26,15 @@ const SearchDialog = ({
     with_original_language: null,
     with_genres: [],
   });
+
+  // the handle change function only call when user search anything
+  const handleChange = (value) => {
+    if (hasAnyFilterValue(filterOptions)) {
+      toast.error("Clear Filter Options and Try!");
+    } else {
+      setQuery(value);
+    }
+  };
 
   useEffect(() => {
     if (!query || query?.trim() === "") {
@@ -70,7 +80,7 @@ const SearchDialog = ({
           <TextField.Root
             placeholder={filter ? "Search " + filter : "Search movies"}
             className="w-full"
-            onChange={(e) => setQuery(e?.target?.value)}
+            onChange={(e) => handleChange(e?.target?.value)}
             value={query}
           >
             <TextField.Slot>
@@ -86,6 +96,7 @@ const SearchDialog = ({
 
           {/* Filter by Multiple options */}
           <FilterOptions
+            query={query}
             filterOptions={filterOptions}
             setFilterOptions={setFilterOptions}
           />

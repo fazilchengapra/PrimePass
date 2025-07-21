@@ -12,7 +12,11 @@ const popularGenres = [
   { id: 10749, name: "Romance" },
 ];
 
-const GenreFilter = ({ filterOptions, setFilterOptions, parentFilterOptions }) => {
+const GenreFilter = ({
+  filterOptions,
+  setFilterOptions,
+  parentFilterOptions,
+}) => {
   const [selectedGenres, setSelectedGenres] = useState([]);
 
   const handleToggle = (id) => {
@@ -54,7 +58,7 @@ const GenreFilter = ({ filterOptions, setFilterOptions, parentFilterOptions }) =
                 key={genre.id}
                 control={
                   <Checkbox
-                    checked={filterOptions?.with_genres?.includes(genre.id)}
+                    checked={selectedGenres.includes(genre.id)}
                     onChange={() => handleToggle(genre.id)}
                   />
                 }
