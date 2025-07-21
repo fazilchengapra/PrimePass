@@ -5,7 +5,6 @@ import { IoMdClose } from "react-icons/io";
 import YearFilter from "./filters/YearFilter";
 import LanguageFilter from "./filters/LanguageFilter";
 import GenreFilter from "./filters/GenreFilter";
-import { BookmarkIcon } from "@radix-ui/react-icons";
 
 const filters = [
   { name: "Year", movie: "year", tv: "first_air_date_year" },
@@ -17,15 +16,8 @@ const filters = [
   { name: "Genre", movie: "with_genres", tv: "with_genres" },
 ];
 
-const FilterBody = () => {
+const FilterBody = ({filterOptions, setFilterOptions}) => {
   const [filterSelector, setFilterSelector] = useState("Year");
-  const [filterOptions, setFilterOptions] = useState({
-    year: null,
-    with_original_language: null,
-    with_genres: [],
-  });
-
-  console.log(filterOptions);
 
   return (
     <div className="w-full flex lg:flex-none flex-col gap-5">
@@ -51,6 +43,7 @@ const FilterBody = () => {
             <div className="col-span-2 flex flex-col gap-3 p-1 border-r-2 border-gray-400">
               {filters.map((filter) => (
                 <div
+                key={filter.name}
                   className={`w-full p-3 rounded-lg border-none shadow-none ${
                     filter.name === filterSelector
                       ? "bg-blue-500 text-white"

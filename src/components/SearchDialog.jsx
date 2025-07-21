@@ -7,6 +7,8 @@ import { fetchMovies } from "../api/movie";
 import SearchTools from "./SearchTools";
 import { getSeriesByQuery } from "../api/series";
 import FilterOptions from "./FilterOptions";
+import { fetchFilteredMovies } from "../api/discover";
+import { hasAnyFilterValue } from "../utils/filterHelpers";
 
 const SearchDialog = ({
   trigger,
@@ -17,12 +19,26 @@ const SearchDialog = ({
   const [searchMovies, setSearchMovies] = useState([]);
   const [filter, setFilter] = useState("");
 
+  // filter options
+  const [filterOptions, setFilterOptions] = useState({
+    year: null,
+    with_original_language: null,
+    with_genres: [],
+  });
+
   useEffect(() => {
     if (!query || query?.trim() === "") {
-      setSearchMovies([]);
+      const isSelected = hasAnyFilterValue(filterOptions);
+      if (isSelected) {
+        (async () => {
+          const res = await fetchFilteredMovies(filterOptions, filter);
+          setSearchMovies(res);
+        })();
+      } else {
+        setSearchMovies([]);
+      }
       return;
     }
-
     const fetchMoviesByQuery = async () => {
       const res =
         filter === "series"
@@ -32,7 +48,7 @@ const SearchDialog = ({
     };
 
     fetchMoviesByQuery();
-  }, [query, filter]);
+  }, [query, filter, filterOptions]);
 
   return (
     <Dialog.Root>
@@ -65,13 +81,14 @@ const SearchDialog = ({
 
         {/* Searching Features */}
         <div className="flex flex-row justify-between items-center">
-
           {/* Tools filtering */}
           <SearchTools filter={filter} setFilter={setFilter} />
 
           {/* Filter by Multiple options */}
-          <FilterOptions />
-          
+          <FilterOptions
+            filterOptions={filterOptions}
+            setFilterOptions={setFilterOptions}
+          />
         </div>
 
         <div className="overflow-y-auto h-96 suggestion-list">

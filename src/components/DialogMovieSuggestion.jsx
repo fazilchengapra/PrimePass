@@ -9,6 +9,7 @@ import { OrbitProgress } from "react-loading-indicators";
 const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  
   useEffect(() => {
     setLoading(true);
     const getShow = async () => {
@@ -55,7 +56,7 @@ const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
         )}
       </div>
       <div className="mt-3 grid lg:grid-cols-2 lg:gap-4 gap-2">
-        {(query ? moviesData : movies).map((movie) => (
+        {(moviesData.length > 0 ? moviesData : movies).map((movie) => (
           <Link to={`movie/${movie?.id}`} key={movie?.id}>
             <Dialog.Close>
               <div

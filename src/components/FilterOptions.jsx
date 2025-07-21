@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import FilterBody from "./FilterBody";
 
-const FilterOptions = () => {
+const FilterOptions = ({filterOptions, setFilterOptions}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -48,7 +48,7 @@ const FilterOptions = () => {
                 </Dialog.Description>
 
                 {/* Filter Body Container */}
-                <FilterBody />
+                <FilterBody filterOptions={filterOptions} setFilterOptions={setFilterOptions}/>
               </motion.div>
             </DialogPrimitive.Content>
           )}
