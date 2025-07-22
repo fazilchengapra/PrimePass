@@ -21,12 +21,12 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <div className="w-full h-screen flex flex-col justify-center">
-          <div className="w-1/3 m-auto border">
+          <div className="w-5/6 lg:w-1/3 m-auto border rounded-lg border-red-400">
             <div className="w-full p-3">
               <img
                 src="/asset/public404.svg"
                 alt="404"
-                className="w-2/3 h-auto m-auto"
+                className="w-full lg:w-2/3 h-auto m-auto"
               />
               <a href="/">
                 <Button className="w-full m-auto text-center">Go Home!</Button>
