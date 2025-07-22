@@ -112,7 +112,6 @@ const FilterBody = ({ filterOptions, setFilterOptions, query }) => {
                       with_original_language: null,
                       with_genres: [],
                     });
-                    toast.success("Cleared Filters!");
                   }}
                   color="gray"
                   variant="outline"

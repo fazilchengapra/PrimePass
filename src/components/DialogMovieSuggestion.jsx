@@ -5,6 +5,7 @@ import { Dialog } from "@radix-ui/themes";
 import EmptyState from "./ui/EmptyState";
 import { getAiringTVSeries } from "../api/series";
 import { OrbitProgress } from "react-loading-indicators";
+import { trimText } from "../utils/trimText";
 
 const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
   const [movies, setMovies] = useState([]);
@@ -56,34 +57,42 @@ const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
         )}
       </div>
       <div className="mt-3 grid lg:grid-cols-2 lg:gap-4 gap-2">
-        {(moviesData.length > 0 ? moviesData : (!query ? movies : [])).map((movie) => (
-          <Link to={`movie/${movie?.id}`} key={movie?.id}>
-            <Dialog.Close>
-              <div
-                key={movie.id}
-                className="flex flex-row w-full gap-2 lg:gap-4 items-center"
-              >
-                <div className="w-3/12 lg:w-2/12">
-                  <img
-                    src={`https://image.tmdb.org/t/p/w185/${movie?.poster_path}`}
-                    className="w-full h-auto rounded-md object-contain"
-                    alt={movie?.title || "Movie Poster"}
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <div className="font-bold text-sm">
-                    <span>{movie?.title || movie?.name}</span>
+        {(moviesData.length > 0 ? moviesData : !query ? movies : []).map(
+          (movie) => (
+            <Link to={`movie/${movie?.id}`} key={movie?.id}>
+              <Dialog.Close>
+                <div
+                  key={movie.id}
+                  className="flex flex-row w-full gap-2 lg:gap-4 items-center"
+                >
+                  <div className="w-3/12 lg:w-2/12">
+                    <div className="aspect-[2/3] w-full overflow-hidden rounded-md bg-gray-300">
+                      <img
+                        src={`https://image.tmdb.org/t/p/w342/${movie?.poster_path}`}
+                        className="w-full h-full object-cover"
+                        alt={movie?.title || "Movie Poster"}
+                      />
+                    </div>
                   </div>
-                  <div className="text-xs font-bold text-gray-500">
-                    <span className="capitalize">
-                      {filter ? filter : "movie"}
-                    </span>
+                  <div className="flex flex-col gap-2">
+                    <div className="font-bold text-sm">
+                      <span>
+                        {movie?.title
+                          ? trimText(movie?.title, 22)
+                          : trimText(movie?.name, 22)}
+                      </span>
+                    </div>
+                    <div className="text-xs font-bold text-gray-500">
+                      <span className="capitalize">
+                        {filter ? filter : "movie"}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Dialog.Close>
-          </Link>
-        ))}
+              </Dialog.Close>
+            </Link>
+          )
+        )}
       </div>
     </div>
   );
