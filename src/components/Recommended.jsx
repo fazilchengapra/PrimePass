@@ -40,7 +40,7 @@ const Recommended = () => {
                 <div className="flex flex-col gap-2 mt-3 w-5/6 lg:block text-start cursor-pointer">
                   <Text
                     size="2"
-                    className="text-start font-bold lg:font-semibold"
+                    className="text-start font-bold lg:font-semibold hidden lg:block"
                   >
                     {movie.title}
                   </Text>

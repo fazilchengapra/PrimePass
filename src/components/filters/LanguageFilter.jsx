@@ -1,5 +1,4 @@
 import { Button } from "@radix-ui/themes";
-import React, { useState } from "react";
 import { MdDone } from "react-icons/md";
 
 const languages = [
@@ -14,12 +13,12 @@ const LanguageFilter = ({
   setFilterOptions,
   parentFilterOptions,
 }) => {
-  const [selectedLang, setSelectedLang] = useState(() => {
-    const match = languages.find(
-      (lang) => lang.code === parentFilterOptions?.with_original_language
-    );
-    return match ? match.name : null;
-  });
+  // const [selectedLang, setSelectedLang] = useState(() => {
+  //   const match = languages.find(
+  //     (lang) => lang.code === parentFilterOptions?.with_original_language
+  //   );
+  //   return match ? match.name : null;
+  // });
 
   return (
     <div className="w-full px-2 h-fit">
@@ -32,7 +31,7 @@ const LanguageFilter = ({
             <Button
               key={language.code}
               onClick={() => {
-                setSelectedLang(language.name);
+                // setSelectedLang(language.name);
                 setFilterOptions((prev) => ({
                   ...prev,
                   with_original_language: language.code,
