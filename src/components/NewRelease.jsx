@@ -42,7 +42,7 @@ const NewRelease = () => {
                 <Link to={"movie/" + m.id}>
                   <Card key={m.id} card={m} />
                 </Link>
-                <div className=" lg:mr-10 w-fit lg:w-44">
+                <div className="w-fit m-auto">
                   <Button className="w-44" color="indigo" variant="soft">
                     Book Now
                   </Button>

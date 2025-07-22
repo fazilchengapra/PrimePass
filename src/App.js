@@ -8,6 +8,7 @@ import Payment from "./pages/Payment";
 import ScrollToTop from "./components/ScrollToTop";
 import { ToastContainer } from "react-toastify";
 import ErrorBoundary from "./pages/ErrorBoundary";
+import { NetworkErrorProvider } from "./components/context/NetworkErrorContext";
 
 function App() {
   return (
@@ -41,9 +42,11 @@ export const appRouter = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
+      <NetworkErrorProvider>
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
+      </NetworkErrorProvider>
     ),
     children: [
       {
