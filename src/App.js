@@ -7,6 +7,7 @@ import SeatSelector from "./pages/SeatSelector";
 import Payment from "./pages/Payment";
 import ScrollToTop from "./components/ScrollToTop";
 import { ToastContainer } from "react-toastify";
+import ErrorBoundary from "./pages/ErrorBoundary";
 
 function App() {
   return (
@@ -39,7 +40,11 @@ function App() {
 export const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    ),
     children: [
       {
         path: "/",
