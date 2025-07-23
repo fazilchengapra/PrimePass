@@ -1,7 +1,11 @@
 import { Button, DropdownMenu, TextField } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { IoIosArrowDown } from "react-icons/io";
 import { toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { upiPaymentSchema } from "../schemas/payment.schema";
+import { CgDanger } from "react-icons/cg";
 
 const paymentOptions = [
   {
@@ -47,6 +51,14 @@ const UpiMethod = () => {
       toast.error("Payment Failed");
     }, 2000);
   };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(upiPaymentSchema),
+  });
 
   useEffect(() => {
     setOptions(paymentOptions.filter((app) => app.name !== option.name));
@@ -96,11 +108,18 @@ const UpiMethod = () => {
           </DropdownMenu.Root>
         </div>
         <div>
+          {errors.upiID && (
+            <div className="py-1 items-center text-xs text-red-600 font-semibold flex flex-row gap-1">
+              <CgDanger className="font-bold" size={15}/> <p>{errors.upiID.message}</p>
+            </div>
+          )}
           <div className="flex flex-row w-full gap-1">
             <TextField.Root
+              {...register("upiID")}
               placeholder="Enter your UPI ID"
               className="w-full placeholder:capitalize lowercase"
             />
+
             <div className="w-fit">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger className="w-fit">
@@ -132,7 +151,7 @@ const UpiMethod = () => {
             className="w-full"
             color="green"
             variant="solid"
-            onClick={payment}
+            onClick={handleSubmit(payment)}
             loading={loading}
           >
             Verify & Pay
