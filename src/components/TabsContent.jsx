@@ -5,14 +5,21 @@ import { FaTheaterMasks } from "react-icons/fa";
 import { LiaLanguageSolid } from "react-icons/lia";
 import { getCasts, getMovieVideos } from "../api/movie";
 import EmptyState from "./ui/EmptyState";
+import { useSelector } from "react-redux";
+import { getTvCasts, getTvVideos } from "../api/series";
 
 const TabsContent = ({ movieId, movieDetails }) => {
   const [cast, setCast] = useState([]);
   const [videos, setVideos] = useState([]);
+  const tool = useSelector((state) => state.tool.tool);
+
   useEffect(() => {
     const fetchCast = async () => {
       try {
-        const data = await getCasts(movieId);
+        const data =
+          tool === "series"
+            ? await getTvCasts(movieId)
+            : await getCasts(movieId);
         setCast(data);
       } catch (error) {
         console.log("Error fetching cast details:", error);
@@ -21,7 +28,10 @@ const TabsContent = ({ movieId, movieDetails }) => {
 
     const fetchVideos = async (id) => {
       try {
-        const data = await getMovieVideos(movieId);
+        const data =
+          tool === "series"
+            ? await getTvVideos(movieId)
+            : await getMovieVideos(movieId);
         setVideos(data);
       } catch (error) {
         console.log("Error fetching cast details:", error);

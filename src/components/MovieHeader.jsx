@@ -7,7 +7,7 @@ import MovieInfo from "./MovieInfo";
 import MovieCardSkelton from "./Skeletons/MovieCardSkelton";
 import { useDispatch, useSelector } from "react-redux";
 import { setMovie } from "../app/movieSlice";
-import { getTVSeriesById } from "../api/series";
+import { getTVSeriesById, getTvTrailer } from "../api/series";
 
 const MovieHeader = ({ movieId }) => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const MovieHeader = ({ movieId }) => {
 
     const fetchMovieTrailer = async () => {
       try {
-        const data = await getMovieTrailer(movieId);
+        const data = tool === 'series' ? await getTvTrailer(movieId) : await getMovieTrailer(movieId);
         setTrailer(data);
         setLoading(false);
       } catch (error) {
@@ -88,6 +88,7 @@ const MovieHeader = ({ movieId }) => {
           </div>
 
           <div className="">
+            {/* showing movie videos, casts, and overview */}
             <MovieInfo movieId={movieId} movieDetails={movieDetails} />
           </div>
         </div>

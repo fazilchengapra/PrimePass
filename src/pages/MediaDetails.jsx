@@ -15,23 +15,25 @@ import SeriesSection from "../components/SeriesSection";
 const MovieDetails = () => {
   const movieId = useParams().movieId;
   const [providers, setProviders] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const tool = useSelector((state) => state?.tool?.tool); // get user selected tool ex: null -> movie, series
 
   useEffect(() => {
-    setLoading(true);
-    const fetchProviders = async () => {
-      try {
-        const res = await getProviders(movieId);
-        setProviders(res);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    };
-    fetchProviders();
-  }, [movieId]);
+    if (!tool) {
+      setLoading(true);
+      const fetchProviders = async () => {
+        try {
+          const res = await getProviders(movieId);
+          setProviders(res);
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        }
+      };
+      fetchProviders();
+    }
+  }, [tool, movieId]);
 
   return (
     <div className="w-[90%] lg:w-2/3 mx-auto mt-1 rounded-md bg-white shadow-sm min-h-[45rem]">
