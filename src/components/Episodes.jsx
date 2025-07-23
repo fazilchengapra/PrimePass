@@ -5,19 +5,19 @@ import { Button } from "@radix-ui/themes";
 
 const Episodes = ({ showId, SeasonNumber }) => {
   const [episodes, setEpisodes] = useState([]);
-  const [loading, setLoading] = useState(true);
+//   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(20)
 
   useEffect(() => {
     const fetchEpisodes = async () => {
       try {
-        setLoading(true);
+        // setLoading(true);
         const res = await getEpisodes(showId, SeasonNumber);
         setEpisodes(res);
       } catch (error) {
         console.error("Failed to fetch episodes:", error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 

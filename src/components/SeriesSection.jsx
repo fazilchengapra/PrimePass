@@ -1,6 +1,5 @@
 import { Box, Button, Tabs, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
-import { IoIosArrowForward } from "react-icons/io";
 import { useSelector } from "react-redux";
 import Episodes from "./Episodes";
 

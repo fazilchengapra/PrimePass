@@ -40,7 +40,7 @@ const TabsContent = ({ movieId, movieDetails }) => {
 
     fetchVideos();
     fetchCast();
-  }, [movieId]);
+  }, [movieId, tool]);
 
   return (
     <div className="overflow-y-auto h-[60vh] px-6 pb-6 suggestion-list">
