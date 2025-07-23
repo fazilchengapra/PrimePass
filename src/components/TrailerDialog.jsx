@@ -11,17 +11,17 @@ const TrailerDialog = ({ movieDetails, trailer, poster }) => {
           <div className="relative w-fit">
             {trailer[0]?.key ? (
               <Dialog.Trigger asChild>
-                <div className="cursor-pointer">
+                <div className="cursor-pointer w-full aspect-[3/2]">
                   <img
                     className="rounded-2xl lg:h-44 w-36 h-auto lg:w-40 "
-                    src={`https://image.tmdb.org/t/p/w185/${poster}`}
+                    src={`https://image.tmdb.org/t/p/original/${poster}`}
                     alt={movieDetails?.title}
                     style={{ backgroundColor: "var(--gray-5)" }}
                   />
                   {/* Show play icon */}
                   <div className="absolute top-20 lg:top-14 left-12 ">
                     <div className="bg-gray-500 bg-opacity-60 p-4 rounded-full">
-                      <FaPlay  className="text-white size-4" />
+                      <FaPlay className="text-white size-4" />
                     </div>
                   </div>
                 </div>
@@ -29,7 +29,7 @@ const TrailerDialog = ({ movieDetails, trailer, poster }) => {
             ) : (
               <img
                 className="rounded-2xl lg:h-44 w-36 h-auto lg:w-40 opacity"
-                src={`https://image.tmdb.org/t/p/w185/${movieDetails?.poster_path}`}
+                src={`https://image.tmdb.org/t/p/original/${movieDetails?.poster_path}`}
                 alt={movieDetails?.title}
                 style={{ backgroundColor: "var(--gray-5)" }}
               />

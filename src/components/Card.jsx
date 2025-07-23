@@ -9,7 +9,7 @@ const Card = ({ card }) => {
           <div className="aspect-[2/3] w-full rounded-2xl overflow-hidden bg-gray-300">
             <img
               className="w-full h-full object-cover transition duration-300 group-hover:brightness-75 cursor-pointer"
-              src={`https://image.tmdb.org/t/p/w342/${card.poster_path}`}
+              src={`https://image.tmdb.org/t/p/original/${card.poster_path}`}
               alt={card.title}
             />
           </div>
