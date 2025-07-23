@@ -35,3 +35,15 @@ export const getTVSeriesById = async (seriesId) => {
     console.error("Error fetching TV series:", error);
   }
 };
+
+export const getEpisodes = async (show_id, season_number) => {
+  try {
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/tv/${show_id}/season/${season_number}?api_key=${API_KEY}`
+    );
+    return res.data.episodes;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};

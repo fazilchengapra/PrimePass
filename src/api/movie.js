@@ -99,6 +99,7 @@ export const getMovieTrailer = async (id) => {
     return trailer;
   } catch (error) {
     console.log("Error fetching movie trailer:", error.response);
+    return [];
   }
 };
 

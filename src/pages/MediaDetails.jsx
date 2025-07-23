@@ -9,11 +9,15 @@ import OTTproviders from "../components/OTTproviders";
 import { useEffect, useState } from "react";
 import { getProviders } from "../api/movie";
 import { Riple } from "react-loading-indicators";
+import { useSelector } from "react-redux";
+import SeriesSection from "../components/SeriesSection";
 
 const MovieDetails = () => {
   const movieId = useParams().movieId;
   const [providers, setProviders] = useState({});
   const [loading, setLoading] = useState(true);
+  const tool = useSelector((state) => state?.tool?.tool); // get user selected tool ex: null -> movie, series
+
   useEffect(() => {
     setLoading(true);
     const fetchProviders = async () => {
@@ -39,19 +43,25 @@ const MovieDetails = () => {
         <div className="w-full p-4">
           <MovieHeader movieId={movieId} />
           <Separator my="3" size="4" />
-          {providers ? (
-            <OTTproviders
-              flatrate={providers?.flatrate}
-              rent={providers?.rent}
-              buy={providers?.buy}
-              link={providers?.link}
-            />
+          {tool ? ( // now tools are two options movie and series so (tool ? series : movie)
+            <SeriesSection /> //if tool include a value render SeriesSection component!
           ) : (
             <div>
-              <ShowDates />
-              <TheaterFilter />
-              <Separator my="4" size="4" />
-              <Theater />
+              {providers ? ( // otherwise run movie related details (ott providers and theater based details)
+                <OTTproviders
+                  flatrate={providers?.flatrate}
+                  rent={providers?.rent}
+                  buy={providers?.buy}
+                  link={providers?.link}
+                />
+              ) : (
+                <div>
+                  <ShowDates />
+                  <TheaterFilter />
+                  <Separator my="4" size="4" />
+                  <Theater />
+                </div>
+              )}
             </div>
           )}
         </div>

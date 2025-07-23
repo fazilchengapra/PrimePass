@@ -2,13 +2,13 @@ import { createBrowserRouter, Outlet } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
-import MovieDetails from "./pages/MovieDetails";
 import SeatSelector from "./pages/SeatSelector";
 import Payment from "./pages/Payment";
 import ScrollToTop from "./components/ScrollToTop";
 import { ToastContainer } from "react-toastify";
 import ErrorBoundary from "./pages/ErrorBoundary";
 import { NetworkErrorProvider } from "./components/context/NetworkErrorContext";
+import MediaDetails from './pages/MediaDetails'
 
 function App() {
   return (
@@ -55,7 +55,7 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: "/movie/:movieId",
-        element: <MovieDetails />,
+        element: <MediaDetails />,
       },
       {
         path: "/movie/:movieId/theater/:id/show",

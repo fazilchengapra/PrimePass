@@ -68,7 +68,7 @@ const DialogMovieSuggestion = ({ query, moviesData, filter }) => {
                   <div className="w-3/12 lg:w-2/12">
                     <div className="aspect-[2/3] w-full overflow-hidden rounded-md bg-gray-300">
                       <img
-                        src={`https://image.tmdb.org/t/p/w342/${movie?.poster_path}`}
+                        src={`https://image.tmdb.org/t/p/w154/${movie?.poster_path}`}
                         className="w-full h-full object-cover"
                         alt={movie?.title || "Movie Poster"}
                       />
