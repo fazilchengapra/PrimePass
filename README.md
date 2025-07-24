@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# 🎬 PrimePass — Movie Discovery & Booking App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+PrimePass is a dynamic, modern movie exploration platform built using React and powered by TMDb API. It allows users to discover trending movies and TV shows, filter by genre/language/year, view detailed info including cast and trailers, and even book theater seats with simulated payment options.
 
-## Available Scripts
+This project is ideal for demonstrating strong frontend skills, API integration, and UI/UX design — and is fully ready for real-world use and portfolio showcasing.
 
-In the project directory, you can run:
+## 🚀 Live Demo
 
-### `npm start`
+🌐 [Click here to try PrimePass](https://prime-pass-six.vercel.app/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🧠 Features
 
-### `npm test`
+### 📺 Discover & Browse
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 🔥 **Now Trending Banner** — 2 trending movies & shows
+- 🎬 **OTT Movies** — 6 latest movies available online
+- 🔮 **Upcoming Movies** — 12 upcoming releases
+- 🌟 **All-Time Popular** — 20 legendary blockbusters
 
-### `npm run build`
+### 🔍 Smart Search & Filter
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 🔎 Search any movie/show by name
+- 🎛 Toggle between Movie/TV search
+- 🗂 Filter by Genre, Language, and Year
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 🎞 Movie Detail Page
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 🎥 Embedded Trailer (YouTube Iframe)
+- 👥 Full Cast & Overview
+- 🌐 OTT Watch Provider with redirect to TMDb
+- 🎟 Seat Booking for Theatre Releases (up to 10 per user)
 
-### `npm run eject`
+### 🪑 Seat Booking System
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- 🎯 Custom theater seat layout
+- ✅ Seat selection validation (max 10)
+- 💳 Payment Options UI: UPI, Card, Net Banking
+- 🛡 Form validation included
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🛠 Tech Stack
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Tech | Description |
+|------|-------------|
+| **React.js** | Frontend framework |
+| **TMDb API** | Movie and show data |
+| **Tailwind CSS / Radix Ui / Custom CSS** | UI Styling |
+| **React Router** | Page routing |
+| **YouTube Iframe Embed** | For trailers |
+| **Custom JS Logic** | Seat selection, filters, validation |
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📸 Screenshots
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Home Page | Movie Details | Seat Booking |
+|-----------|---------------|--------------|
+| ![home](https://drive.google.com/file/d/1CLM2qtHNOXiS_HIXns815UUtBDQG8Aty/view?usp=drivesdk) | ![details](https://drive.google.com/file/d/1CLZQQzg-HzERbPGn86fS3oJ9ejI85GL2/view?usp=drivesdk) | ![booking](https://drive.google.com/file/d/1CNOS_zLsMh9UhOKkBmhgxSdrXKm_zJgu/view?usp=drivesdk) |
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🧪 Upcoming Features (Work In Progress)
 
-### Analyzing the Bundle Size
+- 🚀 Real-time seat availability (socket.io)
+- 🔐 User Login & Booking History (Firebase Auth)
+- 📄 Watchlist / Favorites (with localStorage or DB)
+- 🧠 AI Recommendations (based on genres you like)
+- ⚙ Backend support for real bookings
+- 🌛 Dark and Light Mode
+- 📩 Real-time notification if a user books a seat.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 🧑‍💻 Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Muhammed Fazil**  
+Frontend Developer | MERN Stack Enthusiast  
+📧 [Email](mailto:muhammedfazilchengapra@gmail.com)  
+🔗 [LinkedIn](https://www.linkedin.com/in/fazil-chengapra-62464628b/)  

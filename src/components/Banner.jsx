@@ -24,6 +24,8 @@ const Banner = () => {
     },
   ]);
 
+  console.log(banners);
+
   useEffect(() => {
     const fetchBanners = async () => {
       const res = await getBannerData();
@@ -44,7 +46,7 @@ const Banner = () => {
         className="rounded-xl"
       >
         {banners.map((banner, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={banner.id || index}>
             <div className="w-full h-[200px] md:h-[300px] overflow-hidden rounded-xl relative bg-black">
               <img
                 src={`https://image.tmdb.org/t/p/original${banner.backdrop_path}`}
@@ -58,11 +60,15 @@ const Banner = () => {
                     <h5 className="font-bold text-white">
                       {banner?.title || banner?.name}
                     </h5>
-                    <div>
-                      <Link to={`/movie/${banner.id}`}>
-                        <Button color="brown" variant="classic">View</Button>
-                      </Link>
-                    </div>
+                    {index <= 2 && (
+                      <div>
+                        <Link to={`/movie/${banner.id}`}>
+                          <Button color="brown" variant="classic">
+                            View
+                          </Button>
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </div>
 
