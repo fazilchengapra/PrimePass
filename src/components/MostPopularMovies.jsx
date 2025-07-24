@@ -4,7 +4,7 @@ import MovieCardSkelton from "./Skeletons/MovieCardSkelton";
 import { Link } from "react-router-dom";
 import Card from "./Card";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { IconButton } from "@radix-ui/themes";
+import { Button, IconButton } from "@radix-ui/themes";
 
 const MostPopularMovies = () => {
   const [popularMovies, setPopularMovies] = useState([]);
@@ -77,13 +77,16 @@ const MostPopularMovies = () => {
           {(loading ? [...Array(8)] : popularMovies)?.map((m, index) => (
             <div
               key={m?.id || index}
-              className="min-w-[200px] w-[200px] lg:w-[250px] flex-shrink-0"
+              className="min-w-[200px] w-[200px] lg:w-[250px] flex-shrink-0 flex-row"
             >
               {loading ? (
                 <MovieCardSkelton />
               ) : (
-                <Link to={"movie/" + m.id}>
-                  <Card card={m} />
+                <Link to={"movie/" + m.id} className="relative">
+                  <Card card={m}/>
+                  <div className="absolute p-2 top-[85%] right-1 text-sm text-white">
+                    <Button variant="solid" radius="full">Details</Button>
+                  </div>
                 </Link>
               )}
             </div>
