@@ -19,6 +19,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.10.0",
     "dayjs": "^1.11.13",
+    "fast-average-color": "^9.5.0",
     "framer-motion": "^12.23.6",
     "install": "^0.13.0",
     "npm": "^10.9.3",

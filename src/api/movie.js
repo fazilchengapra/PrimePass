@@ -7,7 +7,6 @@ export async function getAllTimePopularMovies() {
     `https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=10000&api_key=${API_KEY}&language=en-US&page=1`
   );
   const data = await res.json();
-  console.log("All-time popular (based on votes):", data.results);
   return data.results
 }
 
