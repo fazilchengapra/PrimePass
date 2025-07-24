@@ -13,7 +13,7 @@ const Card = ({ card }) => {
               alt={card.title}
             />
           </div>
-          <div className="absolute top-3 lg:top-2 right-[10%] lg:right-8 opacity-0 group-hover:opacity-100 transition duration-300 text-white">
+          <div className="absolute top-3 right-[8%]  opacity-0 group-hover:opacity-100 transition duration-300 text-white">
             <MdOutlineArrowOutward size={22} />
           </div>
         </Inset>

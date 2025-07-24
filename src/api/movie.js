@@ -2,6 +2,15 @@ import axios from "axios";
 const API_KEY = process.env.REACT_APP_TMDB;
 const apiKey = process.env.REACT_APP_TMDB;
 
+export async function getAllTimePopularMovies() {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=10000&api_key=${API_KEY}&language=en-US&page=1`
+  );
+  const data = await res.json();
+  console.log("All-time popular (based on votes):", data.results);
+  return data.results
+}
+
 export const getProviders = async (movieId, showError) => {
   try {
     const res = await axios.get(
@@ -17,7 +26,7 @@ export const getProviders = async (movieId, showError) => {
     };
   } catch (error) {
     console.log("Providers Error: " + error);
-     showError?.('providers error');
+    showError?.("providers error");
   }
 };
 
@@ -65,7 +74,7 @@ export const getPopularMovies = async () => {
 export const upcomingMovies = async () => {
   try {
     const res = await axios.get(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_TMDB}&language=en-US&page=1&region=IN`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1&region=IN`
     );
 
     return res.data.results.filter((data) => data?.poster_path);
@@ -80,7 +89,7 @@ export const upcomingMovies = async () => {
 export const getMovieDetails = async (id) => {
   try {
     const res = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB}&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
     );
     return res.data;
   } catch (error) {
@@ -91,7 +100,7 @@ export const getMovieDetails = async (id) => {
 export const getMovieTrailer = async (id) => {
   try {
     const res = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.REACT_APP_TMDB}&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`
     );
     const trailer = res.data.results.find(
       (vid) => vid.type === "Trailer" && vid.site === "YouTube"
@@ -106,7 +115,7 @@ export const getMovieTrailer = async (id) => {
 export const getCasts = async (id) => {
   try {
     const res = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.REACT_APP_TMDB}`
+      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
     );
     const actors = res.data.cast.filter(
       (actor) =>
@@ -123,7 +132,7 @@ export const getCasts = async (id) => {
 export const getMovieVideos = async (id) => {
   try {
     const res = await axios.get(
-      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.REACT_APP_TMDB}&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`
     );
     return res.data.results.slice(0, 5);
   } catch (error) {
