@@ -8,7 +8,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import { ToastContainer } from "react-toastify";
 import ErrorBoundary from "./pages/ErrorBoundary";
 import { NetworkErrorProvider } from "./components/context/NetworkErrorContext";
-import MediaDetails from './pages/MediaDetails'
+import MediaDetails from "./pages/MediaDetails";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -52,6 +53,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
       {
         path: "/movie/:movieId",

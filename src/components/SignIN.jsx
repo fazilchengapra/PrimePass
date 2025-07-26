@@ -5,6 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { loginUser } from "../services/authService";
 
 const input = [
   { name: "email", label: "Email", placeholder: "Enter your Email" },
@@ -13,6 +14,22 @@ const input = [
 
 const SignIN = () => {
   const [showPass, setShowPass] = useState(false);
+  const [pass, setPass] = useState("");
+  const [mail, setMail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await loginUser(mail, pass);
+      setMessage("Login successful!");
+      console.log("User:", res.user);
+      // navigate to dashboard or home
+    } catch (err) {
+      setMessage(err.message || "Error logging in.");
+    }
+  };
+
   return (
     <div className="w-full flex flex-col gap-4 m-0 p-2">
       <div className="flex flex-row justify-end m-0 p-0">
@@ -32,6 +49,7 @@ const SignIN = () => {
           <span className=" text-gray-400">
             Welcome back! Please enter your details.
           </span>
+          {message && <p>{message}</p>}
         </div>
       </div>
 
@@ -43,7 +61,13 @@ const SignIN = () => {
               {e.label}
             </label>
             <TextField.Root
+              value={e.name === "email" ? mail : pass}
               type={e.name === "password" && (showPass ? "text" : "password")}
+              onChange={(event) =>
+                e.name === "email"
+                  ? setMail(event.target.value)
+                  : setPass(event.target.value)
+              }
               radius="large"
               placeholder={e.placeholder}
               className="px-2"
@@ -68,12 +92,19 @@ const SignIN = () => {
           </div>
         ))}
         <div className="w-full mt-3">
-          <Button className="w-full">Sign In</Button>
+          <Button className="w-full" onClick={handleLogin}>
+            Sign In
+          </Button>
         </div>
-       <div className="flex flex-row gap-1 text-xs text-center w-full justify-center mt-1">
-        <span>Don't have an account?</span>
-        <Link to={'#'}><span className="text-black font-bold">Sign Up</span></Link>
-       </div>
+        <div className="flex flex-row gap-1 text-xs text-center w-full justify-center mt-1">
+          <span>Don't have an account?</span>
+
+          <AlertDialog.Cancel asChild>
+            <Link to="/register" className="text-black font-bold text-xs">
+              Sign Up
+            </Link>
+          </AlertDialog.Cancel>
+        </div>
       </div>
     </div>
   );
