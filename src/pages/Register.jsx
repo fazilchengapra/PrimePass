@@ -8,8 +8,10 @@ import { registerSchema } from "../schemas/authSchema";
 import { CgDanger } from "react-icons/cg";
 import { registerUser } from "../services/authService";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,15 +20,16 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     try {
-        const {userName, email, password} = data
-        const res =await registerUser(userName, email, password)
-        console.log(res);
-        toast.success(res.message)
+      const { userName, email, password } = data;
+      const res = await registerUser(userName, email, password);
+      console.log(res);
+      toast.success(res.message);
+      navigate('/')
     } catch (error) {
-        console.log('registration failed ', error);
-        toast.error(error.message)
+      console.log("registration failed ", error);
+      toast.error(error.message);
     }
   };
 

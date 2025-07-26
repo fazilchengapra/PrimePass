@@ -8,17 +8,30 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../schemas/authSchema";
+import { loginUser } from "../services/authService";
+import { toast } from "react-toastify";
 
 const input = [
   { name: "email", label: "Email", placeholder: "Enter your Email" },
   { name: "password", label: "Password", placeholder: "Enter your Password" },
 ];
 
-const SignIN = () => {
+const SignIN = ({closeDialog}) => {
   const [showPass, setShowPass] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async ({ email, password }) => {
+    setLoading(true)
+    try {
+      const res = await loginUser(email, password);
+      toast.success(res.message);
+      setLoading(false)
+      closeDialog()
+    } catch (error) {
+      setMessage(error.message);
+      setLoading(false)
+    }
   };
 
   const {
@@ -44,11 +57,15 @@ const SignIN = () => {
         <div className="text-xl">
           <h3 className="font-bold">Sign In</h3>
         </div>
+
         <div className="text-sm">
           <span className=" text-gray-400">
             Welcome back! Please enter your details.
           </span>
         </div>
+        {message && (
+          <h3 className="text-red-500 text-lg font-semibold">{message}</h3>
+        )}
       </div>
 
       {/* Form */}
@@ -60,13 +77,23 @@ const SignIN = () => {
                 {e.name}
               </label>
               <div className="flex flex-col gap-1 text-red-500 text-xs text-center">
-                {e?.name === 'email' && errors?.email && <span>{errors.email.message}</span>}
-                {e?.name === 'password' && errors?.password && <span>{errors.password.message}</span>}
+                {e?.name === "email" && errors?.email && (
+                  <span>{errors.email.message}</span>
+                )}
+                {e?.name === "password" && errors?.password && (
+                  <span>{errors.password.message}</span>
+                )}
               </div>
             </div>
             <TextField.Root
               {...register(e.name)}
-              type={e.name === "password" ? (showPass ? "text" : "password") : 'text'}
+              type={
+                e.name === "password"
+                  ? showPass
+                    ? "text"
+                    : "password"
+                  : "text"
+              }
               radius="large"
               placeholder={e.placeholder}
               className="px-2"
@@ -91,7 +118,7 @@ const SignIN = () => {
           </div>
         ))}
         <div className="w-full mt-3">
-          <Button className="w-full" onClick={handleSubmit(onSubmit)}>
+          <Button loading={loading} className="w-full" onClick={handleSubmit(onSubmit)}>
             Sign In
           </Button>
         </div>

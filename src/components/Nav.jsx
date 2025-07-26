@@ -8,6 +8,7 @@ import SignIN from "./SignIN";
 
 const Nav = () => {
   const [state, setState] = useState();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const citiesList = async () => {
@@ -63,14 +64,14 @@ const Nav = () => {
           </Select.Root>
         </div>
 
-        <AlertDialog.Root>
+        <AlertDialog.Root open={open} onOpenChange={setOpen}>
           <AlertDialog.Trigger>
             <Button className="bg-black">Sign In</Button>
           </AlertDialog.Trigger>
           <AlertDialog.Content>
             <AlertDialog.Title className="hidden">Sign In Form</AlertDialog.Title>
             <AlertDialog.Description className="hidden">for login users</AlertDialog.Description>
-            <SignIN />
+            <SignIN closeDialog={() => setOpen(false)}/>
           </AlertDialog.Content>
         </AlertDialog.Root>
 
