@@ -5,7 +5,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { getBannerData } from "../utils/getBannerData";
 import { Button } from "@radix-ui/themes";
-import { FaVideo } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Banner = () => {

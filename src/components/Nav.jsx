@@ -1,5 +1,12 @@
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { AlertDialog, Button, Select, TextField } from "@radix-ui/themes";
+import {
+  AlertDialog,
+  Avatar,
+  Button,
+  DropdownMenu,
+  Select,
+  TextField,
+} from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { getCities } from "../api/citiesList";
 import { Link } from "react-router-dom";
@@ -64,7 +71,7 @@ const Nav = () => {
           </Select.Root>
         </div>
 
-        <AlertDialog.Root open={open} onOpenChange={setOpen}>
+        {/* <AlertDialog.Root open={open} onOpenChange={setOpen}>
           <AlertDialog.Trigger>
             <Button className="bg-black">Sign In</Button>
           </AlertDialog.Trigger>
@@ -73,7 +80,21 @@ const Nav = () => {
             <AlertDialog.Description className="hidden">for login users</AlertDialog.Description>
             <SignIN closeDialog={() => setOpen(false)}/>
           </AlertDialog.Content>
-        </AlertDialog.Root>
+        </AlertDialog.Root> */}
+
+         <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            <div><Avatar fallback="A" radius="full" /></div>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Item>Profile</DropdownMenu.Item>
+            <Link to={'/user/booking-history'}><DropdownMenu.Item>Booking Details</DropdownMenu.Item></Link>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item className="text-red-600 hover:bg-red-600 hover:text-white">
+              Logout
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
 
         <SearchDialog
           trigger={
