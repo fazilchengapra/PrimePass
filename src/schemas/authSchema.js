@@ -23,3 +23,17 @@ export const registerSchema = z.object({
     .max(32, "Password must be at most 32 characters")
     .refine((val) => !val.includes(" "), "Password cannot contain spaces"),
 });
+
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(3, "Email is required")
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please enter a valid email address"),
+
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .max(32, "Password must be at most 32 characters")
+    .refine((val) => !val.includes(" "), "Password cannot contain spaces"),
+});

@@ -24,8 +24,6 @@ const Banner = () => {
     },
   ]);
 
-  console.log(banners);
-
   useEffect(() => {
     const fetchBanners = async () => {
       const res = await getBannerData();

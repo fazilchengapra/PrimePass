@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../schemas/authSchema";
 import { CgDanger } from "react-icons/cg";
+import { registerUser } from "../services/authService";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const {
@@ -16,9 +18,16 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Form data:", data);
-    // You can send data to backend here
+  const onSubmit = async(data) => {
+    try {
+        const {userName, email, password} = data
+        const res =await registerUser(userName, email, password)
+        console.log(res);
+        toast.success(res.message)
+    } catch (error) {
+        console.log('registration failed ', error);
+        toast.error(error.message)
+    }
   };
 
   return (
@@ -31,7 +40,7 @@ const Register = () => {
         <div className="w-2/3 lg:w-1/3 m-auto flex flex-col gap-2">
           <div className="flex flex-col gap-1">
             {errors?.userName && (
-              <div className="flex items-center gap-1 text-red-500 text-xs">
+              <div className=" items-center gap-1 text-red-500 text-xs inline-flex">
                 <CgDanger size={12} />
                 <p>{errors.userName.message}</p>
               </div>

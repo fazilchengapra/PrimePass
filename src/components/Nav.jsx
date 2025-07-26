@@ -68,6 +68,8 @@ const Nav = () => {
             <Button className="bg-black">Sign In</Button>
           </AlertDialog.Trigger>
           <AlertDialog.Content>
+            <AlertDialog.Title className="hidden">Sign In Form</AlertDialog.Title>
+            <AlertDialog.Description className="hidden">for login users</AlertDialog.Description>
             <SignIN />
           </AlertDialog.Content>
         </AlertDialog.Root>

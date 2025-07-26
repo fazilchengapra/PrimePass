@@ -5,7 +5,9 @@ import { IoMdClose } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { loginUser } from "../services/authService";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "../schemas/authSchema";
 
 const input = [
   { name: "email", label: "Email", placeholder: "Enter your Email" },
@@ -14,26 +16,23 @@ const input = [
 
 const SignIN = () => {
   const [showPass, setShowPass] = useState(false);
-  const [pass, setPass] = useState("");
-  const [mail, setMail] = useState("");
-  const [message, setMessage] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await loginUser(mail, pass);
-      setMessage("Login successful!");
-      console.log("User:", res.user);
-      // navigate to dashboard or home
-    } catch (err) {
-      setMessage(err.message || "Error logging in.");
-    }
+  const onSubmit = (data) => {
+    console.log(data);
   };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
 
   return (
     <div className="w-full flex flex-col gap-4 m-0 p-2">
       <div className="flex flex-row justify-end m-0 p-0">
-        <AlertDialog.Cancel>
+        <AlertDialog.Cancel asChild>
           <div className="w-fit">
             <Button variant="soft" className=" rounded-full py-2 px-2">
               <IoMdClose size="15" />
@@ -49,25 +48,25 @@ const SignIN = () => {
           <span className=" text-gray-400">
             Welcome back! Please enter your details.
           </span>
-          {message && <p>{message}</p>}
         </div>
       </div>
 
       {/* Form */}
       <div className="w-full lg:w-4/6 flex flex-col gap-3 m-auto">
         {input.map((e) => (
-          <div className="flex flex-col gap-1">
-            <label className="text-sm text-gray-400 font-bold lg:font-semibold">
-              {e.label}
-            </label>
+          <div className="flex flex-col gap-1" key={e.name}>
+            <div className="flex flex-row justify-between">
+              <label className="text-sm text-gray-400 font-bold lg:font-semibold">
+                {e.name}
+              </label>
+              <div className="flex flex-col gap-1 text-red-500 text-xs text-center">
+                {e?.name === 'email' && errors?.email && <span>{errors.email.message}</span>}
+                {e?.name === 'password' && errors?.password && <span>{errors.password.message}</span>}
+              </div>
+            </div>
             <TextField.Root
-              value={e.name === "email" ? mail : pass}
-              type={e.name === "password" && (showPass ? "text" : "password")}
-              onChange={(event) =>
-                e.name === "email"
-                  ? setMail(event.target.value)
-                  : setPass(event.target.value)
-              }
+              {...register(e.name)}
+              type={e.name === "password" ? (showPass ? "text" : "password") : 'text'}
               radius="large"
               placeholder={e.placeholder}
               className="px-2"
@@ -92,7 +91,7 @@ const SignIN = () => {
           </div>
         ))}
         <div className="w-full mt-3">
-          <Button className="w-full" onClick={handleLogin}>
+          <Button className="w-full" onClick={handleSubmit(onSubmit)}>
             Sign In
           </Button>
         </div>
