@@ -11,27 +11,42 @@ import { getProviders } from "../api/movie";
 import { Riple } from "react-loading-indicators";
 import { useSelector } from "react-redux";
 import SeriesSection from "../components/SeriesSection";
+import { getShowDetails } from "../api/getShowDetails";
 
 const MovieDetails = () => {
   const movieId = useParams().movieId;
   const [providers, setProviders] = useState({});
   const [loading, setLoading] = useState(false);
   const tool = useSelector((state) => state?.tool?.tool); // get user selected tool ex: null -> movie, series
+  const [showDetails, setShowDetails] = useState({}); // state to toggle show details
 
   useEffect(() => {
     if (!tool) {
+      // if tool is not selected, fetch movie providers
       setLoading(true);
       const fetchProviders = async () => {
         try {
           const res = await getProviders(movieId);
           setProviders(res);
-          setLoading(false);
         } catch (error) {
           console.log(error);
           setLoading(false);
         }
       };
+
+      const fetchShowDetails = async () => {
+        const showDetails = await getShowDetails(movieId);
+        console.log("show details", showDetails);
+
+        setShowDetails(showDetails);
+        setLoading(false);
+        if(!showDetails.status) {
+          
+        }
+      };
+
       fetchProviders();
+      fetchShowDetails();
     }
   }, [tool, movieId]);
 
@@ -58,10 +73,16 @@ const MovieDetails = () => {
                 />
               ) : (
                 <div>
-                  <ShowDates />
-                  <TheaterFilter />
-                  <Separator my="4" size="4" />
-                  <Theater />
+                  {showDetails?.status ? (
+                    <div>
+                      <ShowDates />
+                      <TheaterFilter />
+                      <Separator my="4" size="4" />
+                      <Theater />
+                    </div>
+                  ) : (
+                    <div className="flex justify-center text-center font-semibold text-sm text-red-700">Shows not Found</div>
+                  )}
                 </div>
               )}
             </div>

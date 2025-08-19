@@ -1,10 +1,10 @@
 import { Button, Separator } from "@radix-ui/themes";
-import TheaterSeats from "../components/TheaterSeats";
 import { showtimes } from "../data/showtimes";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setTheater } from "../app/theaterSlice";
+import SeatLayout from "../components/SeatLayout";
 
 const SeatSelector = () => {
   const [showtime, setShowtime] = useState();
@@ -18,40 +18,37 @@ const SeatSelector = () => {
   useEffect(() => {
     setShowtime(time);
     dispatch(setTheater(showTimes));
-  }, [time,dispatch, showTimes]);
+  }, [time, dispatch, showTimes]);
 
   return (
-    <div className="w-[90%] lg:w-2/3 m-auto min-h-[600px] rounded-md bg-white mt-6">
-      <div className="mx-4">
-        <div className="flex flex-row gap-3 items-center py-2">
-          <div className="flex flex-col text-sm min-w-fit">
-            <span>Sat</span>
-            <span className="font-semibold">12 Jul</span>
+    <div className="w-full fixed">
+      <div className="w-[90%] lg:w-2/3 m-auto max-h-[600px] rounded-md bg-white mt-6 overflow-y-auto">
+        <div className="mx-4 flex flex-col gap-4 pt-4">
+          <div className="flex flex-row gap-3 items-center py-2">
+            <div className="flex flex-col text-sm min-w-fit">
+              <span>Sat</span>
+              <span className="font-semibold">12 Jul</span>
+            </div>
+            <div className="flex flex-row gap-2 overflow-x-auto w-full suggestion-list">
+              {showTimes.shows.map((e, index) => (
+                <Button
+                  key={index}
+                  color="gray"
+                  variant="surface"
+                  highContrast
+                  className={`py-6 px-4 lg:px-10 rounded-md ${
+                    e === showtime && "bg-gray-200"
+                  }`}
+                  onClick={() => setShowtime(e)}
+                >
+                  {e}
+                </Button>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-row gap-2 overflow-x-auto w-full suggestion-list">
-            {showTimes.shows.map((e, index) => (
-              <Button
-                key={index}
-                color="gray"
-                variant="surface"
-                highContrast
-                className={`py-6 px-4 lg:px-10 rounded-md ${
-                  e === showtime && "bg-gray-200"
-                }`}
-                onClick={() => setShowtime(e)}
-              >
-                {e}
-              </Button>
-            ))}
-          </div>
-        </div>
-        <Separator size="4" />
-        <div className="mt-5 pb-5">
-          <div className="text-center font-semibold text-md pb-2">
-            <h4>PLATINUM: ₹110</h4>
-          </div>
-          <div className="">
-            <TheaterSeats time={time} movieId={movieId} showtime={showtime} />
+          <Separator size="4" />
+          <div className="mt-5 pb-5">
+            <SeatLayout />
           </div>
         </div>
       </div>

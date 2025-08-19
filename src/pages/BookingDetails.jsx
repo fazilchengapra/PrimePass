@@ -47,10 +47,10 @@ const BookingDetails = () => {
               </div>
 
               {/* Left ticket notch */}
-              <div className="absolute -left-4 top-[55%] -translate-y-1/2 w-7 h-7 bg-white rounded-full border-r border-gray-300 z-10" />
+              <div className="absolute -left-4 top-[54%] -translate-y-1/2 w-7 h-7 bg-white rounded-full border-r border-gray-300 z-10" />
 
               {/* Right ticket notch */}
-              <div className="absolute -right-4 top-[55%] -translate-y-1/2 w-7 h-7 bg-white rounded-full border-l border-gray-300 z-10" />
+              <div className="absolute -right-4 top-[54%] -translate-y-1/2 w-7 h-7 bg-white rounded-full border-l border-gray-300 z-10" />
             </div>
           ))}
         </div>
