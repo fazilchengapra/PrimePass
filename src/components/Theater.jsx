@@ -1,15 +1,8 @@
 import { Avatar, Button } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
+import { formatTime } from "../utils/formatTime";
 
 const Theater = ({shows}) => {
-  const formatTime = (isoString) => {
-    const date = new Date(isoString);
-    return date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -37,9 +30,9 @@ const Theater = ({shows}) => {
 
           {/* Show Times */}
           <div className="flex flex-row flex-wrap gap-2">
-            {showsByTheater.shows.map((show) => (
+            {showsByTheater.shows.map((index, show) => (
               <Link
-                to={`theater/${showsByTheater.theaterId}/show/${show.showId}`}
+                to={`theater/${showsByTheater.theaterId}/?timeIdx=${index}`}
                 key={show.showId}
               >
                 <Button

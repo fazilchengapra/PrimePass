@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import MovieHeader from "../components/MovieHeader";
@@ -14,10 +14,12 @@ import { Riple } from "react-loading-indicators";
 
 import { getProviders } from "../api/movie";
 import { getShowDetails } from "../api/getShowDetails";
+import { setShow } from "../app/showSlice";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const tool = useSelector((state) => state?.tool?.tool); // null → movie, value → series
+  const dispatch = useDispatch();
 
   const [data, setData] = useState({
     providers: null,
@@ -42,6 +44,11 @@ const MovieDetails = () => {
         if (showRes && !showRes.status) {
           toast.error("Show not found", { toastId: "showNotFound" });
         }
+        if (showRes && showRes.status) {
+          console.log(showRes);
+
+          dispatch(setShow(showRes.data));
+        }
       } catch (error) {
         console.error("Error fetching movie details:", error);
         toast.error("Something went wrong while fetching details.", {
@@ -53,7 +60,7 @@ const MovieDetails = () => {
     };
 
     fetchData();
-  }, [tool, movieId]);
+  }, [tool, movieId, dispatch]);
 
   if (loading) {
     return (
@@ -80,10 +87,10 @@ const MovieDetails = () => {
           />
         ) : data.showDetails?.status ? (
           <>
-            <ShowDates dates={data.showDetails.data.dates}/>
+            <ShowDates dates={data.showDetails.data.dates} />
             <TheaterFilter />
             <Separator my="4" size="4" />
-            <Theater shows={data.showDetails.data.theaters}/>
+            <Theater shows={data.showDetails.data.theaters} />
           </>
         ) : (
           <div className="flex justify-center text-center font-semibold text-sm text-red-700">

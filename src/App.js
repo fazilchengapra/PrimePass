@@ -68,7 +68,7 @@ export const appRouter = createBrowserRouter([
         element: <MediaDetails />,
       },
       {
-        path: "/movie/:movieId/theater/:id/show",
+        path: "/movie/:movieId/theater/:id",
         element: <SeatSelector />,
       },
       {

@@ -1,25 +1,14 @@
 import { Button, Separator } from "@radix-ui/themes";
-import { showtimes } from "../data/showtimes";
-import { useParams, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setTheater } from "../app/theaterSlice";
 import SeatLayout from "../components/SeatLayout";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { formatTime } from "../utils/formatTime";
 
 const SeatSelector = () => {
-  const [showtime, setShowtime] = useState();
-  const { id: theaterId, movieId } = useParams();
-  const [searchParams] = useSearchParams();
-  const time = searchParams.get("time");
-  const dispatch = useDispatch();
-
-  const showTimes = showtimes.find((show) => show.id.toString() === theaterId);
-
-  useEffect(() => {
-    setShowtime(time);
-    dispatch(setTheater(showTimes));
-  }, [time, dispatch, showTimes]);
-
+  const showData = useSelector((state) => state.show);
+  const {id} = useParams()
+  const showTimes = showData?.show?.theaters?.find( e => e?.theaterId === id)
+  
   return (
     <div className="w-full fixed">
       <div className="w-[90%] lg:w-2/3 m-auto max-h-[600px] rounded-md bg-white mt-6 overflow-y-auto">
@@ -30,18 +19,15 @@ const SeatSelector = () => {
               <span className="font-semibold">12 Jul</span>
             </div>
             <div className="flex flex-row gap-2 overflow-x-auto w-full suggestion-list">
-              {showTimes.shows.map((e, index) => (
+              {showTimes?.shows?.map((e, index) => (
                 <Button
                   key={index}
                   color="gray"
                   variant="surface"
                   highContrast
-                  className={`py-6 px-4 lg:px-10 rounded-md ${
-                    e === showtime && "bg-gray-200"
-                  }`}
-                  onClick={() => setShowtime(e)}
+                  className={`py-6 px-4 lg:px-10 rounded-md `}
                 >
-                  {e}
+                  {formatTime(e.startTime)}
                 </Button>
               ))}
             </div>
