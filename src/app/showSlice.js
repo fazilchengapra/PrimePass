@@ -4,6 +4,7 @@ const showSlice = createSlice({
   name: "show",
   initialState: {
     show: null,
+    sltDate: null,
   },
   reducers: {
     setShow: (state, action) => {
@@ -12,6 +13,9 @@ const showSlice = createSlice({
     clearShow: (state) => {
       state.show = null;
     },
+    setSltDate: (state, action) => {
+      state.sltDate = action.payload;
+    }
   },
 });
 

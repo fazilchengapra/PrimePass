@@ -71,7 +71,7 @@ const Nav = () => {
           </Select.Root>
         </div>
 
-        {/* <AlertDialog.Root open={open} onOpenChange={setOpen}>
+        <AlertDialog.Root open={open} onOpenChange={setOpen}>
           <AlertDialog.Trigger>
             <Button className="bg-black">Sign In</Button>
           </AlertDialog.Trigger>
@@ -80,7 +80,7 @@ const Nav = () => {
             <AlertDialog.Description className="hidden">for login users</AlertDialog.Description>
             <SignIN closeDialog={() => setOpen(false)}/>
           </AlertDialog.Content>
-        </AlertDialog.Root> */}
+        </AlertDialog.Root>
 
          <DropdownMenu.Root>
           <DropdownMenu.Trigger>

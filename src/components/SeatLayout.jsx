@@ -1,18 +1,52 @@
-import React from "react";
-import { seatLayout } from "../data/seatLayout";
+import React, { useEffect, useState } from "react";
+import { getSeatsByShowId } from "../api/getSeatsByShowId";
 
-const SeatLayout = () => {
-  const [selectedSeats, setSelectedSeats] = React.useState([]);
+const SeatLayout = ({ showId }) => {
+  
+  const [seatLayout, setSeatLayout] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSeats = async () => {
+      try {
+        setLoading(true);
+        const response = await getSeatsByShowId(showId);
+        if (response?.status) {
+          setSeatLayout(response.data.seatLayout);
+        }
+      } catch (err) {
+        console.error("Error fetching seats:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (showId) {
+      fetchSeats();
+    }
+  }, [showId]);
+
+  if (loading) return <p className="text-center py-10">Loading seats...</p>;
+  if (!seatLayout) return <p className="text-center py-10">No seats found</p>;
+
   const areas = seatLayout?.colAreas?.objArea || [];
   const maxSeats = seatLayout?.colAreas?.intMaxSeatId || 10;
 
-  const seatSelector = (seatNumber, isBooked) => {
-    if (isBooked) return; // Ignore click on booked seats
+  const seatSelector = (seatObj, isBooked) => {
+    if (isBooked) return;
 
-    if (selectedSeats.includes(seatNumber)) {
-      setSelectedSeats(selectedSeats.filter((s) => s !== seatNumber));
+    const seatData = {
+      name: seatObj.seatNumber,
+      id: seatObj._id || `${seatObj.seatNumber}-${seatObj.GridSeatNum}`,
+    };
+
+    const alreadySelected = selectedSeats.find((s) => s.name === seatData.name);
+
+    if (alreadySelected) {
+      setSelectedSeats(selectedSeats.filter((s) => s.name !== seatData.name));
     } else {
-      setSelectedSeats([...selectedSeats, seatNumber]);
+      setSelectedSeats([...selectedSeats, seatData]);
     }
   };
 
@@ -53,21 +87,25 @@ const SeatLayout = () => {
                       return (
                         <div
                           key={`empty-${row.PhyRowId}-${seatNum}`}
-                          className="w-8 h-8 min-w-[2rem]"
+                          className="w-8 h-8 min-w-[2rem] border-none"
                         />
                       );
                     }
 
-                    const isBooked = seatObj.isBooked; // assumes data has this
-                    const isSelected = selectedSeats.includes(seatObj.seatNumber);
+                    const isBooked = seatObj.SeatStatus !== "1"; // assume 1 = available
+                    const isSelected = selectedSeats.some(
+                      (s) => s.name === seatObj.seatNumber
+                    );
 
                     let seatClass = "bg-gray-200 cursor-pointer"; // available
-                    if (isBooked) seatClass = "bg-red-500 text-white cursor-not-allowed"; // booked
-                    if (isSelected) seatClass = "bg-blue-500 text-white cursor-pointer"; // selected
+                    if (isBooked)
+                      seatClass = "bg-red-500 text-white cursor-not-allowed";
+                    if (isSelected)
+                      seatClass = "bg-blue-500 text-white cursor-pointer";
 
                     return (
                       <div
-                        onClick={() => seatSelector(seatObj.seatNumber, isBooked)}
+                        onClick={() => seatSelector(seatObj, isBooked)}
                         key={`${row.PhyRowId}-${seatObj.GridSeatNum}`}
                         className={`w-8 h-8 min-w-[2rem] border border-gray-400 rounded-md flex items-center justify-center text-xs ${seatClass}`}
                       >
@@ -95,13 +133,14 @@ const SeatLayout = () => {
 
       {/* Proceed button fixed at bottom */}
       {selectedSeats.length > 0 && (
-        <div className="rounded-md fixed bottom-0 left-0 w-full bg-white border-t p-4 flex items-center justify-between shadow-md">
+        <div className="rounded-md fixed bottom-0 left-0 w-full bg-white border-t p-4 flex items-center justify-between shadow-md z-50">
           <p className="font-medium text-gray-800">
-            Selected Seats: <span className="font-bold">{selectedSeats.length}</span>
+            Selected Seats:{" "}
+            <span className="font-bold">
+              {selectedSeats.length}
+            </span>
           </p>
-          <button
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-          >
+          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
             Proceed
           </button>
         </div>
