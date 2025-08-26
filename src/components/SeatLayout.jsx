@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getSeatsByShowId } from "../api/getSeatsByShowId";
+import { useSocket } from "../context/SocketContext";
+import SeatStatus from "./SeatStatus";
 
 const SeatLayout = ({ showId }) => {
-  
   const [seatLayout, setSeatLayout] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [loading, setLoading] = useState(true);
+  const socket = useSocket();
+
+  console.log(seatLayout);
 
   useEffect(() => {
     const fetchSeats = async () => {
@@ -26,6 +30,29 @@ const SeatLayout = ({ showId }) => {
       fetchSeats();
     }
   }, [showId]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("seatLocked", (data) => {
+      console.log("🔒 Seats locked:", data);
+      setSeatLayout((prev) => {
+        const updated = { ...prev };
+        updated.colAreas.objArea.forEach((area) => {
+          area.objRow.forEach((row) => {
+            row.objSeat.forEach((seat) => {
+              if (data.seatIds.includes(seat.seatId)) seat.SeatStatus = "2";
+            });
+          });
+        });
+        return updated;
+      });
+    });
+
+    return () => {
+      socket.off("seatLocked");
+    };
+  }, [socket, seatLayout]);
 
   if (loading) return <p className="text-center py-10">Loading seats...</p>;
   if (!seatLayout) return <p className="text-center py-10">No seats found</p>;
@@ -53,7 +80,10 @@ const SeatLayout = ({ showId }) => {
   return (
     <div className="w-full h-auto overflow-y-auto p-4 space-y-10 pb-20">
       {areas.map((area) => (
-        <div key={area.AreaCode} className="flex flex-col gap-4 relative w-full">
+        <div
+          key={area.AreaCode}
+          className="flex flex-col gap-4 relative w-full"
+        >
           {/* Area title with price */}
           <div className="sticky top-0 bg-white py-2 z-10">
             <h2 className="text-lg font-bold text-center w-full">
@@ -66,7 +96,9 @@ const SeatLayout = ({ showId }) => {
             <div
               className="inline-grid gap-2 min-w-max"
               style={{
-                gridTemplateColumns: `repeat(${maxSeats + 1}, minmax(2rem, auto))`,
+                gridTemplateColumns: `repeat(${
+                  maxSeats + 1
+                }, minmax(2rem, auto))`,
               }}
             >
               {area.objRow.map((row) => (
@@ -99,7 +131,7 @@ const SeatLayout = ({ showId }) => {
 
                     let seatClass = "bg-gray-200 cursor-pointer"; // available
                     if (isBooked)
-                      seatClass = "bg-red-500 text-white cursor-not-allowed";
+                      seatClass = "bg-gray-50 text-gray-400 cursor-not-allowed";
                     if (isSelected)
                       seatClass = "bg-blue-500 text-white cursor-pointer";
 
@@ -107,7 +139,7 @@ const SeatLayout = ({ showId }) => {
                       <div
                         onClick={() => seatSelector(seatObj, isBooked)}
                         key={`${row.PhyRowId}-${seatObj.GridSeatNum}`}
-                        className={`w-8 h-8 min-w-[2rem] border border-gray-400 rounded-md flex items-center justify-center text-xs ${seatClass}`}
+                        className={`w-8 h-8 min-w-[2rem] border rounded-md flex items-center justify-center text-xs ${seatClass}`}
                       >
                         {seatObj.displaySeatNumber}
                       </div>
@@ -131,14 +163,14 @@ const SeatLayout = ({ showId }) => {
         </div>
       </div>
 
+      <SeatStatus />
+
       {/* Proceed button fixed at bottom */}
       {selectedSeats.length > 0 && (
         <div className="rounded-md fixed bottom-0 left-0 w-full bg-white border-t p-4 flex items-center justify-between shadow-md z-50">
           <p className="font-medium text-gray-800">
             Selected Seats:{" "}
-            <span className="font-bold">
-              {selectedSeats.length}
-            </span>
+            <span className="font-bold">{selectedSeats.length}</span>
           </p>
           <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
             Proceed

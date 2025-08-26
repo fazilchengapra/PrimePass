@@ -11,6 +11,7 @@ import { NetworkErrorProvider } from "./components/context/NetworkErrorContext";
 import MediaDetails from "./pages/MediaDetails";
 import Register from "./pages/Register";
 import BookingDetails from "./pages/BookingDetails";
+import { SocketProvider } from "./context/SocketContext";
 
 function App() {
   return (
@@ -46,7 +47,9 @@ export const appRouter = createBrowserRouter([
     element: (
       <NetworkErrorProvider>
         <ErrorBoundary>
-          <App />
+          <SocketProvider>
+            <App />
+          </SocketProvider>
         </ErrorBoundary>
       </NetworkErrorProvider>
     ),
