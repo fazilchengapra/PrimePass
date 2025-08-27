@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getSeatsByShowId } from "../api/getSeatsByShowId";
 import { useSocket } from "../context/SocketContext";
 import SeatStatus from "./SeatStatus";
+import { useSelector } from "react-redux";
+import { seatLock } from "../api/lockSeats";
 
 const SeatLayout = ({ showId }) => {
   const [seatLayout, setSeatLayout] = useState(null);
@@ -9,7 +11,25 @@ const SeatLayout = ({ showId }) => {
   const [loading, setLoading] = useState(true);
   const socket = useSocket();
 
-  console.log(seatLayout);
+  const movie = useSelector((state) => state.movie.selectedMovie);
+  const theater = useSelector((state) => state.theater.theater);
+  const showDate = useSelector((state) => state.show.sltDate);
+
+  const handleProceed = async () => {
+    const data = {
+      showId,
+      movieTitle: movie?.original_title || movie?.name,
+      posterUrl: movie?.poster_path,
+      theaterName: theater?.name,
+      showDate,
+      numberOfSeats: selectedSeats.length,
+      seats: selectedSeats,
+    };
+
+    const result = await seatLock(data);
+    if (!result.status) return;
+    setSelectedSeats([]);
+  };
 
   useEffect(() => {
     const fetchSeats = async () => {
@@ -26,33 +46,62 @@ const SeatLayout = ({ showId }) => {
       }
     };
 
-    if (showId) {
-      fetchSeats();
-    }
+    if (showId) fetchSeats();
   }, [showId]);
 
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("seatLocked", (data) => {
+    const handleSeatLocked = (data) => {
       console.log("🔒 Seats locked:", data);
+
       setSeatLayout((prev) => {
-        const updated = { ...prev };
+        if (!prev) return prev;
+        const updated = structuredClone(prev);
+
         updated.colAreas.objArea.forEach((area) => {
           area.objRow.forEach((row) => {
             row.objSeat.forEach((seat) => {
-              if (data.seatIds.includes(seat.seatId)) seat.SeatStatus = "2";
+              if (data.seatIds.includes(seat.seatId)) {
+                seat.SeatStatus = "2"; // locked
+              }
             });
           });
         });
+
         return updated;
       });
-    });
+    };
+
+    const handleSeatUnLocked = (seatIds) => {
+      console.log("🔓 Seats unlocked:", seatIds);
+
+      setSeatLayout((prev) => {
+        if (!prev) return prev;
+        const updated = structuredClone(prev);
+
+        updated.colAreas.objArea.forEach((area) => {
+          area.objRow.forEach((row) => {
+            row.objSeat.forEach((seat) => {
+              if (seatIds.includes(seat.seatId)) {
+                seat.SeatStatus = "1"; // available again
+              }
+            });
+          });
+        });
+
+        return updated;
+      });
+    };
+
+    socket.on("seatLocked", handleSeatLocked);
+    socket.on("seatUnLocked", handleSeatUnLocked);
 
     return () => {
-      socket.off("seatLocked");
+      socket.off("seatLocked", handleSeatLocked);
+      socket.off("seatUnLocked", handleSeatUnLocked);
     };
-  }, [socket, seatLayout]);
+  }, [socket]);
 
   if (loading) return <p className="text-center py-10">Loading seats...</p>;
   if (!seatLayout) return <p className="text-center py-10">No seats found</p>;
@@ -64,14 +113,15 @@ const SeatLayout = ({ showId }) => {
     if (isBooked) return;
 
     const seatData = {
-      name: seatObj.seatNumber,
-      id: seatObj._id || `${seatObj.seatNumber}-${seatObj.GridSeatNum}`,
+      id: seatObj.seatId || `${seatObj.seatNumber}-${seatObj.GridSeatNum}`,
+      number: seatObj.seatNumber || seatObj.displaySeatNumber,
+      row: seatObj.displaySeatNumber?.charAt(0),
     };
 
-    const alreadySelected = selectedSeats.find((s) => s.name === seatData.name);
+    const alreadySelected = selectedSeats.find((s) => s.id === seatData.id);
 
     if (alreadySelected) {
-      setSelectedSeats(selectedSeats.filter((s) => s.name !== seatData.name));
+      setSelectedSeats(selectedSeats.filter((s) => s.id !== seatData.id));
     } else {
       setSelectedSeats([...selectedSeats, seatData]);
     }
@@ -126,7 +176,7 @@ const SeatLayout = ({ showId }) => {
 
                     const isBooked = seatObj.SeatStatus !== "1"; // assume 1 = available
                     const isSelected = selectedSeats.some(
-                      (s) => s.name === seatObj.seatNumber
+                      (s) => s.id === (seatObj.seatId || seatObj.GridSeatNum)
                     );
 
                     let seatClass = "bg-gray-200 cursor-pointer"; // available
@@ -172,7 +222,10 @@ const SeatLayout = ({ showId }) => {
             Selected Seats:{" "}
             <span className="font-bold">{selectedSeats.length}</span>
           </p>
-          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+          <button
+            onClick={handleProceed}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+          >
             Proceed
           </button>
         </div>

@@ -15,6 +15,7 @@ import { Riple } from "react-loading-indicators";
 import { getProviders } from "../api/movie";
 import { getShowDetails } from "../api/getShowDetails";
 import { setShow } from "../app/showSlice";
+import { set } from "zod";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -49,6 +50,7 @@ const MovieDetails = () => {
 
           dispatch(setShow(showRes.data));
         }
+
       } catch (error) {
         console.error("Error fetching movie details:", error);
         toast.error("Something went wrong while fetching details.", {
@@ -59,6 +61,22 @@ const MovieDetails = () => {
       }
     };
 
+    const fetchMovieData = async () => {
+      if(tool) return; // skip for series
+      try {
+        setLoading(true);
+        const movieRes = await getShowDetails(movieId);
+        if (movieRes && movieRes.status) {
+          dispatch(setShow(movieRes.data));
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching movie data:", error);
+        setLoading(false);
+      }
+    }
+
+    fetchMovieData()
     fetchData();
   }, [tool, movieId, dispatch]);
 

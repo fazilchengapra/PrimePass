@@ -8,6 +8,7 @@ import { useState } from "react";
 const SeatSelector = () => {
   const showData = useSelector((state) => state.show);
   const selectedDate = useSelector((state) => state.show.sltDate); // e.g. "2025-08-24"
+  
   console.log(showData);
 
   const { id } = useParams();
