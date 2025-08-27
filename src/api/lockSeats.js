@@ -9,6 +9,7 @@ export const seatLock = async (data) => {
       data,
       { withCredentials: true } // ✅ ensures cookies (JWT/session) are sent
     );
+    
     return result.data;
   } catch (error) {
     console.error("Seat lock error:", error);

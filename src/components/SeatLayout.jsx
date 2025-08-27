@@ -4,18 +4,22 @@ import { useSocket } from "../context/SocketContext";
 import SeatStatus from "./SeatStatus";
 import { useSelector } from "react-redux";
 import { seatLock } from "../api/lockSeats";
+import { Button } from "@radix-ui/themes";
+import { useNavigate } from "react-router-dom";
 
 const SeatLayout = ({ showId }) => {
   const [seatLayout, setSeatLayout] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [loading, setLoading] = useState(true);
   const socket = useSocket();
+  const navigate = useNavigate()
 
   const movie = useSelector((state) => state.movie.selectedMovie);
   const theater = useSelector((state) => state.theater.theater);
   const showDate = useSelector((state) => state.show.sltDate);
 
   const handleProceed = async () => {
+    
     const data = {
       showId,
       movieTitle: movie?.original_title || movie?.name,
@@ -27,8 +31,11 @@ const SeatLayout = ({ showId }) => {
     };
 
     const result = await seatLock(data);
+    const {_id} = result.data
+    
     if (!result.status) return;
     setSelectedSeats([]);
+    navigate(`/movie/${movie.id}/theater/${theater.theaterId}/payment/?bookingId=${_id}`)
   };
 
   useEffect(() => {
@@ -222,12 +229,15 @@ const SeatLayout = ({ showId }) => {
             Selected Seats:{" "}
             <span className="font-bold">{selectedSeats.length}</span>
           </p>
-          <button
+          <Button
+            className="w-fit"
+            color="green"
+            variant="solid"
             onClick={handleProceed}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+            loading={loading}
           >
             Proceed
-          </button>
+          </Button>
         </div>
       )}
     </div>
