@@ -10,6 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../schemas/authSchema";
 import { loginUser } from "../services/authService";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUser } from "../app/userSlice";
 
 const input = [
   { name: "email", label: "Email", placeholder: "Enter your Email" },
@@ -20,11 +22,14 @@ const SignIN = ({closeDialog}) => {
   const [showPass, setShowPass] = useState(false);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
 
   const onSubmit = async ({ email, password }) => {
     setLoading(true)
     try {
       const res = await loginUser(email, password);
+      dispatch(setUser(res.user))
+      
       toast.success(res.message);
       setLoading(false)
       closeDialog()

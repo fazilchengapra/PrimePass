@@ -10,8 +10,9 @@ import ErrorBoundary from "./pages/ErrorBoundary";
 import { NetworkErrorProvider } from "./components/context/NetworkErrorContext";
 import MediaDetails from "./pages/MediaDetails";
 import Register from "./pages/Register";
-import BookingDetails from "./pages/BookingDetails";
+import BookingHistory from "./pages/BookingHistory";
 import { SocketProvider } from "./context/SocketContext";
+import BookingDetails from "./pages/BookingDetails";
 
 function App() {
   return (
@@ -64,7 +65,7 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: "/user/booking-history",
-        element: <BookingDetails />,
+        element: <BookingHistory />,
       },
       {
         path: "/movie/:movieId",
@@ -77,6 +78,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "/movie/:movieId/theater/:id/payment",
         element: <Payment />,
+      },
+      {
+        path: "/order/:id",
+        element: <BookingDetails />,
       },
     ],
   },

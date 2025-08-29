@@ -70,7 +70,7 @@ const SeatLayout = ({ showId }) => {
           area.objRow.forEach((row) => {
             row.objSeat.forEach((seat) => {
               if (data.seatIds.includes(seat.seatId)) {
-                seat.SeatStatus = "2"; // locked
+                seat.SeatStatus = "2"; // unavailable
               }
             });
           });
@@ -103,10 +103,12 @@ const SeatLayout = ({ showId }) => {
 
     socket.on("seatLocked", handleSeatLocked);
     socket.on("seatUnLocked", handleSeatUnLocked);
+    socket.on("seatBooked", handleSeatLocked)
 
     return () => {
       socket.off("seatLocked", handleSeatLocked);
       socket.off("seatUnLocked", handleSeatUnLocked);
+      socket.off("seatBooked", handleSeatLocked)
     };
   }, [socket]);
 

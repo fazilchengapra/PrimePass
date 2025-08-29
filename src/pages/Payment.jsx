@@ -2,16 +2,18 @@ import { AlertDialog, Button, Flex, Separator } from "@radix-ui/themes";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import PaymentMethods from "../components/PaymentMethods";
 import { IoIosClose } from "react-icons/io";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getPendingRecord } from "../api/pendingRecord";
 import { formatTime } from "../utils/formatTime";
 import { formatDate } from "../utils/formatDate";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Payment = () => {
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams();
-  const time = searchParams.get("time");
   const seatCount = Number(searchParams.get("count") || 0); // safer
   const bookingId = searchParams.get("bookingId");
 
@@ -19,6 +21,62 @@ const Payment = () => {
   const theater = useSelector((state) => state?.theater?.theater);
 
   const [bookingDetails, setBookingDetails] = useState({});
+
+  const handlePayment = async (pendingRecordId) => {
+    try {
+      // 1. Create order from backend
+      const {data} = await axios.post(
+        "http://localhost:5000/api/payments/create-order",
+        {
+          pendingRecordId,
+        },
+        { withCredentials: true }
+      );
+
+      
+      const {  id, amount, currency } = data.data;
+
+      console.log(id, amount, currency);
+      
+
+      // 2. Open Razorpay checkout
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID, // from backend (public key)
+        amount,
+        currency,
+        name: "My Movie App",
+        description: "Booking Payment",
+        order_id: id,
+        handler: async function (response) {
+          console.log(response);
+          
+          // 3. On success, send details to backend for verification
+          const result = await axios.post(
+            "http://localhost:5000/api/payments/verify-payment",
+            {
+              pendingRecordId,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            },
+            { withCredentials: true }
+          );
+          
+          toast.success('Payment Success!')
+          navigate(`/order/${result.data.data.id}`)
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      toast.error('Payment Failed!')
+    }
+  };
 
   useEffect(() => {
     const fetchBookingRecords = async () => {
@@ -36,10 +94,7 @@ const Payment = () => {
   const ticketPrice = 110;
   const taxRate = 0.18;
   const totalAmount = (ticketPrice * seatCount * (1 + taxRate)).toFixed(2);
-  
 
-  console.log(bookingDetails);
-  
   return (
     <div className="w-full h-full pt-20">
       <div className="bg-white m-auto w-[90%] lg:w-1/3 h-fit rounded-lg shadow-md">
@@ -72,16 +127,23 @@ const Payment = () => {
             <div>
               <span>
                 Number of Seats:
-                <span className="font-bold ml-2">{bookingDetails?.data?.numberOfSeats}</span>
+                <span className="font-bold ml-2">
+                  {bookingDetails?.data?.numberOfSeats}
+                </span>
               </span>
             </div>
             <div>
               <span>Child: 0</span>
             </div>
             <div className="flex flex-row justify-between">
-              <span>Show Date: {formatDate(bookingDetails?.data?.showDate)}</span>
               <span>
-                Show Time: <span className="ml-2 font-bold">{formatTime(bookingDetails?.data?.showDate)}</span>
+                Show Date: {formatDate(bookingDetails?.data?.showDate)}
+              </span>
+              <span>
+                Show Time:{" "}
+                <span className="ml-2 font-bold">
+                  {formatTime(bookingDetails?.data?.showDate)}
+                </span>
               </span>
             </div>
           </div>
@@ -92,10 +154,14 @@ const Payment = () => {
               Payment Details
             </h3>
             <div className="mt-5 flex flex-col gap-4 font-semibold lg:font-normal">
-              {bookingDetails?.data?.zoneDetails.map(e => <div className="flex justify-between font-semibold">
-                <span>{e.name} {" "} * {e.seats}</span>
-                <span>{e.total}</span>
-              </div>)}
+              {bookingDetails?.data?.zoneDetails.map((e) => (
+                <div className="flex justify-between font-semibold"key={e.name}>
+                  <span>
+                    {e.name} * {e.seats}
+                  </span>
+                  <span>{e.total}</span>
+                </div>
+              ))}
               <div className="flex justify-between">
                 <span>Tax in Ticket:</span>
                 <span>{taxRate * 100}%</span>
@@ -108,28 +174,14 @@ const Payment = () => {
 
             {/* Proceed Button */}
             <div className="mt-4 flex justify-end">
-              <AlertDialog.Root>
-                <AlertDialog.Trigger>
-                  <Button variant="solid" className="py-5">
-                    Proceed to Pay <FaCircleArrowRight />
-                  </Button>
-                </AlertDialog.Trigger>
-                <AlertDialog.Content maxWidth="450px">
-                  <Flex justify="between" className="items-center">
-                    <AlertDialog.Title className="text-sm mt-5">
-                      Select Payment Method
-                    </AlertDialog.Title>
-                    <AlertDialog.Cancel className="cursor-pointer">
-                      <div className="p-2 bg-gray-100 rounded-full">
-                        <IoIosClose size="25" />
-                      </div>
-                    </AlertDialog.Cancel>
-                  </Flex>
-
-                  {/* Payment Methods */}
-                  <PaymentMethods />
-                </AlertDialog.Content>
-              </AlertDialog.Root>
+              
+              <Button
+                variant="solid"
+                className="py-5"
+                onClick={() => handlePayment(bookingId)}
+              >
+                Proceed to Pay <FaCircleArrowRight />
+              </Button>
             </div>
           </div>
         </div>

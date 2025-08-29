@@ -12,11 +12,22 @@ import { getCities } from "../api/citiesList";
 import { Link } from "react-router-dom";
 import SearchDialog from "./SearchDialog";
 import SignIN from "./SignIN";
+import axios from "axios";
+
+// ✅ Redux
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser, setUser } from "../app/userSlice";
+import { isMe, logOut } from "../services/authService";
+import { toast } from "react-toastify";
 
 const Nav = () => {
   const [state, setState] = useState();
   const [open, setOpen] = useState(false);
 
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  // ✅ Fetch cities
   useEffect(() => {
     const citiesList = async () => {
       try {
@@ -29,8 +40,41 @@ const Nav = () => {
     citiesList();
   }, []);
 
+  // ✅ Fetch user info (isMe)
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const res = await isMe();
+        console.log(res);
+
+        if (res.loggedIn) {
+          dispatch(setUser(res.user));
+        } else {
+          dispatch(clearUser());
+        }
+      } catch (error) {
+        console.log("Error checking user:", error);
+        dispatch(clearUser());
+      }
+    };
+
+    checkUser();
+  }, [dispatch]);
+
+  const handleLogOut = async () => {
+    try {
+      const res = await logOut();
+      if (!res.success) return toast.error("Failed Logout");
+      dispatch(clearUser())
+      toast.success("Logout Success");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex justify-between items-center p-2 bg-white border-b !w-full h-auto">
+      {/* Left: Logo + Search */}
       <div className="flex-row gap-2 lg:gap-4 lg:grid lg:grid-cols-6 items-center">
         <Link to={"/"}>
           <div className="text-lg font-bold w-auto p-2 lg:col-span-1">
@@ -53,6 +97,7 @@ const Nav = () => {
         </div>
       </div>
 
+      {/* Right: State Select + Auth */}
       <div className="flex flex-row gap-4 lg:gap-8 items-center">
         <div className="hidden lg:block">
           <Select.Root defaultValue="select">
@@ -71,30 +116,50 @@ const Nav = () => {
           </Select.Root>
         </div>
 
-        <AlertDialog.Root open={open} onOpenChange={setOpen}>
-          <AlertDialog.Trigger>
-            <Button className="bg-black">Sign In</Button>
-          </AlertDialog.Trigger>
-          <AlertDialog.Content>
-            <AlertDialog.Title className="hidden">Sign In Form</AlertDialog.Title>
-            <AlertDialog.Description className="hidden">for login users</AlertDialog.Description>
-            <SignIN closeDialog={() => setOpen(false)}/>
-          </AlertDialog.Content>
-        </AlertDialog.Root>
-
-         <DropdownMenu.Root>
-          <DropdownMenu.Trigger>
-            <div><Avatar fallback="A" radius="full" /></div>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content>
-            <DropdownMenu.Item>Profile</DropdownMenu.Item>
-            <Link to={'/user/booking-history'}><DropdownMenu.Item>Booking Details</DropdownMenu.Item></Link>
-            <DropdownMenu.Separator />
-            <DropdownMenu.Item className="text-red-600 hover:bg-red-600 hover:text-white">
-              Logout
-            </DropdownMenu.Item>
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
+        {/* ✅ If user NOT logged in → Show Sign In */}
+        {!user.isAuthenticated ? (
+          <AlertDialog.Root open={open} onOpenChange={setOpen}>
+            <AlertDialog.Trigger>
+              <Button className="bg-black">Sign In</Button>
+            </AlertDialog.Trigger>
+            <AlertDialog.Content>
+              <AlertDialog.Title className="hidden">
+                Sign In Form
+              </AlertDialog.Title>
+              <AlertDialog.Description className="hidden">
+                for login users
+              </AlertDialog.Description>
+              <SignIN closeDialog={() => setOpen(false)} />
+            </AlertDialog.Content>
+          </AlertDialog.Root>
+        ) : (
+          // ✅ If logged in → Show Avatar & Menu
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+              <div>
+                <Avatar
+                  fallback={user.username[0]?.toUpperCase()}
+                  radius="full"
+                />
+              </div>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+              <DropdownMenu.Item disabled>
+                {user.username} ({user.role})
+              </DropdownMenu.Item>
+              <Link to={"/user/booking-history"}>
+                <DropdownMenu.Item>Booking Details</DropdownMenu.Item>
+              </Link>
+              <DropdownMenu.Separator />
+              <DropdownMenu.Item
+                className="text-red-600 hover:bg-red-600 hover:text-white"
+                onClick={handleLogOut}
+              >
+                Logout
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        )}
 
         <SearchDialog
           trigger={
