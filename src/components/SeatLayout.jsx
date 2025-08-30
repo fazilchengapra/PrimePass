@@ -12,14 +12,13 @@ const SeatLayout = ({ showId }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [loading, setLoading] = useState(true);
   const socket = useSocket();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const movie = useSelector((state) => state.movie.selectedMovie);
   const theater = useSelector((state) => state.theater.theater);
   const showDate = useSelector((state) => state.show.sltDate);
 
   const handleProceed = async () => {
-    
     const data = {
       showId,
       movieTitle: movie?.original_title || movie?.name,
@@ -31,11 +30,13 @@ const SeatLayout = ({ showId }) => {
     };
 
     const result = await seatLock(data);
-    const {_id} = result.data
-    
+    const { _id } = result.data;
+
     if (!result.status) return;
     setSelectedSeats([]);
-    navigate(`/movie/${movie.id}/theater/${theater.theaterId}/payment/?bookingId=${_id}`)
+    navigate(
+      `/movie/${movie.id}/theater/${theater.theaterId}/payment/?bookingId=${_id}`
+    );
   };
 
   useEffect(() => {
@@ -60,8 +61,6 @@ const SeatLayout = ({ showId }) => {
     if (!socket) return;
 
     const handleSeatLocked = (data) => {
-      console.log("🔒 Seats locked:", data);
-
       setSeatLayout((prev) => {
         if (!prev) return prev;
         const updated = structuredClone(prev);
@@ -81,8 +80,6 @@ const SeatLayout = ({ showId }) => {
     };
 
     const handleSeatUnLocked = (seatIds) => {
-      console.log("🔓 Seats unlocked:", seatIds);
-
       setSeatLayout((prev) => {
         if (!prev) return prev;
         const updated = structuredClone(prev);
@@ -103,12 +100,12 @@ const SeatLayout = ({ showId }) => {
 
     socket.on("seatLocked", handleSeatLocked);
     socket.on("seatUnLocked", handleSeatUnLocked);
-    socket.on("seatBooked", handleSeatLocked)
+    socket.on("seatBooked", handleSeatLocked);
 
     return () => {
       socket.off("seatLocked", handleSeatLocked);
       socket.off("seatUnLocked", handleSeatUnLocked);
-      socket.off("seatBooked", handleSeatLocked)
+      socket.off("seatBooked", handleSeatLocked);
     };
   }, [socket]);
 

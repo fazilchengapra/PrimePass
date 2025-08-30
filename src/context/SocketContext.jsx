@@ -17,13 +17,9 @@ export const SocketProvider = ({ children }) => {
 
     setSocket(s);
 
-    s.on("connect", () => {
-      console.log("✅ Connected to server :", s.id);
-    });
+    s.on("connect", () => {});
 
-    s.on("disconnect", () => {
-      console.log("❌ Disconnected from server");
-    });
+    s.on("disconnect", () => {});
 
     return () => {
       s.disconnect();

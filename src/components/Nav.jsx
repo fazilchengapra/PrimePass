@@ -12,7 +12,6 @@ import { getCities } from "../api/citiesList";
 import { Link } from "react-router-dom";
 import SearchDialog from "./SearchDialog";
 import SignIN from "./SignIN";
-import axios from "axios";
 
 // ✅ Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -45,7 +44,6 @@ const Nav = () => {
     const checkUser = async () => {
       try {
         const res = await isMe();
-        console.log(res);
 
         if (res.loggedIn) {
           dispatch(setUser(res.user));

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
 import QRCode from "react-qr-code";
+import { fetchBookingDetails } from "../services/bookingService";
 
 // ✅ Loading with spinner + text
 const LoadingPage = () => (
@@ -35,12 +35,10 @@ const BookingDetails = () => {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/order/${id}`, {
-          withCredentials: true, // ✅ send cookies
-        });
+        const res = await fetchBookingDetails(id);
 
-        if (res.data.success && res.data.data) {
-          setBooking(res.data.data);
+        if (res.success && res.data) {
+          setBooking(res.data);
         } else {
           setError("Booking not found.");
         }

@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { getPendingRecord } from "../api/pendingRecord";
 import { formatTime } from "../utils/formatTime";
 import { formatDate } from "../utils/formatDate";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { createOrder, verifyPayment } from "../services/paymentService";
 
 // 🔹 Simple Loading Overlay Component
 const LoadingOverlay = ({ text }) => (
@@ -28,19 +28,15 @@ const Payment = () => {
   const theater = useSelector((state) => state?.theater?.theater);
 
   const [bookingDetails, setBookingDetails] = useState({});
-  const [loading, setLoading] = useState(false);     // preparing Razorpay
+  const [loading, setLoading] = useState(false); // preparing Razorpay
   const [verifying, setVerifying] = useState(false); // backend verifying
-  const [fetching, setFetching] = useState(true);   // fetching booking details
+  const [fetching, setFetching] = useState(true); // fetching booking details
 
   // 🔹 Payment Handler
   const handlePayment = async (pendingRecordId) => {
     try {
       setLoading(true); // preparing Razorpay order
-      const { data } = await axios.post(
-        "http://localhost:5000/api/payments/create-order",
-        { pendingRecordId },
-        { withCredentials: true }
-      );
+      const { data } = await createOrder(pendingRecordId);
 
       const { id, amount, currency } = data.data;
 
@@ -54,16 +50,12 @@ const Payment = () => {
         handler: async function (response) {
           try {
             setVerifying(true); // 🔹 show verifying overlay
-            const result = await axios.post(
-              "http://localhost:5000/api/payments/verify-payment",
-              {
-                pendingRecordId,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              },
-              { withCredentials: true }
-            );
+            const result = await verifyPayment({
+              pendingRecordId,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
             toast.success("Payment Success!");
             navigate(`/order/${result.data.data.id}`);
           } catch (err) {
@@ -112,7 +104,9 @@ const Payment = () => {
   return (
     <div className="w-full h-full pt-20">
       {loading && <LoadingOverlay text="Opening payment gateway..." />}
-      {verifying && <LoadingOverlay text="Verifying your payment, please wait..." />}
+      {verifying && (
+        <LoadingOverlay text="Verifying your payment, please wait..." />
+      )}
 
       <div className="bg-white m-auto w-[90%] lg:w-1/3 h-fit rounded-lg shadow-md">
         <div className="p-5">

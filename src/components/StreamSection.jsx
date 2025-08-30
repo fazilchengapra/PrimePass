@@ -11,7 +11,7 @@ const StreamSection = ({ data, title, link }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         {data?.map((provider) => (
-          <div className="flex flex-col gap-4 p-2 border rounded-md">
+          <div className="flex flex-col gap-4 p-2 border rounded-md" key={provider?.provider_id}>
             <div className="flex flex-row gap-2 items-center">
               <div className="w-16 h-16">
                 <img

@@ -13,9 +13,8 @@ import { Separator } from "@radix-ui/themes";
 import { Riple } from "react-loading-indicators";
 
 import { getProviders } from "../api/movie";
-import { getShowDetails } from "../api/getShowDetails";
 import { setShow } from "../app/showSlice";
-import { set } from "zod";
+import { getShowDetails } from "../services/showService";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -42,11 +41,8 @@ const MovieDetails = () => {
         setData({ providers: providersRes, showDetails: showRes });
 
         if (showRes && showRes.status) {
-          console.log(showRes);
-
           dispatch(setShow(showRes.data));
         }
-
       } catch (error) {
         console.error("Error fetching movie details:", error);
         toast.error("Something went wrong while fetching details.", {
@@ -58,7 +54,7 @@ const MovieDetails = () => {
     };
 
     const fetchMovieData = async () => {
-      if(tool) return; // skip for series
+      if (tool) return; // skip for series
       try {
         setLoading(true);
         const movieRes = await getShowDetails(movieId);
@@ -70,9 +66,9 @@ const MovieDetails = () => {
         console.error("Error fetching movie data:", error);
         setLoading(false);
       }
-    }
+    };
 
-    fetchMovieData()
+    fetchMovieData();
     fetchData();
   }, [tool, movieId, dispatch]);
 

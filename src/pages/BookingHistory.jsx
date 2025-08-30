@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { MdArrowForwardIos } from "react-icons/md";
 import { TbClockHour8 } from "react-icons/tb";
 import QRCode from "react-qr-code";
 import { Link } from "react-router-dom";
+import { fetchBookingHistory } from "../services/bookingService";
 
 const BookingHistory = () => {
   const [bookings, setBookings] = useState([]);
@@ -11,12 +11,9 @@ const BookingHistory = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/order/history", {
-          withCredentials: true, // if cookie/JWT
-        });
-        console.log(res);
+        const res = await fetchBookingHistory();
 
-        setBookings(res.data.data.bookings);
+        setBookings(res.data.bookings);
       } catch (err) {
         console.error("Failed to load booking history", err);
       }
@@ -36,10 +33,7 @@ const BookingHistory = () => {
         <div className="flex flex-col gap-4 max-h-[600px] lg:max-h-[500px] overflow-y-auto suggestion-list pb-5">
           {bookings?.map((b) => (
             <Link key={b?.id} to={`/order/${b?.id}`}>
-              <div
-                
-                className="relative w-[85%] lg:w-3/4 m-auto border shadow-lg rounded-xl bg-white"
-              >
+              <div className="relative w-[85%] lg:w-3/4 m-auto border shadow-lg rounded-xl bg-white">
                 <div className="p-5 flex flex-col gap-3">
                   <div className="flex flex-row justify-between items-center">
                     <h3 className="text-lg font-semibold">{b?.movieTitle}</h3>
