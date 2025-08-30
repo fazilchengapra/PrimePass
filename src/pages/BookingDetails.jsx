@@ -1,12 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import QRCode from "react-qr-code";
 
-// A nice animated loading spinner
+// ✅ Loading with spinner + text
 const LoadingPage = () => (
-  <div className="flex justify-center items-center min-h-screen bg-gray-50">
+  <div className="flex flex-col gap-4 justify-center items-center min-h-screen bg-gray-50">
     <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-75"></div>
+    <p className="text-gray-600 font-medium">
+      Fetching your booking details...
+    </p>
+  </div>
+);
+
+// ✅ Not Found / Error message with back link
+const ErrorPage = ({ message }) => (
+  <div className="flex flex-col gap-4 justify-center items-center min-h-screen bg-gray-50">
+    <p className="text-red-600 font-semibold">{message}</p>
+    <Link
+      to="/"
+      className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition"
+    >
+      Back to Home
+    </Link>
   </div>
 );
 
@@ -23,7 +39,7 @@ const BookingDetails = () => {
           withCredentials: true, // ✅ send cookies
         });
 
-        if (res.data.success) {
+        if (res.data.success && res.data.data) {
           setBooking(res.data.data);
         } else {
           setError("Booking not found.");
@@ -40,12 +56,7 @@ const BookingDetails = () => {
   }, [id]);
 
   if (loading) return <LoadingPage />;
-  if (error)
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <p className="text-red-600 font-medium">{error}</p>
-      </div>
-    );
+  if (error) return <ErrorPage message={error} />;
 
   return (
     <div className="flex justify-center mt-6 px-4">
@@ -58,10 +69,15 @@ const BookingDetails = () => {
             alt={booking.movieTitle}
           />
           <div className="flex flex-col justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">{booking.movieTitle}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {booking.movieTitle}
+            </h1>
             <div className="text-gray-600 text-sm space-y-1">
-              {/* Example: Hindi, 2D */}
-              <p>{booking.language ? `${booking.language}, ${booking.format}` : "—"}</p>
+              <p>
+                {booking.language
+                  ? `${booking.language}, ${booking.format}`
+                  : "—"}
+              </p>
               <p>
                 {new Date(booking.showDate).toLocaleDateString()} |{" "}
                 {new Date(booking.showDate).toLocaleTimeString([], {
@@ -102,22 +118,20 @@ const BookingDetails = () => {
             size={100}
           />
           <div className="flex flex-col gap-3 flex-1 text-center">
-            <p className="text-gray-600 text-lg">{booking.numberOfSeats} Ticket(s)</p>
+            <p className="text-gray-600 text-lg">
+              {booking.numberOfSeats} Ticket(s)
+            </p>
             <div className="space-y-1">
               <p className="text-xl font-bold text-gray-900 uppercase">
                 {booking.screenName || "Screen"}
               </p>
               <p className="text-gray-600 text-sm uppercase">
-                {booking.zoneDetails?.map(
-                  (zone) =>
-                    `${zone.name} - ${booking.seats
-                      .map((s) => `${s.row}${s.number}`)
-                      .join(", ")}`
-                )}
+                {booking.seats.map((s) => `${s.number}`).join(", ")}
               </p>
             </div>
             <p className="text-sm text-gray-500">
-              Booking ID: <span className="font-semibold">{booking.bookingId}</span>
+              Booking ID:{" "}
+              <span className="font-semibold">{booking.bookingId}</span>
             </p>
           </div>
         </div>

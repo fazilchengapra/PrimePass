@@ -41,10 +41,6 @@ const MovieDetails = () => {
 
         setData({ providers: providersRes, showDetails: showRes });
 
-        // ✅ toast only once, immediately after fetch
-        if (showRes && !showRes.status) {
-          toast.error("Show not found", { toastId: "showNotFound" });
-        }
         if (showRes && showRes.status) {
           console.log(showRes);
 

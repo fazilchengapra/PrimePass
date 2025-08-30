@@ -13,6 +13,7 @@ import Register from "./pages/Register";
 import BookingHistory from "./pages/BookingHistory";
 import { SocketProvider } from "./context/SocketContext";
 import BookingDetails from "./pages/BookingDetails";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ export const appRouter = createBrowserRouter([
         </ErrorBoundary>
       </NetworkErrorProvider>
     ),
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: "/",

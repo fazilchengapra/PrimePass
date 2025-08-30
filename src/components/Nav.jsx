@@ -57,15 +57,15 @@ const Nav = () => {
         dispatch(clearUser());
       }
     };
-
-    checkUser();
-  }, [dispatch]);
+    if (!user.isAuthenticated) checkUser();
+    return;
+  }, [dispatch, user]);
 
   const handleLogOut = async () => {
     try {
       const res = await logOut();
       if (!res.success) return toast.error("Failed Logout");
-      dispatch(clearUser())
+      dispatch(clearUser());
       toast.success("Logout Success");
     } catch (error) {
       console.log(error);
