@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { seatLock } from "../api/lockSeats";
 import { Button } from "@radix-ui/themes";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SeatLayout = ({ showId }) => {
   const [seatLayout, setSeatLayout] = useState(null);
@@ -19,24 +20,34 @@ const SeatLayout = ({ showId }) => {
   const showDate = useSelector((state) => state.show.sltDate);
 
   const handleProceed = async () => {
-    const data = {
-      showId,
-      movieTitle: movie?.original_title || movie?.name,
-      posterUrl: movie?.poster_path,
-      theaterName: theater?.name,
-      showDate,
-      numberOfSeats: selectedSeats.length,
-      seats: selectedSeats,
-    };
+    try {
+      const data = {
+        showId,
+        movieTitle: movie?.original_title || movie?.name,
+        posterUrl: movie?.poster_path,
+        theaterName: theater?.name,
+        showDate,
+        numberOfSeats: selectedSeats.length,
+        seats: selectedSeats,
+      };
 
-    const result = await seatLock(data);
-    const { _id } = result.data;
+      const result = await seatLock(data);
+      const { _id } = result.data;
 
-    if (!result.status) return;
-    setSelectedSeats([]);
-    navigate(
-      `/movie/${movie.id}/theater/${theater.theaterId}/payment/?bookingId=${_id}`
-    );
+      if (!result.status) return;
+      setSelectedSeats([]);
+      navigate(
+        `/movie/${movie.id}/theater/${theater.theaterId}/payment/?bookingId=${_id}`
+      );
+    } catch (error) {
+      toast.error(
+        error?.response?.status === 401
+          ? "Please provide your identity!"
+          : error?.response?.data?.message ||
+              "Something went wrong. Please try again."
+      );
+      if (error?.response?.status === 401) return navigate("/register");
+    }
   };
 
   useEffect(() => {
@@ -117,6 +128,10 @@ const SeatLayout = ({ showId }) => {
 
   const seatSelector = (seatObj, isBooked) => {
     if (isBooked) return;
+    if (selectedSeats.length >= 10)
+      return toast.error("You can select a maximum of 10 seats", {
+        toastId: "maxSeats",
+      });
 
     const seatData = {
       id: seatObj.seatId || `${seatObj.seatNumber}-${seatObj.GridSeatNum}`,

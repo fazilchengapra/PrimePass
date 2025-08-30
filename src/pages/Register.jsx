@@ -9,6 +9,7 @@ import { CgDanger } from "react-icons/cg";
 import { registerUser } from "../services/authService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,6 +20,11 @@ const Register = () => {
   } = useForm({
     resolver: zodResolver(registerSchema),
   });
+
+  const user = useSelector((state) => state.user);
+  if (user?.isAuthenticated) {
+    navigate("/");
+  }
 
   const onSubmit = async (data) => {
     try {
