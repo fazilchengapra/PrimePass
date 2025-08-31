@@ -5,26 +5,26 @@ import { MdLiveTv } from "react-icons/md";
 import { IoIosClose } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { clearTool, setTools } from "../app/toolSlice";
+import { clearTool, setTool } from "../app/searchSlice";
 
 const tools = [
   { name: "series", icon: <MdLiveTv size={15} />, dis: "web series" },
 ];
 
-const SearchTools = ({ filter, setFilter }) => {
-  const [tool, setTool] = useState([]); // keep array
+const SearchTools = ({ setFilter }) => {
+  const [tool, setTools] = useState([]); // keep array
   const dispatch = useDispatch();
 
   const addTool = (item) => {
     if (!tool.some((t) => t.name === item.name)) {
-      setTool([...tool, item]);
+      setTools([...tool, item]);
       setFilter(item.name);
-      dispatch(setTools(item.name));
+      dispatch(setTool(item.name));
     }
   };
 
   const removeTool = (name) => {
-    setTool(tool.filter((t) => t.name !== name));
+    setTools(tool.filter((t) => t.name !== name));
     setFilter("");
     dispatch(clearTool());
   };

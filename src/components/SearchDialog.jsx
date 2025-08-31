@@ -10,38 +10,40 @@ import FilterOptions from "./FilterOptions";
 import { fetchFilteredMovies } from "../api/discover";
 import { hasAnyFilterValue } from "../utils/filterHelpers";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { setTool } from "../app/searchSlice";
+import { set } from "zod";
 
 const SearchDialog = ({
   trigger,
   contentClass = "w-1/2",
   dialogClass = "",
+  onClose,
 }) => {
+  const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [searchMovies, setSearchMovies] = useState([]);
   const [filter, setFilter] = useState("");
 
-  // filter options
-  const [filterOptions, setFilterOptions] = useState({
-    year: null,
-    with_original_language: null,
-    with_genres: [],
-  });
+  const filters = useSelector((state) => state.search.filters);
 
   // the handle change function only call when user search anything
   const handleChange = (value) => {
-    if (hasAnyFilterValue(filterOptions)) {
-      toast.error("Clear Filter Options and Try!");
+    if(value.trim() === "") return setQuery(value);
+    if (hasAnyFilterValue(filters)) {
+      toast.error("Clear Filter Options and Try!", { toastId: "filterError" });
     } else {
       setQuery(value);
     }
   };
 
   useEffect(() => {
+    dispatch(setTool(filter));
     if (!query || query?.trim() === "") {
-      const isSelected = hasAnyFilterValue(filterOptions);
+      const isSelected = hasAnyFilterValue(filters);
       if (isSelected) {
         (async () => {
-          const res = await fetchFilteredMovies(filterOptions, filter);
+          const res = await fetchFilteredMovies(filters, filter);
           setSearchMovies(res);
         })();
       } else {
@@ -58,10 +60,16 @@ const SearchDialog = ({
     };
 
     fetchMoviesByQuery();
-  }, [query, filter, filterOptions]);
+  }, [query, filter, filters, dispatch]);
 
   return (
-    <Dialog.Root>
+    <Dialog.Root
+      onOpenChange={(open) => {
+        if (!open && typeof onClose === "function") {
+          onClose(); 
+        }
+      }}
+    >
       <Dialog.Trigger className="!w-full select-none" asChild>
         {trigger}
       </Dialog.Trigger>
@@ -95,11 +103,7 @@ const SearchDialog = ({
           <SearchTools filter={filter} setFilter={setFilter} />
 
           {/* Filter by Multiple options */}
-          <FilterOptions
-            query={query}
-            filterOptions={filterOptions}
-            setFilterOptions={setFilterOptions}
-          />
+          <FilterOptions query={query} />
         </div>
 
         <div className="overflow-y-auto h-96 suggestion-list">
