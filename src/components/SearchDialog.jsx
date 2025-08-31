@@ -17,6 +17,7 @@ const SearchDialog = ({
   trigger,
   contentClass = "w-1/2",
   dialogClass = "",
+  onClose,
 }) => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
@@ -28,7 +29,7 @@ const SearchDialog = ({
   // the handle change function only call when user search anything
   const handleChange = (value) => {
     if (hasAnyFilterValue(filters)) {
-      toast.error("Clear Filter Options and Try!");
+      toast.error("Clear Filter Options and Try!", { toastId: "filterError" });
     } else {
       setQuery(value);
     }
@@ -60,7 +61,13 @@ const SearchDialog = ({
   }, [query, filter, filters, dispatch]);
 
   return (
-    <Dialog.Root>
+    <Dialog.Root
+      onOpenChange={(open) => {
+        if (!open && typeof onClose === "function") {
+          onClose(); 
+        }
+      }}
+    >
       <Dialog.Trigger className="!w-full select-none" asChild>
         {trigger}
       </Dialog.Trigger>

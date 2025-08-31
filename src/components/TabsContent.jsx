@@ -11,7 +11,7 @@ import { getTvCasts, getTvVideos } from "../api/series";
 const TabsContent = ({ movieId, movieDetails }) => {
   const [cast, setCast] = useState([]);
   const [videos, setVideos] = useState([]);
-  const tool = useSelector((state) => state.tool.tool);
+  const tool = useSelector(state => state?.search?.tool); // null → movie, value → series
 
   useEffect(() => {
     const fetchCast = async () => {

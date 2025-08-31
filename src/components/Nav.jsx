@@ -18,10 +18,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser, setUser } from "../app/userSlice";
 import { isMe, logOut } from "../services/authService";
 import { toast } from "react-toastify";
+import { clearTool } from "../app/searchSlice";
 
 const Nav = () => {
   const [state, setState] = useState();
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -59,6 +61,10 @@ const Nav = () => {
     return;
   }, [dispatch, user]);
 
+  useEffect(() => {
+    if (!searchOpen) dispatch(clearTool());
+  }, [searchOpen, dispatch]);
+
   const handleLogOut = async () => {
     try {
       const res = await logOut();
@@ -79,6 +85,8 @@ const Nav = () => {
             PrimePass
           </div>
         </Link>
+
+        {/* open only desktop */}
         <div className="h-10 w-auto col-span-5 mt-2 hidden lg:block">
           <SearchDialog
             trigger={
@@ -91,6 +99,7 @@ const Nav = () => {
               </div>
             }
             contentClass="w-1/2"
+            onClose={() => dispatch(clearTool())}
           />
         </div>
       </div>
@@ -165,6 +174,8 @@ const Nav = () => {
           }
           contentClass="w-3/4"
           dialogClass="top-[18rem]"
+          openChanges={setSearchOpen}
+          onClose={() => dispatch(clearTool())}
         />
       </div>
     </div>

@@ -8,7 +8,7 @@ import GenreFilter from "./filters/GenreFilter";
 import { hasAnyFilterValue } from "../utils/filterHelpers";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilters } from "../app/searchSlice";
+import { clearFilters, setFilters } from "../app/searchSlice";
 
 const filters = [
   { name: "Year", movie: "year", tv: "first_air_date_year" },
@@ -25,9 +25,7 @@ const FilterBody = ({ query }) => {
   const dispatch = useDispatch();
   const [childFilterOption, setChildFilterOption] = useState(initialFilters);
   const [filterSelector, setFilterSelector] = useState("Year");
-  const handleSetFilterOptions = () => {
-    dispatch(setFilters(childFilterOption));
-  };
+  
 
   // checking any filter option is active and assigning bool to state
   const [isActive, SetIsActive] = useState(false);
@@ -102,7 +100,7 @@ const FilterBody = ({ query }) => {
             <div className="col-span-1">
               <Dialog.Close asChild>
                 <Button
-                  onClick={handleSetFilterOptions}
+                  onClick={() => dispatch(clearFilters())}
                   color="gray"
                   variant="outline"
                   className="w-full py-1 rounded-full"

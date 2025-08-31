@@ -17,13 +17,13 @@ const searchSlice = createSlice({
       state.tool = action.payload;
     },
     clearTool: (state) => {
-      state.tool = null;
+      return { ...state, tool: null };
     },
     setFilters: (state, action) => {
       state.filters = { ...state.filters, ...action.payload };
     },
     clearFilters: (state) => {
-      state.filters = { genre: "", year: "", language: "" };
+      state.filters = { with_genres: [], year: "", with_original_language: "" };
     },
   },
 });

@@ -15,7 +15,7 @@ const MovieHeader = ({ movieId }) => {
   const [duration, setDuration] = useState();
   const [trailer, setTrailer] = useState(null);
   const [loading, setLoading] = useState();
-  const tool = useSelector(state => state?.tool?.tool)
+  const tool = useSelector(state => state?.search?.tool); // null → movie, value → series
   
   useEffect(() => {
     setLoading(true);
