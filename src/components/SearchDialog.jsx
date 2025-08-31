@@ -12,6 +12,7 @@ import { hasAnyFilterValue } from "../utils/filterHelpers";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setTool } from "../app/searchSlice";
+import { set } from "zod";
 
 const SearchDialog = ({
   trigger,
@@ -28,6 +29,7 @@ const SearchDialog = ({
 
   // the handle change function only call when user search anything
   const handleChange = (value) => {
+    if(value.trim() === "") return setQuery(value);
     if (hasAnyFilterValue(filters)) {
       toast.error("Clear Filter Options and Try!", { toastId: "filterError" });
     } else {
