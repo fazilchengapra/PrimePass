@@ -5,9 +5,9 @@ const searchSlice = createSlice({
   initialState: {
     tool: null,
     filters: {
-      genre: "",
+      with_genres: [],
       year: "",
-      language: "",
+      with_original_language: "",
     },
     loading: false,
     error: null,
@@ -19,7 +19,7 @@ const searchSlice = createSlice({
     clearTool: (state) => {
       state.tool = null;
     },
-    setFilter: (state, action) => {
+    setFilters: (state, action) => {
       state.filters = { ...state.filters, ...action.payload };
     },
     clearFilters: (state) => {
@@ -28,5 +28,6 @@ const searchSlice = createSlice({
   },
 });
 
-export const {setTool, clearTool, setFilter, clearFilters} = searchSlice.actions
-export default searchSlice.reducer
+export const { setTool, clearTool, setFilters, clearFilters } =
+  searchSlice.actions;
+export default searchSlice.reducer;

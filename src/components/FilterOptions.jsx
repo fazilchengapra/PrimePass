@@ -1,12 +1,12 @@
 import { IconButton } from "@radix-ui/themes";
 import { CiFilter } from "react-icons/ci";
-import { Dialog} from "@radix-ui/themes";
+import { Dialog } from "@radix-ui/themes";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import FilterBody from "./FilterBody";
 
-const FilterOptions = ({filterOptions, setFilterOptions, query}) => {
+const FilterOptions = ({ query }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -48,7 +48,7 @@ const FilterOptions = ({filterOptions, setFilterOptions, query}) => {
                 </Dialog.Description>
 
                 {/* Filter Body Container */}
-                <FilterBody filterOptions={filterOptions} setFilterOptions={setFilterOptions} query={query}/>
+                <FilterBody query={query} />
               </motion.div>
             </DialogPrimitive.Content>
           )}

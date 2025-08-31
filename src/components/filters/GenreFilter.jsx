@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FormControlLabel, Checkbox, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const popularGenres = [
   { id: 28, name: "Action" },
@@ -13,10 +14,10 @@ const popularGenres = [
 ];
 
 const GenreFilter = ({
-  filterOptions,
   setFilterOptions,
   parentFilterOptions,
 }) => {
+  const initialFilters = useSelector((state) => state.search.filters);
   const [selectedGenres, setSelectedGenres] = useState([]);
 
   const handleToggle = (id) => {
@@ -34,10 +35,10 @@ const GenreFilter = ({
 
   // Optional: Sync with external filterOptions changes
   useEffect(() => {
-    if (parentFilterOptions?.with_genres) {
-      setSelectedGenres(parentFilterOptions?.with_genres);
+    if (initialFilters?.with_genres) {
+      setSelectedGenres(initialFilters?.with_genres);
     }
-  }, [parentFilterOptions?.with_genres]);
+  }, [initialFilters?.with_genres]);
 
   // Split genres into rows of 2
   const genreRows = [];

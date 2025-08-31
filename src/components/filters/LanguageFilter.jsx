@@ -1,5 +1,6 @@
 import { Button } from "@radix-ui/themes";
 import { MdDone } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const languages = [
   { code: "en", name: "English" },
@@ -8,17 +9,10 @@ const languages = [
   { code: "es", name: "Spanish" },
 ];
 
-const LanguageFilter = ({
-  filterOptions,
-  setFilterOptions,
-  parentFilterOptions,
-}) => {
-  // const [selectedLang, setSelectedLang] = useState(() => {
-  //   const match = languages.find(
-  //     (lang) => lang.code === parentFilterOptions?.with_original_language
-  //   );
-  //   return match ? match.name : null;
-  // });
+const LanguageFilter = ({ filterOptions, setFilterOptions }) => {
+  const lang = useSelector(
+    (state) => state.search.filters.with_original_language
+  );
 
   return (
     <div className="w-full px-2 h-fit">
@@ -37,23 +31,13 @@ const LanguageFilter = ({
                   with_original_language: language.code,
                 }));
               }}
-              color={
-                filterOptions?.with_original_language === language.code
-                  ? "blue"
-                  : "gray"
-              }
-              variant={
-                filterOptions?.with_original_language === language.code
-                  ? "soft"
-                  : "outline"
-              }
+              color={lang === language.code ? "blue" : "gray"}
+              variant={lang === language.code ? "soft" : "outline"}
               className="py-1 rounded-md flex flex-row justify-between px-2 gap-2 text-sm"
               highContrast
             >
               {language.name}
-              {filterOptions?.with_original_language === language.code && (
-                <MdDone />
-              )}
+              {lang === language.code && <MdDone />}
             </Button>
           ))}
         </div>
