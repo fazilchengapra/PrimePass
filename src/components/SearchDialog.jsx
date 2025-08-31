@@ -12,7 +12,6 @@ import { hasAnyFilterValue } from "../utils/filterHelpers";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setTool } from "../app/searchSlice";
-import { set } from "zod";
 
 const SearchDialog = ({
   trigger,
