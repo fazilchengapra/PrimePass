@@ -18,7 +18,7 @@ import { getShowDetails } from "../services/showService";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const tool = useSelector((state) => state?.tool?.tool); // null → movie, value → series
+  const tool = useSelector(state => state?.search?.tool); // null → movie, value → series
   const dispatch = useDispatch();
 
   const [data, setData] = useState({

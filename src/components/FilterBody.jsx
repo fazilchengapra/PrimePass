@@ -7,6 +7,8 @@ import LanguageFilter from "./filters/LanguageFilter";
 import GenreFilter from "./filters/GenreFilter";
 import { hasAnyFilterValue } from "../utils/filterHelpers";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { clearFilters, setFilters } from "../app/searchSlice";
 
 const filters = [
   { name: "Year", movie: "year", tv: "first_air_date_year" },
@@ -18,13 +20,12 @@ const filters = [
   { name: "Genre", movie: "with_genres", tv: "with_genres" },
 ];
 
-const FilterBody = ({ filterOptions, setFilterOptions, query }) => {
-  const [childFilterOption, setChildFilterOption] = useState({
-    year: null,
-    with_original_language: null,
-    with_genres: [],
-  });
+const FilterBody = ({ query }) => {
+  const initialFilters = useSelector((state) => state.search.filters);
+  const dispatch = useDispatch();
+  const [childFilterOption, setChildFilterOption] = useState(initialFilters);
   const [filterSelector, setFilterSelector] = useState("Year");
+  
 
   // checking any filter option is active and assigning bool to state
   const [isActive, SetIsActive] = useState(false);
@@ -32,7 +33,8 @@ const FilterBody = ({ filterOptions, setFilterOptions, query }) => {
   // checking each childFilterOption of change and assign
   useEffect(() => {
     SetIsActive(hasAnyFilterValue(childFilterOption));
-  }, [childFilterOption]);
+    dispatch(setFilters(childFilterOption));
+  }, [childFilterOption, dispatch]);
 
   return (
     <div className="w-full flex lg:flex-none flex-col gap-5">
@@ -75,21 +77,18 @@ const FilterBody = ({ filterOptions, setFilterOptions, query }) => {
             <div className="col-span-4 w-full flex items-center">
               {filterSelector === "Year" && (
                 <YearFilter
-                  parentFilterOptions={filterOptions}
                   filterOptions={childFilterOption}
                   setFilterOptions={setChildFilterOption}
                 />
               )}
               {filterSelector === "Language" && (
                 <LanguageFilter
-                  parentFilterOptions={filterOptions}
                   filterOptions={childFilterOption}
                   setFilterOptions={setChildFilterOption}
                 />
               )}
               {filterSelector === "Genre" && (
                 <GenreFilter
-                  parentFilterOptions={filterOptions}
                   filterOptions={childFilterOption}
                   setFilterOptions={setChildFilterOption}
                 />
@@ -101,18 +100,7 @@ const FilterBody = ({ filterOptions, setFilterOptions, query }) => {
             <div className="col-span-1">
               <Dialog.Close asChild>
                 <Button
-                  onClick={() => {
-                    setFilterOptions({
-                      year: null,
-                      with_original_language: null,
-                      with_genres: [],
-                    });
-                    setChildFilterOption({
-                      year: null,
-                      with_original_language: null,
-                      with_genres: [],
-                    });
-                  }}
+                  onClick={() => dispatch(clearFilters())}
                   color="gray"
                   variant="outline"
                   className="w-full py-1 rounded-full"
@@ -131,8 +119,6 @@ const FilterBody = ({ filterOptions, setFilterOptions, query }) => {
                 onClick={() => {
                   if (query) {
                     toast.error("Cannot Filter With Search!");
-                  } else {
-                    setFilterOptions(childFilterOption);
                   }
                 }}
               >
