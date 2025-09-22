@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     // connect to backend
-    const s = io("http://localhost:5000", {
+    const s = io(process.env.REACT_APP_BASE_URL, {
       transports: ["websocket"],
     });
 
