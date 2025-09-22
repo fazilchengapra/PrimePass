@@ -49,13 +49,13 @@ export const appRouter = createBrowserRouter([
     element: (
       <NetworkErrorProvider>
         <ErrorBoundary>
+          <SocketProvider>
             <App />
-          {/* <SocketProvider>
-          </SocketProvider> */}
+          </SocketProvider>
         </ErrorBoundary>
       </NetworkErrorProvider>
     ),
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
