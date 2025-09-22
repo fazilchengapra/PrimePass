@@ -12,7 +12,9 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     // connect to backend
     const s = io(process.env.REACT_APP_BASE_URL_WEB, {
-      transports: ["websocket"],
+      path: "/socket.io/",
+      transports: ["polling", "websocket"], // ✅ allow polling first, then upgrade
+      withCredentials: true,
     });
 
     setSocket(s);
