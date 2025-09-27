@@ -81,8 +81,12 @@ const Nav = () => {
       {/* Left: Logo + Search */}
       <div className="flex-row gap-2 lg:gap-4 lg:grid lg:grid-cols-6 items-center">
         <Link to={"/"}>
-          <div className="text-lg font-bold w-auto p-2 lg:col-span-1">
-            PrimePass
+          <div className="w-20 h-20 overflow-hidden">
+            <img
+              src="/asset/primePassLogo.png"
+              alt="Prime Pass Logo"
+              className="w-full h-full object-cover"
+            />
           </div>
         </Link>
 
