@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import Banner from "../components/Banner";
-import Recommended from "../components/Recommended";
-import NewRelease from "../components/NewRelease";
-import MostPopularMovies from "../components/MostPopularMovies";
+import Banner from "../../components/Banner";
+import Recommended from "../../components/Recommended";
+import NewRelease from "../../components/NewRelease";
+import MostPopularMovies from "../../components/MostPopularMovies";
 import { useDispatch } from "react-redux";
-import { clearTool } from "../app/searchSlice";
+import { clearTool } from "../../app/searchSlice";
 
 const Home = () => {
   const dispatch = useDispatch();

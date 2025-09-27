@@ -3,7 +3,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { TbClockHour8 } from "react-icons/tb";
 import QRCode from "react-qr-code";
 import { Link } from "react-router-dom";
-import { fetchBookingHistory } from "../services/bookingService";
+import { fetchBookingHistory } from "../../services/bookingService";
 
 const BookingHistory = () => {
   const [bookings, setBookings] = useState([]);

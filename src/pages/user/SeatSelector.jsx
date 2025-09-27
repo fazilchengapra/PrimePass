@@ -1,8 +1,8 @@
 import { Button, Separator } from "@radix-ui/themes";
-import SeatLayout from "../components/SeatLayout";
+import SeatLayout from "../../components/SeatLayout";
 import { useSelector } from "react-redux";
 import { useParams, useSearchParams } from "react-router-dom";
-import { formatTime } from "../utils/formatTime";
+import { formatTime } from "../../utils/formatTime";
 import { useState } from "react";
 
 const SeatSelector = () => {

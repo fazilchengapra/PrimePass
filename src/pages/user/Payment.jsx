@@ -3,11 +3,11 @@ import { FaCircleArrowRight } from "react-icons/fa6";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getPendingRecord } from "../api/pendingRecord";
-import { formatTime } from "../utils/formatTime";
-import { formatDate } from "../utils/formatDate";
+import { getPendingRecord } from "../../api/pendingRecord";
+import { formatTime } from "../../utils/formatTime";
+import { formatDate } from "../../utils/formatDate";
 import { toast } from "react-toastify";
-import { createOrder, verifyPayment } from "../services/paymentService";
+import { createOrder, verifyPayment } from "../../services/paymentService";
 
 // 🔹 Simple Loading Overlay Component
 const LoadingOverlay = ({ text }) => (
