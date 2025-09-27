@@ -14,6 +14,7 @@ import BookingHistory from "./pages/user/BookingHistory";
 import { SocketProvider } from "./context/SocketContext";
 import BookingDetails from "./pages/user/BookingDetails";
 import ErrorPage from "./components/ErrorPage";
+import Auth from "./pages/Auth";
 
 function App() {
   return (
@@ -49,9 +50,9 @@ export const appRouter = createBrowserRouter([
     element: (
       <NetworkErrorProvider>
         <ErrorBoundary>
-          <SocketProvider>
+          {/* <SocketProvider> */}
             <App />
-          </SocketProvider>
+          {/* </SocketProvider> */}
         </ErrorBoundary>
       </NetworkErrorProvider>
     ),
@@ -63,7 +64,7 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <Register />,
+        element: <Auth />,
       },
       {
         path: "/user/booking-history",
