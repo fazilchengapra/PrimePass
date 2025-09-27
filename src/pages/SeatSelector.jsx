@@ -17,15 +17,14 @@ const SeatSelector = () => {
   const showTimes = showData?.show?.theaters?.find((e) => e?.theaterId === id);
 
   // Filter shows by selected date
-  const filteredShows = showTimes?.shows?.filter((show) => {
-    const showDate = show.startTime.split("T")[0];
-    return showDate === selectedDate;
-  }) || [];
+  const filteredShows =
+    showTimes?.shows?.filter((show) => {
+      const showDate = show.startTime.split("T")[0];
+      return showDate === selectedDate;
+    }) || [];
 
   // If URL param index exists, use that, else default to first filtered show
-  const [timeIdx, setTimeIdx] = useState(
-    idx ? parseInt(idx) : 0
-  );
+  const [timeIdx, setTimeIdx] = useState(idx ? parseInt(idx) : 0);
 
   const showId = filteredShows[timeIdx]?.showId || null;
 
@@ -33,12 +32,11 @@ const SeatSelector = () => {
     <div className="w-full fixed">
       <div className="w-[90%] lg:w-2/3 m-auto max-h-[600px] rounded-md bg-white mt-6 overflow-y-auto">
         <div className="mx-4 flex flex-col gap-4 pt-4">
-          {/* Date + Show Time Selector */}
-          <div className="flex flex-row gap-3 items-center py-2">
-            {/* Display selected date */}
-            <div className="flex flex-col text-sm min-w-fit">
-              {selectedDate ? (
-                <>
+          {selectedDate && showId ? (
+            <div>
+              <div className="flex flex-row gap-3 items-center py-2">
+                {/* Display selected date */}
+                <div className="flex flex-col text-sm min-w-fit">
                   <span>
                     {new Date(selectedDate).toLocaleDateString("en-US", {
                       weekday: "short",
@@ -50,37 +48,42 @@ const SeatSelector = () => {
                       month: "short",
                     })}
                   </span>
-                </>
-              ) : (
-                <span>No Date</span>
-              )}
+                </div>
+
+                {/* Showtimes (filtered by date) */}
+                <div className="flex flex-row gap-2 overflow-x-auto w-full suggestion-list">
+                  {filteredShows.map((e, index) => (
+                    <Button
+                      key={e.showId}
+                      color="gray"
+                      variant="surface"
+                      onClick={() => setTimeIdx(index)}
+                      highContrast
+                      className={`py-6 px-4 lg:px-10 rounded-md ${
+                        timeIdx === index ? "bg-gray-200" : ""
+                      }`}
+                    >
+                      {formatTime(e.startTime)}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              <Separator size="4" />
+
+              {/* Seat Layout */}
+              <div className="mt-5 pb-5">
+                <SeatLayout showId={showId} />
+              </div>
             </div>
-
-            {/* Showtimes (filtered by date) */}
-            <div className="flex flex-row gap-2 overflow-x-auto w-full suggestion-list">
-              {filteredShows.map((e, index) => (
-                <Button
-                  key={e.showId}
-                  color="gray"
-                  variant="surface"
-                  onClick={() => setTimeIdx(index)}
-                  highContrast
-                  className={`py-6 px-4 lg:px-10 rounded-md ${
-                    timeIdx === index ? "bg-gray-200" : ""
-                  }`}
-                >
-                  {formatTime(e.startTime)}
-                </Button>
-              ))}
+          ) : (
+            <div className="flex flex-row items-center justify-center gap-2 p-2 my-2 rounded-md bg-red-600 font-bold lg:font-semibold text-white">
+              Oops! something went wrong!{" "}
+              <a href="/" className="text-xs underline font-normal">
+                Go to home
+              </a>
             </div>
-          </div>
-
-          <Separator size="4" />
-
-          {/* Seat Layout */}
-          <div className="mt-5 pb-5">
-            {showId ? <SeatLayout showId={showId}/> : <p>No shows available for this date</p>}
-          </div>
+          )}
         </div>
       </div>
     </div>

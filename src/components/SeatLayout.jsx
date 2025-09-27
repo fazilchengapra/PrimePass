@@ -7,6 +7,7 @@ import { seatLock } from "../api/lockSeats";
 import { Button } from "@radix-ui/themes";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { OrbitProgress } from "react-loading-indicators";
 
 const SeatLayout = ({ showId }) => {
   const [seatLayout, setSeatLayout] = useState(null);
@@ -120,7 +121,13 @@ const SeatLayout = ({ showId }) => {
     };
   }, [socket]);
 
-  if (loading) return <p className="text-center py-10">Loading seats...</p>;
+  if (loading)
+    return (
+      <div className="h-screen flex flex-row justify-center ">
+        <OrbitProgress color="#4b5563" size="small" text="seats" textColor="" />
+      </div>
+    );
+
   if (!seatLayout) return <p className="text-center py-10">No seats found</p>;
 
   const areas = seatLayout?.colAreas?.objArea || [];
