@@ -1,18 +1,18 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav";
-import Home from "./pages/Home";
-import SeatSelector from "./pages/SeatSelector";
-import Payment from "./pages/Payment";
+import Home from "./pages/user/Home";
+import SeatSelector from "./pages/user/SeatSelector";
+import Payment from "./pages/user/Payment";
 import ScrollToTop from "./components/ScrollToTop";
 import { ToastContainer } from "react-toastify";
-import ErrorBoundary from "./pages/ErrorBoundary";
+import ErrorBoundary from "./pages/user/ErrorBoundary";
 import { NetworkErrorProvider } from "./components/context/NetworkErrorContext";
-import MediaDetails from "./pages/MediaDetails";
-import Register from "./pages/Register";
-import BookingHistory from "./pages/BookingHistory";
+import MediaDetails from "./pages/user/MediaDetails";
+import Register from "./pages/user/Register";
+import BookingHistory from "./pages/user/BookingHistory";
 import { SocketProvider } from "./context/SocketContext";
-import BookingDetails from "./pages/BookingDetails";
+import BookingDetails from "./pages/user/BookingDetails";
 import ErrorPage from "./components/ErrorPage";
 
 function App() {
@@ -49,13 +49,13 @@ export const appRouter = createBrowserRouter([
     element: (
       <NetworkErrorProvider>
         <ErrorBoundary>
+          <SocketProvider>
             <App />
-          {/* <SocketProvider>
-          </SocketProvider> */}
+          </SocketProvider>
         </ErrorBoundary>
       </NetworkErrorProvider>
     ),
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import QRCode from "react-qr-code";
-import { fetchBookingDetails } from "../services/bookingService";
+import { fetchBookingDetails } from "../../services/bookingService";
 
 // ✅ Loading with spinner + text
 const LoadingPage = () => (

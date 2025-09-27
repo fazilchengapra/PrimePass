@@ -3,22 +3,22 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import MovieHeader from "../components/MovieHeader";
-import ShowDates from "../components/ShowDates";
-import TheaterFilter from "../components/TheaterFilter";
-import Theater from "../components/Theater";
-import OTTproviders from "../components/OTTproviders";
-import SeriesSection from "../components/SeriesSection";
+import MovieHeader from "../../components/MovieHeader";
+import ShowDates from "../../components/ShowDates";
+import TheaterFilter from "../../components/TheaterFilter";
+import Theater from "../../components/Theater";
+import OTTproviders from "../../components/OTTproviders";
+import SeriesSection from "../../components/SeriesSection";
 import { Separator } from "@radix-ui/themes";
 import { Riple } from "react-loading-indicators";
 
-import { getProviders } from "../api/movie";
-import { setShow } from "../app/showSlice";
-import { getShowDetails } from "../services/showService";
+import { getProviders } from "../../api/movie";
+import { setShow } from "../../app/showSlice";
+import { getShowDetails } from "../../services/showService";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const tool = useSelector(state => state?.search?.tool); // null → movie, value → series
+  const tool = useSelector((state) => state?.search?.tool); // null → movie, value → series
   const dispatch = useDispatch();
 
   const [data, setData] = useState({
@@ -61,7 +61,6 @@ const MovieDetails = () => {
         if (movieRes && movieRes.status) {
           dispatch(setShow(movieRes.data));
         }
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching movie data:", error);
         setLoading(false);
@@ -103,9 +102,11 @@ const MovieDetails = () => {
             <Theater shows={data.showDetails.data.theaters} />
           </>
         ) : (
-          <div className="flex justify-center text-center font-semibold text-sm text-red-700">
-            No show details available for this movie.
-          </div>
+          !loading && (
+            <div className="flex justify-center text-center font-semibold text-sm text-red-700">
+              No show details available for this movie.
+            </div>
+          )
         )}
       </div>
     </div>

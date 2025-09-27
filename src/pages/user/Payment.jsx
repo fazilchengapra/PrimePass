@@ -3,11 +3,11 @@ import { FaCircleArrowRight } from "react-icons/fa6";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getPendingRecord } from "../api/pendingRecord";
-import { formatTime } from "../utils/formatTime";
-import { formatDate } from "../utils/formatDate";
+import { getPendingRecord } from "../../api/pendingRecord";
+import { formatTime } from "../../utils/formatTime";
+import { formatDate } from "../../utils/formatDate";
 import { toast } from "react-toastify";
-import { createOrder, verifyPayment } from "../services/paymentService";
+import { createOrder, verifyPayment } from "../../services/paymentService";
 
 // 🔹 Simple Loading Overlay Component
 const LoadingOverlay = ({ text }) => (
@@ -26,6 +26,7 @@ const Payment = () => {
 
   const movie = useSelector((state) => state.movie.selectedMovie);
   const theater = useSelector((state) => state?.theater?.theater);
+  const mail = useSelector((state) => state?.user.email);
 
   const [bookingDetails, setBookingDetails] = useState({});
   const [loading, setLoading] = useState(false); // preparing Razorpay
@@ -55,6 +56,7 @@ const Payment = () => {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
+              mail
             });
             toast.success("Payment Success!");
             navigate(`/order/${result.data.data.id}`);
@@ -71,6 +73,7 @@ const Payment = () => {
 
       const rzp = new window.Razorpay(options);
       rzp.open();
+      
     } catch (err) {
       console.error(err);
       toast.error("Payment Failed!");

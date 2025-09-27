@@ -4,14 +4,16 @@ import { MdOutlineMail } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { registerSchema } from "../schemas/authSchema";
+import { registerSchema } from "../../schemas/authSchema";
 import { CgDanger } from "react-icons/cg";
-import { registerUser } from "../services/authService";
+import { registerUser } from "../../services/authService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const Register = () => {
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const {
     register,
@@ -28,12 +30,14 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true)
       const { userName, email, password } = data;
       const res = await registerUser(userName, email, password);
-      console.log(res);
       toast.success(res.message);
+      setLoading(false)
       navigate('/')
     } catch (error) {
+      setLoading(false)
       console.log("registration failed ", error);
       toast.error(error.message);
     }
@@ -106,7 +110,7 @@ const Register = () => {
           </div>
 
           <div className="mt-5">
-            <Button className="w-full py-5" onClick={handleSubmit(onSubmit)}>
+            <Button loading={loading} className="w-full py-5" onClick={handleSubmit(onSubmit)}>
               Create Account
             </Button>
           </div>

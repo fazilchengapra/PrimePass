@@ -11,8 +11,10 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     // connect to backend
-    const s = io("http://localhost:5000", {
-      transports: ["websocket"],
+    const s = io(process.env.REACT_APP_BASE_URL_WEB, {
+      path: "/socket.io/",
+      transports: ["polling", "websocket"], // ✅ allow polling first, then upgrade
+      withCredentials: true,
     });
 
     setSocket(s);
