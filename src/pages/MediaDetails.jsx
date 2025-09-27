@@ -18,7 +18,7 @@ import { getShowDetails } from "../services/showService";
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const tool = useSelector(state => state?.search?.tool); // null → movie, value → series
+  const tool = useSelector((state) => state?.search?.tool); // null → movie, value → series
   const dispatch = useDispatch();
 
   const [data, setData] = useState({
@@ -61,7 +61,6 @@ const MovieDetails = () => {
         if (movieRes && movieRes.status) {
           dispatch(setShow(movieRes.data));
         }
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching movie data:", error);
         setLoading(false);
@@ -103,9 +102,11 @@ const MovieDetails = () => {
             <Theater shows={data.showDetails.data.theaters} />
           </>
         ) : (
-          <div className="flex justify-center text-center font-semibold text-sm text-red-700">
-            No show details available for this movie.
-          </div>
+          !loading && (
+            <div className="flex justify-center text-center font-semibold text-sm text-red-700">
+              No show details available for this movie.
+            </div>
+          )
         )}
       </div>
     </div>
