@@ -38,15 +38,19 @@ const NewRelease = () => {
         {loading
           ? [...Array(12)].map((_, index) => <MovieCardSkelton key={index} />)
           : movie.map((m) => (
-              <div key={m.id} className="h-full group flex flex-col justify-end">
+              <div
+                key={m.id}
+                className="h-full group flex flex-col justify-end"
+              >
                 <Link to={"movie/" + m.id}>
                   <Card key={m.id} card={m} />
+
+                  <div className="w-fit m-auto">
+                    <Button className="w-44" color="indigo" variant="soft">
+                      Book Now
+                    </Button>
+                  </div>
                 </Link>
-                <div className="w-fit m-auto">
-                  <Button className="w-44" color="indigo" variant="soft">
-                    Book Now
-                  </Button>
-                </div>
               </div>
             ))}
       </div>
