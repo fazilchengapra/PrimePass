@@ -9,7 +9,6 @@ import { ToastContainer } from "react-toastify";
 import ErrorBoundary from "./pages/user/ErrorBoundary";
 import { NetworkErrorProvider } from "./components/context/NetworkErrorContext";
 import MediaDetails from "./pages/user/MediaDetails";
-import Register from "./pages/user/Register";
 import BookingHistory from "./pages/user/BookingHistory";
 import { SocketProvider } from "./context/SocketContext";
 import BookingDetails from "./pages/user/BookingDetails";
@@ -50,9 +49,9 @@ export const appRouter = createBrowserRouter([
     element: (
       <NetworkErrorProvider>
         <ErrorBoundary>
-          {/* <SocketProvider> */}
+          <SocketProvider>
             <App />
-          {/* </SocketProvider> */}
+          </SocketProvider>
         </ErrorBoundary>
       </NetworkErrorProvider>
     ),

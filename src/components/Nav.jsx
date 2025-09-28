@@ -1,6 +1,5 @@
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import {
-  AlertDialog,
   Avatar,
   Button,
   DropdownMenu,
@@ -11,7 +10,6 @@ import { useEffect, useState } from "react";
 import { getCities } from "../api/citiesList";
 import { Link } from "react-router-dom";
 import SearchDialog from "./SearchDialog";
-import SignIN from "./SignIN";
 
 // ✅ Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +20,6 @@ import { clearTool } from "../app/searchSlice";
 
 const Nav = () => {
   const [state, setState] = useState();
-  const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -129,20 +126,9 @@ const Nav = () => {
 
         {/* ✅ If user NOT logged in → Show Sign In */}
         {!user.isAuthenticated ? (
-          <AlertDialog.Root open={open} onOpenChange={setOpen}>
-            <AlertDialog.Trigger>
-              <Button className="bg-black">Sign In</Button>
-            </AlertDialog.Trigger>
-            <AlertDialog.Content>
-              <AlertDialog.Title className="hidden">
-                Sign In Form
-              </AlertDialog.Title>
-              <AlertDialog.Description className="hidden">
-                for login users
-              </AlertDialog.Description>
-              <SignIN closeDialog={() => setOpen(false)} />
-            </AlertDialog.Content>
-          </AlertDialog.Root>
+          <Link to={"/register"}>
+            <Button className="bg-black">Sign In</Button>
+          </Link>
         ) : (
           // ✅ If logged in → Show Avatar & Menu
           <DropdownMenu.Root>
