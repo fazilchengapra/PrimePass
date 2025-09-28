@@ -78,7 +78,7 @@ const Nav = () => {
       {/* Left: Logo + Search */}
       <div className="flex-row gap-2 lg:gap-4 lg:grid lg:grid-cols-6 items-center">
         <Link to={"/"}>
-          <div className="w-20 h-20 overflow-hidden">
+          <div className="w-24 h-10 overflow-hidden">
             <img
               src="/asset/primePassLogo.png"
               alt="Prime Pass Logo"
@@ -127,7 +127,7 @@ const Nav = () => {
         {/* ✅ If user NOT logged in → Show Sign In */}
         {!user.isAuthenticated ? (
           <Link to={"/register"}>
-            <Button className="bg-black">Sign In</Button>
+              <Button className="bg-black w-[5rem]">Sign In</Button>
           </Link>
         ) : (
           // ✅ If logged in → Show Avatar & Menu
