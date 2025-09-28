@@ -1,9 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [1.1.1] 27/09/25
+### Fixed
+- Sign in button not properly visible in small device issue fixed.
+
+## [1.1.0] 27/09/25
 ### Added
-- Changed login and sign up page ui.
+- New auth page added for authentication.
 
 ## [1.0.0] - 27/09/25
 ### Added
