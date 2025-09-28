@@ -4,9 +4,22 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { loginSchema, registerSchema } from "../schemas/authSchema";
 import { CgDanger } from "react-icons/cg";
+import { loginUser, registerUser } from "../services/authService";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../app/userSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user);
+  if (user?.isAuthenticated) {
+    navigate("/");
+  }
 
   const authCore = {
     login: {
@@ -65,12 +78,29 @@ const Auth = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm({
     resolver: zodResolver(currentForm.schema),
   });
 
-  const onSubmit = ({email, password}) => {
-    console.log("submit works!",email, password);
+  const onSubmit = async ({ email, password, username }) => {
+    try {
+      setIsLoading(true);
+      if (isLogin) {
+        const res = await loginUser(email, password);
+        dispatch(setUser(res.user));
+        toast.success(res.message);
+      } else {
+        const res = await registerUser(username, email, password);
+        toast.success(res.message);
+        setIsLogin(true)
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -79,7 +109,8 @@ const Auth = () => {
       password: "",
       username: "",
     });
-  }, [isLogin]);
+    reset()
+  }, [isLogin, reset]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -167,8 +198,9 @@ const Auth = () => {
                 </div>
               ))}
               <Button
-                className="bg-black rounded-lg"
+                className="bg-black rounded-lg text-white"
                 onClick={handleSubmit(onSubmit)}
+                loading={isLoading}
               >
                 {/* Use the button text from the selected object */}
                 {currentForm.buttonText}
