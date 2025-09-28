@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../app/userSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -65,7 +67,6 @@ const Auth = () => {
     },
   };
 
-  // Select the correct object (login or register) based on the isLogin state
   const currentForm = isLogin ? authCore.login : authCore.register;
 
   const [formData, setFormData] = useState({
@@ -78,7 +79,7 @@ const Auth = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
     resolver: zodResolver(currentForm.schema),
   });
@@ -93,7 +94,7 @@ const Auth = () => {
       } else {
         const res = await registerUser(username, email, password);
         toast.success(res.message);
-        setIsLogin(true)
+        setIsLogin(true);
       }
     } catch (error) {
       console.log(error);
@@ -109,7 +110,7 @@ const Auth = () => {
       password: "",
       username: "",
     });
-    reset()
+    reset();
   }, [isLogin, reset]);
 
   const handleChange = (e) => {
@@ -119,6 +120,25 @@ const Auth = () => {
       [id]: value,
     }));
   };
+
+  const googleLogin = useGoogleLogin({
+    flow: "code",
+    onSuccess: async (tokenResponse) => {
+      try {
+        const res = await axios.post("http://localhost:5000/api/auth/oauth", {
+          code: tokenResponse.code, // ✅ Correct token
+        });
+
+        dispatch(setUser(res.data.user));
+        toast.success("Google login success!");
+        navigate("/");
+      } catch (err) {
+        console.error(err);
+        toast.error("Google login failed");
+      }
+    },
+    onError: () => toast.error("Google login failed"),
+  });
 
   return (
     <div className="w-full h-auto lg:h-[590px] bg-white">
@@ -133,16 +153,11 @@ const Auth = () => {
               />
             </div>
             <div className="flex flex-col gap-2 text-center">
-              <h3 className="capitalize font-semibold">
-                {/* Use the title from the selected object */}
-                {currentForm.title}
-              </h3>
-              <p className="text-sm text-gray-500">
-                {/* Use the description from the selected object */}
-                {currentForm.disc}
-              </p>
+              <h3 className="capitalize font-semibold">{currentForm.title}</h3>
+              <p className="text-sm text-gray-500">{currentForm.disc}</p>
             </div>
 
+            {/* Switch Login/Register Tabs */}
             <div className="relative flex w-full p-1 bg-gray-100 border border-gray-200 rounded-md">
               <div
                 className={`absolute top-1 bottom-1 w-1/2 bg-white border border-black rounded-md shadow-sm transition-transform duration-300
@@ -168,9 +183,8 @@ const Auth = () => {
               </div>
             </div>
 
-            {/* DYNAMIC FORM */}
+            {/* Dynamic Form */}
             <div className="w-full flex flex-col gap-3">
-              {/* Map over the fields from the selected object */}
               {currentForm.field.map((field) => (
                 <div key={field.label} className="flex flex-col gap-1">
                   <label
@@ -198,23 +212,38 @@ const Auth = () => {
                 </div>
               ))}
               <Button
-                className="bg-black rounded-lg text-white"
+                className="bg-black rounded-lg text-white cursor-pointer"
                 onClick={handleSubmit(onSubmit)}
                 loading={isLoading}
               >
-                {/* Use the button text from the selected object */}
                 {currentForm.buttonText}
               </Button>
             </div>
 
-            {/* DYNAMIC BOTTOM LINK */}
+            {/* Google Login Button */}
+            <Button
+              color="gray"
+              variant="outline"
+              size="2"
+              className="bg-white w-full rounded-md text-[#414651] outline-gray-400 cursor-pointer"
+              onClick={() => googleLogin()}
+            >
+              <img
+                src="/asset/googleIcon.svg"
+                alt="google"
+                className="object-cover h-5 w-5"
+              />{" "}
+              Sign {isLogin ? "in" : "up"} with Google
+            </Button>
+
+            {/* Bottom Link */}
             <div className="text-sm text-[#535862] text-center">
               {isLogin
                 ? "Don't have an account? "
                 : "Already have an account? "}
               <span
                 className="text-sm font-bold text-black cursor-pointer"
-                onClick={() => setIsLogin(!isLogin)} // Toggle the state
+                onClick={() => setIsLogin(!isLogin)}
               >
                 {isLogin ? "Sign Up" : "Log In"}
               </span>

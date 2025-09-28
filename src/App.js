@@ -14,6 +14,7 @@ import { SocketProvider } from "./context/SocketContext";
 import BookingDetails from "./pages/user/BookingDetails";
 import ErrorPage from "./components/ErrorPage";
 import Auth from "./pages/Auth";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   return (
@@ -50,7 +51,9 @@ export const appRouter = createBrowserRouter([
       <NetworkErrorProvider>
         <ErrorBoundary>
           <SocketProvider>
-            <App />
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+              <App />
+            </GoogleOAuthProvider>
           </SocketProvider>
         </ErrorBoundary>
       </NetworkErrorProvider>
