@@ -60,7 +60,7 @@ const Register = () => {
             )}
 
             <TextField.Root
-              {...register("userName")}
+              {...register("username")}
               size="3"
               placeholder="Enter username"
               type="text"

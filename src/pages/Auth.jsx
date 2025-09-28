@@ -1,5 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, TextField } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { loginSchema, registerSchema } from "../schemas/authSchema";
+import { CgDanger } from "react-icons/cg";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,6 +13,7 @@ const Auth = () => {
       title: "login in to your account",
       disc: "Welcome back! Please enter your details.",
       buttonText: "Sign In",
+      schema: loginSchema,
       field: [
         {
           label: "email",
@@ -26,6 +31,7 @@ const Auth = () => {
       title: "Create an account",
       disc: "Join us today! Please fill in your information.",
       buttonText: "Get started",
+      schema: registerSchema,
       field: [
         {
           label: "username",
@@ -46,11 +52,26 @@ const Auth = () => {
     },
   };
 
+  // Select the correct object (login or register) based on the isLogin state
+  const currentForm = isLogin ? authCore.login : authCore.register;
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     username: "",
   });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(currentForm.schema),
+  });
+
+  const onSubmit = ({email, password}) => {
+    console.log("submit works!",email, password);
+  };
 
   useEffect(() => {
     setFormData({
@@ -67,9 +88,6 @@ const Auth = () => {
       [id]: value,
     }));
   };
-
-  // Select the correct object (login or register) based on the isLogin state
-  const currentForm = isLogin ? authCore.login : authCore.register;
 
   return (
     <div className="w-full h-auto lg:h-[590px] bg-white">
@@ -131,6 +149,7 @@ const Auth = () => {
                     {field.label}
                   </label>
                   <TextField.Root
+                    {...register(field.label)}
                     type={field.type}
                     id={field.label}
                     value={formData[field.label]}
@@ -139,9 +158,18 @@ const Auth = () => {
                     className="py-2"
                     onChange={handleChange}
                   />
+                  {errors?.[field.label]?.message && (
+                    <div className="flex flex-row items-center gap-1 text-red-500 text-xs">
+                      <CgDanger />
+                      {errors?.[field.label]?.message}
+                    </div>
+                  )}
                 </div>
               ))}
-              <Button className="bg-black rounded-lg">
+              <Button
+                className="bg-black rounded-lg"
+                onClick={handleSubmit(onSubmit)}
+              >
                 {/* Use the button text from the selected object */}
                 {currentForm.buttonText}
               </Button>
