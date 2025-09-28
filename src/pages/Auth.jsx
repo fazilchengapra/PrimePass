@@ -1,5 +1,5 @@
 import { Button, TextField } from "@radix-ui/themes";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -28,7 +28,7 @@ const Auth = () => {
       buttonText: "Get started",
       field: [
         {
-          label: "name",
+          label: "username",
           type: "text",
           placeh: "Enter your name.",
         },
@@ -45,7 +45,29 @@ const Auth = () => {
       ],
     },
   };
-  
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    username: "",
+  });
+
+  useEffect(() => {
+    setFormData({
+      email: "",
+      password: "",
+      username: "",
+    });
+  }, [isLogin]);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
   // Select the correct object (login or register) based on the isLogin state
   const currentForm = isLogin ? authCore.login : authCore.register;
 
@@ -111,9 +133,11 @@ const Auth = () => {
                   <TextField.Root
                     type={field.type}
                     id={field.label}
+                    value={formData[field.label]}
                     size="2"
                     placeholder={field.placeh}
                     className="py-2"
+                    onChange={handleChange}
                   />
                 </div>
               ))}
@@ -122,10 +146,12 @@ const Auth = () => {
                 {currentForm.buttonText}
               </Button>
             </div>
-            
+
             {/* DYNAMIC BOTTOM LINK */}
             <div className="text-sm text-[#535862] text-center">
-              {isLogin ? "Don't have an account? " : "Already have an account? "}
+              {isLogin
+                ? "Don't have an account? "
+                : "Already have an account? "}
               <span
                 className="text-sm font-bold text-black cursor-pointer"
                 onClick={() => setIsLogin(!isLogin)} // Toggle the state
