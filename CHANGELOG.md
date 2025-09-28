@@ -1,0 +1,16 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+### Added
+- Changed login and sign up page ui.
+
+## [1.0.0] - 27/09/25
+### Added
+- Initial release PrimePass with movie browsing and booking
+- User authentication and Payment(Razorpay).
+- Theater seat map with zone based layout.
+- Seat auto lock/unlock with websocket.
+- Concurrency booking.
+- Brows movies and series with filter options -> (year, genre, language).
+- Listing movie trailer, casts, and summary.
