@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { loginSchema, registerSchema } from "../schemas/authSchema";
 import { CgDanger } from "react-icons/cg";
-import { loginUser, registerUser } from "../services/authService";
+import { googleAuth, loginUser, registerUser } from "../services/authService";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../app/userSlice";
 import { toast } from "react-toastify";
@@ -125,15 +125,13 @@ const Auth = () => {
     flow: "code",
     onSuccess: async (tokenResponse) => {
       try {
-        const res = await axios.post("http://localhost:5000/api/auth/oauth", {
-          code: tokenResponse.code, // ✅ Correct token
-        });
+        const res = await googleAuth(tokenResponse.code);
+        console.log(res);
 
-        dispatch(setUser(res.data.user));
-        toast.success("Google login success!");
+        dispatch(setUser(res.user));
+        toast.success(res.message);
         navigate("/");
       } catch (err) {
-        console.error(err);
         toast.error("Google login failed");
       }
     },
