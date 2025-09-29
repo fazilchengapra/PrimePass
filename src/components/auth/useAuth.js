@@ -16,6 +16,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 export const useAuth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -64,6 +65,7 @@ export const useAuth = () => {
   const handleGoogleLogin = useGoogleLogin({
     flow: "code",
     onSuccess: async (tokenResponse) => {
+        setIsGoogleLoading(true)
       try {
         const res = await googleAuth(tokenResponse.code);
         console.log(res);
@@ -72,16 +74,19 @@ export const useAuth = () => {
         toast.success(res.message);
         navigate("/");
       } catch (err) {
-        toast.error("Google login failed");
+        toast.error("Google verification failed!");
+      }finally{
+        setIsGoogleLoading(false)
       }
     },
-    onError: () => toast.error("Google login failed"),
+    onError: () => toast.error("Google verification failed!"),
   });
 
   return {
     isLogin,
     setIsLogin,
     isLoading,
+    isGoogleLoading,
     currentForm,
     register,
     errors,

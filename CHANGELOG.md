@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### [notReleased]
+### Added
+- Social login feature implemented (Google)
+
+
 ## [1.1.1] 27/09/25
 ### Fixed
 - Sign in button not properly visible in small device issue fixed.
