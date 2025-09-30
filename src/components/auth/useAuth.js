@@ -46,9 +46,8 @@ export const useAuth = () => {
         dispatch(setUser(res.user));
         toast.success(res.message);
       } else {
-        const res = await registerUser(username, email, password);
-        toast.success(res.message);
-        setIsLogin(true);
+        await registerUser(username, email, password);
+        navigate("/auth/verify-email", { state: { email } });
       }
     } catch (error) {
       console.log(error);
@@ -65,7 +64,7 @@ export const useAuth = () => {
   const handleGoogleLogin = useGoogleLogin({
     flow: "code",
     onSuccess: async (tokenResponse) => {
-        setIsGoogleLoading(true)
+      setIsGoogleLoading(true);
       try {
         const res = await googleAuth(tokenResponse.code);
         console.log(res);
@@ -75,8 +74,8 @@ export const useAuth = () => {
         navigate("/");
       } catch (err) {
         toast.error("Google verification failed!");
-      }finally{
-        setIsGoogleLoading(false)
+      } finally {
+        setIsGoogleLoading(false);
       }
     },
     onError: () => toast.error("Google verification failed!"),
