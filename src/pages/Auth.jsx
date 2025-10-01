@@ -22,7 +22,7 @@ const Auth = () => {
   } = useAuth();
 
   return (
-    <div className="w-full min-h-screen bg-white flex items-center justify-center p-4">
+    <div className="w-full min-h-screen bg-white flex justify-center p-4">
       <div className="w-full max-w-md">
         <div className="flex flex-col gap-5 items-center">
           <AuthHeader
