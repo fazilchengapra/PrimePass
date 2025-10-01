@@ -38,3 +38,17 @@ export const logOut = async () => {
     throw err.response?.data || { message: "Register failed" };
   }
 };
+
+export const googleAuth = async (code) => {
+  const res = await API.post('/auth/googleOauth', {code})
+  return res.data
+}
+
+export const verifyEmail = async (otp, email) => {
+  try {
+    const res = await API.post('/auth/verify-email', {otp, email})
+    return res.data
+  } catch (error) {
+    throw error.response?.data || { message: "Verification failed" };
+  }
+}
