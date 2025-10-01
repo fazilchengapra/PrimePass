@@ -1,16 +1,32 @@
-import { Button, TextField } from '@radix-ui/themes';
-import React from 'react';
-import { CgDanger } from 'react-icons/cg';
+import { Button, TextField } from "@radix-ui/themes";
+import React from "react";
+import { CgDanger } from "react-icons/cg";
 
-const AuthForm = ({ fields, register, errors, onSubmit, isLoading, buttonText }) => (
+const AuthForm = ({
+  fields,
+  register,
+  errors,
+  onSubmit,
+  isLoading,
+  buttonText,
+  formData,
+  setFormData,
+}) => (
   <div className="w-full flex flex-col gap-3">
     {fields.map((field) => (
       <div key={field.label} className="flex flex-col gap-1">
-        <label htmlFor={field.label} className="capitalize text-sm text-[#414651]">
+        <label
+          htmlFor={field.label}
+          className="capitalize text-sm text-[#414651]"
+        >
           {field.label}
         </label>
         <TextField.Root
           {...register(field.label)}
+          value={formData[field.label]}
+          onChange={(e) =>
+            setFormData({ ...formData, [field.label]: e.target.value })
+          }
           type={field.type}
           id={field.label}
           size="2"

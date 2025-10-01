@@ -25,6 +25,12 @@ export const useAuth = () => {
     navigate("/");
   }
 
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    username: "",
+  });
+
   const currentForm = isLogin
     ? AuthFormConstant.login
     : AuthFormConstant.register;
@@ -59,6 +65,11 @@ export const useAuth = () => {
 
   useEffect(() => {
     reset();
+    setFormData({
+      email: "",
+      password: "",
+      username: "",
+    });
   }, [isLogin, reset]);
 
   const handleGoogleLogin = useGoogleLogin({
@@ -91,5 +102,7 @@ export const useAuth = () => {
     errors,
     handleFormSubmit: handleSubmit(handleFormSubmit), // Pre-bind with react-hook-form's handleSubmit
     handleGoogleLogin,
+    formData,
+    setFormData,
   };
 };

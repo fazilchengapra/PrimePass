@@ -1,10 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-### [notReleased]
+### [1.2.0]
 ### Added
 - Social login feature implemented (Google)
+- OTP based registration system implemented
+- OTP rate limiting added prevent brute-force attack.
 
+### Fixed
+- Auth form value visible bug fixed
 
 ## [1.1.1] 27/09/25
 ### Fixed

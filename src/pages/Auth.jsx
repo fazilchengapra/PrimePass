@@ -17,6 +17,8 @@ const Auth = () => {
     errors,
     handleFormSubmit,
     handleGoogleLogin,
+    formData,
+    setFormData
   } = useAuth();
 
   return (
@@ -37,6 +39,8 @@ const Auth = () => {
             onSubmit={handleFormSubmit}
             isLoading={isLoading}
             buttonText={currentForm.buttonText}
+            formData={formData}
+            setFormData={setFormData}
           />
 
           <GoogleAuthButton isLogin={isLogin} onClick={handleGoogleLogin} />
