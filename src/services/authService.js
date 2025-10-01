@@ -40,6 +40,8 @@ export const logOut = async () => {
 };
 
 export const googleAuth = async (code) => {
+  console.log(code);
+  
   const res = await API.post('/auth/googleOauth', {code})
   return res.data
 }

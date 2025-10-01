@@ -28,7 +28,7 @@ export const AuthFormConstant = {
       {
         label: "username",
         type: "text",
-        placeh: "Enter your name.",
+        placeh: "Create a username.",
       },
       {
         label: "email",
