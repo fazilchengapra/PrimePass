@@ -46,7 +46,7 @@ const AuthForm = ({
 
     {isLogin && (
       <div className="text-right text-sm text-[#6941C6] font-semibold">
-        <Link to={"/reset-password"}>Forgot password</Link>
+        <Link to={"/forgot-password"}>Forgot password</Link>
       </div>
     )}
 

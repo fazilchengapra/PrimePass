@@ -17,6 +17,7 @@ import Auth from "./pages/Auth";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import EmailVerification from "./pages/EmailVerification";
 import ForgotPass from "./pages/ForgotPass";
+import ResetPass from "./pages/ResetPass";
 
 function App() {
   return (
@@ -97,8 +98,12 @@ export const appRouter = createBrowserRouter([
         element: <EmailVerification />,
       },
       {
-        path: "/reset-password",
+        path: "/forgot-password",
         element: <ForgotPass />,
+      },
+      {
+        path: "/reset-password",
+        element: <ResetPass />,
       },
     ],
   },
