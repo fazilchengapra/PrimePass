@@ -1,20 +1,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { GoLock } from "react-icons/go";
 import { resetPasswordSchema } from "../schemas/authSchema";
 import { MdErrorOutline } from "react-icons/md";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { resetPassword } from "../services/authService";
+import { isValidToken, resetPassword } from "../services/authService";
 import { toast } from "react-toastify";
 import { Spinner } from "@radix-ui/themes";
+import TokenExpiredPage from "../components/TokenExpiredPage";
 
 export default function ResetPass() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [validToken, setValidToken] = useState(true);
   const searchParams = useSearchParams();
   const token = searchParams[0].get("token");
   const email = searchParams[0].get("email");
@@ -41,6 +43,23 @@ export default function ResetPass() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const validateToken = async () => {
+      try {
+        const res = await isValidToken(token);
+        setValidToken(res.status);
+      } catch (error) {
+        setValidToken(false);
+        console.error(error);
+      }
+    };
+
+    if (!token || !email) setValidToken(false);
+    validateToken();
+  }, [email, token, validToken]);
+
+  if (!validToken) return <TokenExpiredPage />;
 
   return (
     <div className="min-h-screen bg-gray-50 flex justify-center p-4">

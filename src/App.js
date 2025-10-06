@@ -19,6 +19,7 @@ import EmailVerification from "./pages/EmailVerification";
 import ForgotPass from "./pages/ForgotPass";
 import ResetPass from "./pages/ResetPass";
 import GuestRoute from "./components/GuestRoute";
+import TokenExpiredPage from "./components/TokenExpiredPage";
 
 function App() {
   return (
@@ -115,6 +116,14 @@ export const appRouter = createBrowserRouter([
         element: (
           <GuestRoute>
             <ResetPass />
+          </GuestRoute>
+        ),
+      },
+      {
+        path: "/test",
+        element: (
+          <GuestRoute>
+            <TokenExpiredPage />
           </GuestRoute>
         ),
       },

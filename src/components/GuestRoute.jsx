@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 const GuestRoute = ({ children }) => {
   const user = useSelector((state) => state.user);
 
-  if (user) {
+  if (user._id) {
     return <Navigate to="/" replace />;
   }
 

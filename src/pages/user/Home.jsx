@@ -11,8 +11,6 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(clearTool());
-    console.log("Home Mounted");
-    
   }, [dispatch]);
 
   return (

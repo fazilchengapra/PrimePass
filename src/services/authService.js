@@ -80,3 +80,15 @@ export const resetPassword = async (token, email, password) => {
     );
   }
 };
+
+export const isValidToken = async (token) =>{
+  try {
+    const res = await API.get(`/auth/validate-reset-token?token=${token}`)
+    console.log(res.data);
+    return res.data
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || { message: "Invalid token" }
+    );
+  }
+}
