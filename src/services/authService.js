@@ -41,16 +41,42 @@ export const logOut = async () => {
 
 export const googleAuth = async (code) => {
   console.log(code);
-  
-  const res = await API.post('/auth/googleOauth', {code})
-  return res.data
-}
+
+  const res = await API.post("/auth/googleOauth", { code });
+  return res.data;
+};
 
 export const verifyEmail = async (otp, email) => {
   try {
-    const res = await API.post('/auth/verify-email', {otp, email})
-    return res.data
+    const res = await API.post("/auth/verify-email", { otp, email });
+    return res.data;
   } catch (error) {
     throw error.response?.data || { message: "Verification failed" };
   }
-}
+};
+
+export const forgotPassword = async (email) => {
+  try {
+    const res = await API.post("/auth/forgot-password", { email });
+    console.log(res);
+    return res.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || { message: "Request failed" }
+    );
+  }
+};
+
+export const resetPassword = async (token, email, password) => {
+  try {
+    const res = await API.post(
+      `/auth/reset-password?token=${token}&email=${email}`,
+      { newPassword: password }
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || { message: "Reset password failed" }
+    );
+  }
+};
