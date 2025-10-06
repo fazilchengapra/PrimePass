@@ -34,22 +34,7 @@ export default function ForgotPass() {
       toast.success(res.message || "Password reset link sent successfully!");
     } catch (error) {
       console.error(error);
-      toast.error(error.message || "Failed to send reset link. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResend = async () => {
-    if (!email) return;
-    
-    setLoading(true);
-    try {
-      const res = await forgotPassword(email);
-      toast.success(res.message || "Email resent successfully!");
-    } catch (error) {
-      console.error(error);
-      toast.error(error?.message || "Failed to resend email. Please try again.");
+      toast.error("Failed to send reset link. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -162,16 +147,16 @@ export default function ForgotPass() {
         </a>
 
         {/* Resend Link */}
-        <p className="text-center text-sm text-gray-600 mb-4">
+        {/* <p className="text-center text-sm text-gray-600 mb-4">
           Didn't receive the email?{" "}
           <button
-            onClick={handleResend}
+            
             disabled={loading}
             className="text-purple-600 hover:text-purple-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Sending..." : "Click to resend"}
           </button>
-        </p>
+        </p> */}
 
         {/* Back to Login Link */}
         <Link

@@ -1,5 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+### [upcoming]
+### Added
+- implemented forgot password and reset password feature
 
 ### [1.2.0] 01/10/25
 ### Added
