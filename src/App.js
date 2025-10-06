@@ -18,6 +18,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import EmailVerification from "./pages/EmailVerification";
 import ForgotPass from "./pages/ForgotPass";
 import ResetPass from "./pages/ResetPass";
+import GuestRoute from "./components/GuestRoute";
 
 function App() {
   return (
@@ -95,15 +96,27 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: "/auth/verify-email",
-        element: <EmailVerification />,
+        element: (
+          <GuestRoute>
+            <EmailVerification />
+          </GuestRoute>
+        ),
       },
       {
         path: "/forgot-password",
-        element: <ForgotPass />,
+        element: (
+          <GuestRoute>
+            <ForgotPass />
+          </GuestRoute>
+        ),
       },
       {
         path: "/reset-password",
-        element: <ResetPass />,
+        element: (
+          <GuestRoute>
+            <ResetPass />
+          </GuestRoute>
+        ),
       },
     ],
   },
