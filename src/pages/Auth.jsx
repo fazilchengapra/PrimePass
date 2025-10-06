@@ -18,7 +18,7 @@ const Auth = () => {
     handleFormSubmit,
     handleGoogleLogin,
     formData,
-    setFormData
+    setFormData,
   } = useAuth();
 
   return (
@@ -33,6 +33,7 @@ const Auth = () => {
           <AuthToggle isLogin={isLogin} onToggle={setIsLogin} />
 
           <AuthForm
+            isLogin={isLogin}
             fields={currentForm.field}
             register={register}
             errors={errors}

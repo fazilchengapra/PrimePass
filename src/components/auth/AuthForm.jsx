@@ -1,8 +1,10 @@
 import { Button, TextField } from "@radix-ui/themes";
 import React from "react";
 import { CgDanger } from "react-icons/cg";
+import { Link } from "react-router-dom";
 
 const AuthForm = ({
+  isLogin,
   fields,
   register,
   errors,
@@ -41,6 +43,13 @@ const AuthForm = ({
         )}
       </div>
     ))}
+
+    {isLogin && (
+      <div className="text-right text-sm text-[#6941C6] font-semibold">
+        <Link to={"/reset-password"}>Forgot password</Link>
+      </div>
+    )}
+
     <Button
       className="bg-black rounded-lg text-white cursor-pointer"
       onClick={onSubmit}
